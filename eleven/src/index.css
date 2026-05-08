@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 8%;
+    --surface: 240 10% 99%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 8%;
+
+    --primary: 239 84% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-muted: 239 100% 96%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 12%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 44%;
+
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 12%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --destructive-muted: 0 86% 96%;
+
+    --success: 142 71% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-muted: 142 76% 95%;
+
+    --warning: 35 92% 45%;
+    --warning-foreground: 0 0% 100%;
+    --warning-muted: 38 100% 95%;
+
+    --border: 240 6% 91%;
+    --input: 240 6% 91%;
+    --ring: 239 84% 60%;
+
+    --radius: 0.625rem;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 96%;
+    --surface: 240 8% 7%;
+
+    --card: 240 8% 7%;
+    --card-foreground: 0 0% 96%;
+
+    --popover: 240 9% 9%;
+    --popover-foreground: 0 0% 96%;
+
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
+    --primary-muted: 239 50% 18%;
+
+    --secondary: 240 5% 13%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 240 5% 13%;
+    --muted-foreground: 240 5% 60%;
+
+    --accent: 240 5% 14%;
+    --accent-foreground: 0 0% 96%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --destructive-muted: 0 50% 18%;
+
+    --success: 142 60% 48%;
+    --success-foreground: 0 0% 100%;
+    --success-muted: 142 40% 16%;
+
+    --warning: 35 88% 56%;
+    --warning-foreground: 0 0% 100%;
+    --warning-muted: 35 50% 18%;
+
+    --border: 240 5% 16%;
+    --input: 240 5% 16%;
+    --ring: 239 84% 67%;
+
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body,
+  #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Tabular figures for stats/tables */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' on, 'cv02' on, 'cv11' on;
+  }
+
+  /* Refined scrollbars */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/40;
+  }
+
+  /* Focus rings */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring/50 ring-offset-0;
+  }
+}
+
+@layer components {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-0;
+  }
+
+  /* Subtle dotted background for empty/visual surfaces */
+  .bg-dot {
+    background-image: radial-gradient(hsl(var(--border)) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  /* Shimmer skeleton */
+  .skeleton {
+    @apply relative overflow-hidden bg-muted rounded-md;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/5 to-transparent;
+  }
+}
+
+/* Tiptap editor */
+.ProseMirror {
+  @apply outline-none min-h-[400px];
+}
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  @apply text-muted-foreground float-left h-0 pointer-events-none;
+}
+.ProseMirror h1 {
+  @apply text-3xl font-semibold tracking-tight mt-6 mb-3;
+}
+.ProseMirror h2 {
+  @apply text-2xl font-semibold tracking-tight mt-6 mb-3;
+}
+.ProseMirror h3 {
+  @apply text-xl font-semibold tracking-tight mt-4 mb-2;
+}
+.ProseMirror p {
+  @apply leading-7 my-3 text-[15px];
+}
+.ProseMirror ul {
+  @apply list-disc pl-6 my-3;
+}
+.ProseMirror ol {
+  @apply list-decimal pl-6 my-3;
+}
+.ProseMirror blockquote {
+  @apply border-l-2 border-border pl-4 italic text-muted-foreground my-4;
+}
+.ProseMirror code {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+}
+.ProseMirror pre {
+  @apply bg-muted p-3 rounded-md font-mono text-sm overflow-x-auto my-4;
+}
+.ProseMirror pre code {
+  @apply bg-transparent p-0;
+}
+.ProseMirror a {
+  @apply text-primary underline underline-offset-2;
+}
+.ProseMirror hr {
+  @apply border-border my-6;
+}
+
+/* Recharts theme tweaks */
+.recharts-cartesian-axis-tick-value {
+  @apply fill-muted-foreground text-xs;
+}
+.recharts-cartesian-grid line {
+  @apply stroke-border;
+}
+.recharts-tooltip-cursor {
+  @apply fill-muted/50;
+}

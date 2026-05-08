@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-ink-950: #08080c;
+  --color-ink-900: #0b0b12;
+  --color-ink-800: #111118;
+  --color-ink-700: #17171f;
+  --color-ink-600: #1f1f2a;
+  --color-ink-500: #2a2a37;
+  --color-ink-400: #3a3a4a;
+
+  --color-mist-50: #f7f7fb;
+  --color-mist-100: #ececf2;
+  --color-mist-200: #c9c9d4;
+  --color-mist-300: #9a9aab;
+  --color-mist-400: #6b6b7c;
+
+  --color-brand-50: #eef0ff;
+  --color-brand-100: #dde1ff;
+  --color-brand-200: #b8c0ff;
+  --color-brand-300: #8f9bff;
+  --color-brand-400: #6a77ff;
+  --color-brand-500: #4f5bff;
+  --color-brand-600: #3d46e8;
+  --color-brand-700: #2f36bd;
+
+  --color-accent-300: #8ff0ff;
+  --color-accent-400: #4fd6ff;
+  --color-accent-500: #14b8e0;
+
+  --color-glow-violet: #8a5cff;
+  --color-glow-pink: #ff6ad1;
+  --color-glow-cyan: #5cf0ff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01", "ss03";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-ink-950);
+  color: #fff;
+}
+
+/* Thin, subtle scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+::selection {
+  background: rgba(138, 92, 255, 0.35);
+  color: #fff;
+}
+
+/* Utility: noise texture overlay */
+@utility bg-noise {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+}
+
+/* Utility: premium gradient text */
+@utility text-gradient-brand {
+  background-image: linear-gradient(110deg, #fff 10%, #b8c0ff 40%, #8ff0ff 70%, #fff 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Animated marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@utility animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* Soft glow ring for focus states */
+@utility ring-brand {
+  --tw-ring-color: rgba(138, 92, 255, 0.6);
+}

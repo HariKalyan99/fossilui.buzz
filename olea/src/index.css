@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ivory text-ink font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    @apply bg-ink text-ivory;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    font-feature-settings: "ss01";
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1440px] px-6 md:px-10 lg:px-16;
+  }
+
+  .eyebrow {
+    @apply text-[11px] uppercase tracking-widest2 text-muted font-medium;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3.5 text-[13px] uppercase tracking-widest2 font-medium transition-all duration-500 ease-smooth;
+  }
+
+  .btn-primary {
+    @apply btn bg-ink text-ivory hover:bg-graphite;
+  }
+
+  .btn-outline {
+    @apply btn border border-ink/80 text-ink hover:bg-ink hover:text-ivory;
+  }
+
+  .btn-ghost-light {
+    @apply btn border border-ivory/40 text-ivory hover:bg-ivory hover:text-ink;
+  }
+
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    @apply absolute left-0 bottom-0 h-px w-full bg-current scale-x-0 origin-left transition-transform duration-500 ease-smooth;
+  }
+  .link-underline:hover::after {
+    @apply scale-x-100;
+  }
+
+  .divider-num {
+    @apply inline-flex items-center gap-3 text-[11px] uppercase tracking-widest2 text-muted;
+  }
+  .divider-num::before {
+    content: "";
+    @apply block w-8 h-px bg-current opacity-60;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+    opacity: 0.45;
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+}
+
+/* Hide scrollbar in horizontal scrollers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
