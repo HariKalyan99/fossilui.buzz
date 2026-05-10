@@ -231,7 +231,7 @@ export default function Home() {
             {STATS.map((s) => (
               <div
                 key={s.label}
-                className="flex flex-col items-center justify-center gap-1 py-7 px-4"
+                className="flex h-full w-full min-w-0 flex-col items-stretch justify-center gap-1 py-7 px-4 text-center"
                 data-reveal
               >
                 <span className="text-2xl md:text-3xl font-semibold tracking-tight text-neutral-900">
