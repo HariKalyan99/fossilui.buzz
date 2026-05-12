@@ -19,6 +19,43 @@ const TEASERS = [
 export default function Components() {
   const [email, setEmail] = useState('')
   const [done, setDone] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    if (!email || !email.includes('@')) return
+    setSending(true)
+    setError('')
+    try {
+      const userLocation =
+        typeof Intl !== 'undefined'
+          ? Intl.DateTimeFormat().resolvedOptions().timeZone
+          : undefined
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: '',
+          email,
+          contact: '',
+          info: 'components notify',
+          remarks: 'FossilUI Components waitlist signup',
+          userLocation,
+        }),
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(payload?.error || 'Failed to sign up')
+      }
+      setEmail('')
+      setDone(true)
+    } catch (err) {
+      setError(err.message || 'Could not sign up right now')
+    } finally {
+      setSending(false)
+    }
+  }
 
   return (
     <Section className="pt-12 md:pt-20">
@@ -33,27 +70,43 @@ export default function Components() {
           </p>
 
           <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (!email.includes('@')) return
-              setDone(true)
-            }}
-            className="mt-6 flex flex-col sm:flex-row gap-2 max-w-md"
+            onSubmit={onSubmit}
+            className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start"
           >
-            <div className="relative flex-1">
+            <div className="relative flex-1 w-full min-w-0">
               <Bell className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
               <Input
                 type="email"
                 placeholder="you@developer.dev"
                 className="pl-9"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  if (done) setDone(false)
+                }}
                 required
+                disabled={sending}
+                autoComplete="email"
               />
             </div>
-            <Button type="submit" variant="primary" size="md">
-              {done ? 'You\'re on the list' : 'Notify me'}
+            <Button
+              type="submit"
+              variant="primary"
+              size="md"
+              className="shrink-0 sm:self-stretch"
+              disabled={sending || done}
+            >
+              {done
+                ? "You're on the list"
+                : sending
+                  ? 'Submitting…'
+                  : 'Notify me'}
             </Button>
+            {error ? (
+              <p className="order-last w-full basis-full text-[12px] text-rose-600">
+                {error}
+              </p>
+            ) : null}
           </form>
 
           <div className="mt-10 flex items-center gap-3">
