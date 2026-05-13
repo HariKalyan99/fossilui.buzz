@@ -13,10 +13,12 @@ function classifyLead(remarks = "", info = "") {
 function getEmailContent({ type, username }) {
   const safeName = username || "there";
   if (type === "template") {
+    const greeting =
+      safeName !== "there" ? `Thanks for sharing, ${safeName}.` : "Thanks for sharing your template.";
     return {
-      subject: "Template submission received - FossilUI",
-      heading: `Thanks, ${safeName}!`,
-      body: "Template has been submitted. We will review it shortly.",
+      subject: "We received your template — FossilUI",
+      heading: "Your template contribution is in review",
+      body: `${greeting} We logged your repository link and will take a look soon.`,
     };
   }
   if (type === "lead_magnet") {

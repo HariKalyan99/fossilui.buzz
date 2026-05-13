@@ -24,6 +24,11 @@ const RESOURCES = [
     label: "Docs",
     desc: "Quick start, guides, and FAQ.",
   },
+  {
+    to: "/templates#share-template",
+    label: "Contribute a template",
+    desc: "Submit your public repo to be featured on the Templates page.",
+  },
 ];
 
 export function Navbar() {
