@@ -486,3 +486,49 @@ html.lenis body {
     transform: rotate(var(--meteor-angle, 24deg)) translateX(var(--meteor-distance, 160px));
   }
 }
+
+/* Template card badge: each letter in its own slot, rolls Premium → Free → loop */
+@keyframes template-premium-badge-slot {
+  0%,
+  24% {
+    transform: translateY(0);
+  }
+  30%,
+  58% {
+    transform: translateY(-50%);
+  }
+  64%,
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.template-premium-badge-slot {
+  display: inline-block;
+  height: 1.05em;
+  overflow: hidden;
+  vertical-align: -0.05em;
+}
+
+.template-premium-badge-slot-track {
+  display: flex;
+  flex-direction: column;
+  animation: template-premium-badge-slot 3.2s cubic-bezier(0.52, 0, 0.48, 1) infinite;
+  animation-delay: calc(var(--template-badge-phase, 0s) + var(--slot-index, 0) * 42ms);
+  will-change: transform;
+}
+
+.template-premium-badge-slot-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.05em;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .template-premium-badge-slot-track {
+    animation: none;
+    transform: translateY(0);
+  }
+}

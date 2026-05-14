@@ -5,6 +5,40 @@ import { GithubIcon } from './icons/Brand'
 import { Tag } from './ui/Tag'
 import { cn } from '../lib/cn'
 
+/** Same width as "PREMIUM"; second row spells FREE with padded blanks for the slot machine roll */
+const PREMIUM_FREE_SLOTS = [
+  ['P', 'F'],
+  ['R', 'R'],
+  ['E', 'E'],
+  ['M', 'E'],
+  ['I', '\u00a0'],
+  ['U', '\u00a0'],
+  ['M', '\u00a0'],
+]
+
+function PremiumBadgeLabel({ cardIndex = 0 }) {
+  const phaseSec = -((cardIndex % 7) * 0.42)
+  return (
+    <span
+      className="inline-flex items-center gap-[0.06em]"
+      aria-hidden="true"
+      style={{ '--template-badge-phase': `${phaseSec}s` }}
+    >
+      {PREMIUM_FREE_SLOTS.map(([top, bottom], i) => (
+        <span key={i} className="template-premium-badge-slot">
+          <span
+            className="template-premium-badge-slot-track"
+            style={{ '--slot-index': i }}
+          >
+            <span className="template-premium-badge-slot-line">{top}</span>
+            <span className="template-premium-badge-slot-line">{bottom}</span>
+          </span>
+        </span>
+      ))}
+    </span>
+  )
+}
+
 export function TemplateCard({ template, index = 0 }) {
   return (
     <motion.article
@@ -27,9 +61,13 @@ export function TemplateCard({ template, index = 0 }) {
           )}
         >
           <div className="pointer-events-none absolute left-2 top-2 z-10 md:left-3 md:top-3">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-200/70 bg-gradient-to-br from-amber-200 via-yellow-300 to-orange-400 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-950 shadow-[0_10px_16px_-8px_rgba(120,53,15,0.6),inset_0_1px_0_rgba(255,255,255,0.55),inset_0_-2px_4px_rgba(146,64,14,0.28)]">
-              <Crown className="h-3.5 w-3.5" />
-              Premium
+            <div
+              className="inline-flex items-center gap-1.5 rounded-full border border-amber-200/70 bg-gradient-to-br from-amber-200 via-yellow-300 to-orange-400 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-950 shadow-[0_10px_16px_-8px_rgba(120,53,15,0.6),inset_0_1px_0_rgba(255,255,255,0.55),inset_0_-2px_4px_rgba(146,64,14,0.28)]"
+              role="status"
+              aria-label="Premium quality, free to use"
+            >
+              <Crown className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <PremiumBadgeLabel cardIndex={index} />
             </div>
           </div>
           {/* Faint dot pattern for editorial texture */}
