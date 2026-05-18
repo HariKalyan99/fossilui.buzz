@@ -8,13 +8,37 @@ import { Tag } from '../components/ui/Tag'
 import { Input } from '../components/ui/Input'
 
 const TEASERS = [
-  { name: 'Buttons', count: '12 variants' },
-  { name: 'Cards', count: '8 variants' },
-  { name: 'Modals', count: '6 variants' },
-  { name: 'Inputs', count: '14 variants' },
-  { name: 'Navbars', count: '5 variants' },
-  { name: 'Hero blocks', count: '10 variants' },
+  { name: 'Buttons', count: '10 variants', to: '/components/buttons' },
+  { name: 'Cards', count: '8 variants', to: null },
+  { name: 'Modals', count: '6 variants', to: null },
+  { name: 'Inputs', count: '14 variants', to: null },
+  { name: 'Navbars', count: '5 variants', to: null },
+  { name: 'Hero blocks', count: '10 variants', to: null },
 ]
+
+function TeaserCard({ name, count }) {
+  return (
+    <>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
+      <img
+        src="/Rex.svg"
+        alt=""
+        aria-hidden="true"
+        draggable="false"
+        className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10"
+      />
+      <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
+        <Box className="h-4 w-4" />
+      </span>
+      <div className="relative z-10">
+        <div className="text-[15px] font-medium text-neutral-900">{name}</div>
+        <div className="text-[12px] text-neutral-500 mt-0.5">{count}</div>
+      </div>
+    </>
+  )
+}
 
 export default function Components() {
   const [email, setEmail] = useState('')
@@ -56,6 +80,9 @@ export default function Components() {
       setSending(false)
     }
   }
+
+  const cardClass =
+    'card card-hover group relative overflow-hidden p-5 flex flex-col gap-3 aspect-square justify-end'
 
   return (
     <Section className="pt-12 md:pt-20">
@@ -132,25 +159,16 @@ export default function Components() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.45 }}
-              className="card card-hover group relative overflow-hidden p-5 flex flex-col gap-3 aspect-square justify-end"
             >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
-              <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
-              <img
-                src="/Rex.svg"
-                alt=""
-                aria-hidden="true"
-                draggable="false"
-                className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10"
-              />
-              <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
-                <Box className="h-4 w-4" />
-              </span>
-              <div className="relative z-10">
-                <div className="text-[15px] font-medium text-neutral-900">{t.name}</div>
-                <div className="text-[12px] text-neutral-500 mt-0.5">{t.count}</div>
-              </div>
+              {t.to ? (
+                <Link to={t.to} className={cardClass}>
+                  <TeaserCard name={t.name} count={t.count} />
+                </Link>
+              ) : (
+                <div className={cardClass}>
+                  <TeaserCard name={t.name} count={t.count} />
+                </div>
+              )}
             </motion.div>
           ))}
         </motion.div>
