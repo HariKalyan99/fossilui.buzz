@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Code2, Crown, ExternalLink } from 'lucide-react'
-import { GithubIcon } from './icons/Brand'
+import { GithubIcon, ReactIcon } from './icons/Brand'
 import { Tag } from './ui/Tag'
+import { TemplateStack } from './TemplateStack'
 import { cn } from '../lib/cn'
 
 /** Same width as "PREMIUM"; second row spells FREE with padded blanks for the slot machine roll */
@@ -48,11 +49,12 @@ export function TemplateCard({ template, index = 0 }) {
       transition={{ duration: 0.4, delay: Math.min(index * 0.03, 0.18), ease: 'easeOut' }}
       className="card card-hover group relative overflow-hidden"
     >
-      <Link
-        to={`/templates/${template.slug}`}
-        className="block focus:outline-none"
-        aria-label={`Open ${template.name}`}
-      >
+      <div className="relative">
+        <Link
+          to={`/templates/${template.slug}`}
+          className="block focus:outline-none"
+          aria-label={`Open ${template.name}`}
+        >
         <div
           className={cn(
             'relative aspect-[16/10] overflow-hidden rounded-t-[14px] border-b border-neutral-200',
@@ -90,7 +92,9 @@ export function TemplateCard({ template, index = 0 }) {
             <ArrowUpRight className="h-3 w-3" />
           </div>
         </div>
-      </Link>
+        </Link>
+        <TemplateStack slug={template.slug} variant="overlay" maxItems={5} />
+      </div>
 
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">
@@ -132,10 +136,16 @@ export function TemplateCard({ template, index = 0 }) {
           </a>
           <Link
             to={`/templates/${template.slug}`}
-            className="inline-flex items-center justify-center gap-1.5 h-9 rounded-md bg-neutral-900 hover:bg-neutral-800 text-[12.5px] font-medium text-white transition-colors"
+            className="relative inline-flex h-9 items-center justify-center gap-1.5 overflow-hidden rounded-md bg-neutral-900 text-[12.5px] font-medium text-white transition-colors hover:bg-neutral-800"
           >
-            <Code2 className="h-3 w-3" />
-            Code
+            <ReactIcon
+              className="pointer-events-none absolute right-0 top-1/2 h-8 w-8 -translate-y-1/2 translate-x-1/2 text-[#61DAFB] opacity-[0.28]"
+              aria-hidden="true"
+            />
+            <span className="relative z-10 inline-flex items-center gap-1.5">
+              <Code2 className="h-3 w-3" />
+              Code
+            </span>
           </Link>
         </div>
       </div>

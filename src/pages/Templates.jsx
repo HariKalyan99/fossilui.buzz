@@ -130,7 +130,7 @@ export default function Templates() {
     <Section className="pt-12 md:pt-20">
       <SectionHeader
         eyebrow="Templates"
-        title="A small library, built with care."
+        title="A library, built with care."
         description={
           <>
             Open a live preview, browse the source with CodeMirror, or jump straight to the

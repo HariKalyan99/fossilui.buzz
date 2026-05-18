@@ -20,6 +20,7 @@ import { GithubIcon } from '../components/icons/Brand'
 import { CodeViewer } from '../components/code/CodeViewer'
 import { FileTree } from '../components/code/FileTree'
 import { getTemplate } from '../data/templates'
+import { TemplateStack } from '../components/TemplateStack'
 import { buildFileTree, loadTemplateFiles } from '../data/templateFiles'
 import { cn } from '../lib/cn'
 
@@ -133,9 +134,15 @@ export default function TemplateDetail() {
                 <p className="mt-2 text-neutral-600 text-[15px] text-balance leading-relaxed">
                   {template.description}
                 </p>
+                <TemplateStack
+                  slug={template.slug}
+                  variant="detail"
+                  className="mt-5"
+                  label="Libraries used"
+                />
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
                 <Button
                   as="a"
                   href={template.liveUrl}
