@@ -104,9 +104,6 @@ export function LoadingScreen({ onReady }) {
       <div className="loading-screen__dock">
         <DinoLoader />
       </div>
-      <span className="sr-only">
-        "Demon Trex" (https://skfb.ly/oE6v8) by endlessvoidmc is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-      </span>
     </div>
   )
 }

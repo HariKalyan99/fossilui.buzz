@@ -111,12 +111,34 @@ export function Footer() {
 
         <div className="hairline mt-14" />
 
-        <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-[12px] text-neutral-500">
-          <p>© {new Date().getFullYear()} FossilUI — Built for developers.</p>
-          <p>
-            Open-source. Use freely in commercial and personal projects.
-            Standard license.
+        <div className="mt-6 flex flex-col gap-3 text-[12px] text-neutral-500">
+          <p className="leading-relaxed">
+            <a
+              href="https://skfb.ly/oE6v8"
+              target="_blank"
+              rel="noreferrer"
+              className="text-neutral-600 hover:text-neutral-900"
+            >
+              &ldquo;Demon Trex&rdquo;
+            </a>{' '}
+            by endlessvoidmc is licensed under{' '}
+            <a
+              href="http://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-neutral-600 hover:text-neutral-900"
+            >
+              Creative Commons Attribution
+            </a>
+            .
           </p>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <p>© {new Date().getFullYear()} FossilUI — Built for developers.</p>
+            <p className="underline">
+              Open-source. Use freely in commercial and personal projects.
+              Standard license.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
