@@ -8,7 +8,7 @@ import { Tag } from '../components/ui/Tag'
 import { Input } from '../components/ui/Input'
 
 const TEASERS = [
-  { name: 'Buttons', count: '12 variants' },
+  { name: 'Buttons', count: '10 variants' },
   { name: 'Cards', count: '8 variants' },
   { name: 'Modals', count: '6 variants' },
   { name: 'Inputs', count: '14 variants' },
@@ -126,9 +126,13 @@ export default function Components() {
           transition={{ duration: 0.55 }}
           className="grid grid-cols-2 gap-3"
         >
-          {TEASERS.map((t, i) => (
-            <motion.div
+          {TEASERS.map((t, i) => {
+            const Card = motion.create(t.name === 'Buttons' ? Link : 'div')
+            const linkProps = t.name === 'Buttons' ? { to: '/components/buttons' } : {}
+            return (
+            <Card
               key={t.name}
+              {...linkProps}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04, duration: 0.45 }}
@@ -151,8 +155,9 @@ export default function Components() {
                 <div className="text-[15px] font-medium text-neutral-900">{t.name}</div>
                 <div className="text-[12px] text-neutral-500 mt-0.5">{t.count}</div>
               </div>
-            </motion.div>
-          ))}
+            </Card>
+            )
+          })}
         </motion.div>
       </div>
     </Section>

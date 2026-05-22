@@ -1,0 +1,53 @@
+{
+  "name": "@fossilui/react",
+  "version": "0.0.1",
+  "description": "Animated React components from Fossil UI — buttons first, more coming soon.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fossilui/fossil.buzz",
+    "directory": "packages/fossil-ui"
+  },
+  "keywords": ["react", "components", "ui", "buttons", "tailwind", "fossil-ui"],
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./buttons": {
+      "import": "./dist/buttons/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "lucide-react": ">=0.400.0"
+  },
+  "peerDependenciesMeta": {
+    "lucide-react": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "lucide-react": "^1.14.0",
+    "vite": "^8.0.10"
+  }
+}
