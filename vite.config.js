@@ -12,6 +12,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(root, 'src'),
+      '@fossilui/react': path.resolve(root, 'packages/fossil-ui/src/index.js'),
     },
   },
   server: {
