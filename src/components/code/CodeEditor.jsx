@@ -1,9 +1,9 @@
 import { lazy, Suspense, useMemo, useState } from 'react'
 import { javascript } from '@codemirror/lang-javascript'
-import { oneDark } from '@codemirror/theme-one-dark'
 import { Check, Copy } from 'lucide-react'
 import DinoLoader from '../loader/DinoLoader'
 import { cn } from '../../lib/cn'
+import { darkHighContrast } from './codeMirrorDarkHighContrast.js'
 
 const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
 
@@ -31,7 +31,7 @@ export function CodeEditor({
   return (
     <div
       className={cn(
-        'relative max-w-full overflow-hidden rounded-lg border border-neutral-800 bg-[#282c34]',
+        'relative max-w-full overflow-hidden rounded-lg bg-black',
         className,
       )}
     >
@@ -71,7 +71,7 @@ export function CodeEditor({
           value={value}
           height="auto"
           minHeight={minHeight}
-          theme={oneDark}
+          theme={darkHighContrast}
           extensions={extensions}
           onChange={readOnly ? undefined : onChange}
           readOnly={readOnly}
@@ -86,9 +86,10 @@ export function CodeEditor({
           }}
           className={cn(
             'max-w-full text-[12px] sm:text-[13px]',
-            '[&_.cm-editor]:outline-none',
-            '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto',
-            '[&_.cm-content]:min-w-0',
+            '[&_.cm-editor]:border-0 [&_.cm-editor]:bg-black [&_.cm-editor]:outline-none',
+            '[&_.cm-gutters]:border-0 [&_.cm-gutters]:bg-black',
+            '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto [&_.cm-scroller]:bg-black',
+            '[&_.cm-content]:min-w-0 [&_.cm-content]:bg-black',
             showCopy && 'pr-2 pt-10 sm:pt-2',
           )}
         />

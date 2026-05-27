@@ -25,6 +25,9 @@ import {
   BUTTON_IMPORT_SNIPPET,
   BUTTON_INSTALL_SNIPPET,
   BUTTON_PROPS,
+  BUTTON_VITE_SNIPPET,
+  BUTTON_TAILWIND_BUTTONS_SNIPPET,
+  BUTTON_TAILWIND_REACT_SNIPPET,
   BUTTON_TAILWIND_SNIPPET,
   BUTTON_VARIANTS,
   WHEN_TO_USE,
@@ -303,11 +306,20 @@ export default function Buttons() {
           <DocHeading
             id="import"
             title="How to import"
-            description="Install either the full library or buttons-only package, scan Tailwind sources, then import the buttons or example template you need."
+            description="Install the package you need, add the matching Tailwind @source snippet (see FAQ), then import buttons or the example template."
           />
           <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
             <ReadOnlySnippet label="Install" code={BUTTON_INSTALL_SNIPPET} />
-            <ReadOnlySnippet label="Tailwind" code={BUTTON_TAILWIND_SNIPPET} />
+            <ReadOnlySnippet label="Vite" code={BUTTON_VITE_SNIPPET} />
+            <ReadOnlySnippet label="Tailwind — base" code={BUTTON_TAILWIND_SNIPPET} />
+            <ReadOnlySnippet
+              label="Tailwind — @fossilui/react"
+              code={BUTTON_TAILWIND_REACT_SNIPPET}
+            />
+            <ReadOnlySnippet
+              label="Tailwind — @fossilui/buttons"
+              code={BUTTON_TAILWIND_BUTTONS_SNIPPET}
+            />
           </div>
           <div className="mt-4 min-w-0">
             <ReadOnlySnippet label="Import" code={BUTTON_IMPORT_SNIPPET} />

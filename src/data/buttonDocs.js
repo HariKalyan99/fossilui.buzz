@@ -2,7 +2,17 @@ export const BUTTON_INSTALL_SNIPPET = `# Full component library
 npm install @fossilui/react lucide-react
 
 # Buttons-only package (lightweight)
-npm install @fossilui/buttons lucide-react`
+npm install @fossilui/buttons lucide-react
+
+# Required for both — Tailwind v4 (Vite)
+npm install -D tailwindcss @tailwindcss/vite`
+
+export const BUTTON_VITE_SNIPPET = `// vite.config.js
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+})`
 
 export const BUTTON_IMPORT_SNIPPET = `// Full library import
 import {
@@ -21,12 +31,14 @@ import { ShineSweepButton } from '@fossilui/buttons'
 import { ButtonExample } from '@fossilui/buttons/example'`
 
 export const BUTTON_TAILWIND_SNIPPET = `/* app.css */
+@import "tailwindcss";`
+
+export const BUTTON_TAILWIND_REACT_SNIPPET = `/* app.css — use with @fossilui/react */
 @import "tailwindcss";
+@source "../node_modules/@fossilui/react/dist";`
 
-/* keep @fossilui/react if you install the full library */
-@source "../node_modules/@fossilui/react/dist";
-
-/* add this for buttons-only install */
+export const BUTTON_TAILWIND_BUTTONS_SNIPPET = `/* app.css — use with @fossilui/buttons */
+@import "tailwindcss";
 @source "../node_modules/@fossilui/buttons/dist";`
 
 export const WHEN_TO_USE = [
@@ -374,7 +386,11 @@ import { LiftShadowButton } from '@fossilui/react'
 export const BUTTON_FAQS = [
   {
     q: 'Do I need Tailwind CSS?',
-    a: 'Yes. Both @fossilui/react and @fossilui/buttons use Tailwind utility classes. Add the matching @source entry in your CSS so Tailwind scans the installed package.',
+    a: 'Yes. Install tailwindcss and @tailwindcss/vite, enable the Vite plugin, and add @import "tailwindcss" in your CSS. Without Tailwind, components mount but look unstyled.',
+  },
+  {
+    q: 'Which @source path should I add?',
+    a: 'Add only the @source line for the package you installed. Full library: @source "../node_modules/@fossilui/react/dist". Buttons-only: @source "../node_modules/@fossilui/buttons/dist". See the separate Tailwind snippets in Import — do not add both unless you installed both packages.',
   },
   {
     q: 'Can I use these in Next.js or Remix?',

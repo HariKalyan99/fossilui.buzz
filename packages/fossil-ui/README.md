@@ -11,7 +11,21 @@ Publishable React components from [Fossil UI](https://fossilui.buzz). Buttons ar
 ## Install
 
 ```bash
+# Components
 npm install @fossilui/react lucide-react
+
+# Tailwind v4 (required — components will not render correctly without this)
+npm install -D tailwindcss @tailwindcss/vite
+```
+
+### Vite
+
+```js
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+})
 ```
 
 ## Tailwind

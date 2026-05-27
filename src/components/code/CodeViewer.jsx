@@ -3,7 +3,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { css as cssLang } from '@codemirror/lang-css'
 import { html as htmlLang } from '@codemirror/lang-html'
 import { json as jsonLang } from '@codemirror/lang-json'
-import { oneDark } from '@codemirror/theme-one-dark'
+import { darkHighContrast } from './codeMirrorDarkHighContrast.js'
 import DinoLoader from '../loader/DinoLoader'
 
 const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
@@ -47,7 +47,7 @@ export function CodeViewer({ file }) {
       <ReactCodeMirror
         value={file.code}
         height="100%"
-        theme={oneDark}
+        theme={darkHighContrast}
         extensions={extensions}
         readOnly
         basicSetup={{
