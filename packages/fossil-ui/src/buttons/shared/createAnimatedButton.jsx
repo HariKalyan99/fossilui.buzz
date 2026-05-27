@@ -8,7 +8,7 @@ import { useLoadingState } from './normalizeLoading.js'
  *
  * @param {object} config
  * @param {string} config.displayName
- * @param {string} config.animationClassName
+ * @param {string | ((ctx: ReturnType<typeof prepareButtonProps>) => string)} config.animationClassName
  * @param {boolean} [config.useAppearance=true]
  * @param {{ color?: string, variant?: string, type?: string }} [config.appearanceDefaults]
  * @param {(ctx: ReturnType<typeof prepareButtonProps>) => import('react').ReactNode} config.renderContent
@@ -25,8 +25,20 @@ export function createAnimatedButton({
   renderLoadingContent,
 }) {
   const Component = forwardRef(function AnimatedButton(props, ref) {
+    const resolvedAnimationClassName =
+      typeof animationClassName === 'function'
+        ? animationClassName(
+            prepareButtonProps(props, {
+              animationClassName: '',
+              useAppearance,
+              appearanceDefaults,
+              contentClassName,
+            }),
+          )
+        : animationClassName
+
     const prepared = prepareButtonProps(props, {
-      animationClassName,
+      animationClassName: resolvedAnimationClassName,
       useAppearance,
       appearanceDefaults,
       contentClassName,

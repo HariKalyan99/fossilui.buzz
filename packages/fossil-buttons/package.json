@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/buttons",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Animated button components from Fossil UI.",
   "type": "module",
   "license": "MIT",
@@ -9,8 +9,18 @@
     "url": "https://github.com/fossilui/fossil.buzz",
     "directory": "packages/fossil-buttons"
   },
-  "keywords": ["react", "components", "ui", "buttons", "tailwind", "fossil-ui"],
-  "files": ["dist", "README.md"],
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "buttons",
+    "tailwind",
+    "fossil-ui"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist/index.js",

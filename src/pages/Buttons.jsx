@@ -210,7 +210,7 @@ export default function Buttons() {
           className="mt-4 mb-6 sm:mt-6 sm:mb-8 md:mb-10"
           eyebrow="Buttons"
           title="Animated button variants"
-          description="Preview every variant, then install, configure props, and copy live examples into your app."
+          description="Preview every variant, then install from @fossilui/react or @fossilui/buttons, configure props, and copy examples into your app."
         />
 
         <nav
@@ -244,7 +244,7 @@ export default function Buttons() {
             description="Hover to preview each animation, then copy the component snippet from any card."
           />
           <Tag tone="accent" className="mt-4 mb-6 max-w-xl text-balance sm:mb-8">
-            Live from @fossilui/react
+            Live from @fossilui/react and @fossilui/buttons
             <span className="hidden font-normal normal-case tracking-normal text-indigo-600/80 sm:inline">
               {' '}
               · use Copy component on each card
@@ -303,7 +303,7 @@ export default function Buttons() {
           <DocHeading
             id="import"
             title="How to import"
-            description="Install the package from npm, scan Tailwind for class names, then import the buttons you need."
+            description="Install either the full library or buttons-only package, scan Tailwind sources, then import the buttons or example template you need."
           />
           <div className="mt-6 grid min-w-0 gap-4 md:grid-cols-2">
             <ReadOnlySnippet label="Install" code={BUTTON_INSTALL_SNIPPET} />
@@ -365,7 +365,7 @@ export default function Buttons() {
           <DocHeading
             id="faq"
             title="FAQ"
-            description="Common questions about installing, styling, and using @fossilui/react buttons."
+            description="Common questions about installing, styling, and using @fossilui/react or @fossilui/buttons."
           />
           <div className="card mt-6 px-4 sm:px-6">
             {BUTTON_FAQS.map((item) => (

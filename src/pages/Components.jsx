@@ -63,7 +63,7 @@ export default function Components() {
         <div>
           <Tag tone="accent">Coming soon</Tag>
           <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-[-0.025em] text-neutral-900 text-balance">
-            A library of polished, copy-pasteable components.
+            A library of polished, installable components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
             FossilUI Components is in design. Drop your email and we'll let you know when it ships — no spam, ever.

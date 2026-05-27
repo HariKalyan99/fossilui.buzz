@@ -1,17 +1,33 @@
-export const BUTTON_INSTALL_SNIPPET = `npm install @fossilui/react lucide-react`
+export const BUTTON_INSTALL_SNIPPET = `# Full component library
+npm install @fossilui/react lucide-react
 
-export const BUTTON_IMPORT_SNIPPET = `import {
+# Buttons-only package (lightweight)
+npm install @fossilui/buttons lucide-react`
+
+export const BUTTON_IMPORT_SNIPPET = `// Full library import
+import {
   RollTextButton,
   LiftShadowButton,
   IconSlideButton,
 } from '@fossilui/react'
 
-// Or import all button components from one path:
-import { ShineSweepButton } from '@fossilui/react/button'`
+// Buttons path inside @fossilui/react:
+import { ShineSweepButton } from '@fossilui/react/button'
+
+// Standalone buttons package:
+import { ShineSweepButton } from '@fossilui/buttons'
+
+// Ready template with all variants:
+import { ButtonExample } from '@fossilui/buttons/example'`
 
 export const BUTTON_TAILWIND_SNIPPET = `/* app.css */
 @import "tailwindcss";
-@source "../node_modules/@fossilui/react/dist";`
+
+/* keep @fossilui/react if you install the full library */
+@source "../node_modules/@fossilui/react/dist";
+
+/* add this for buttons-only install */
+@source "../node_modules/@fossilui/buttons/dist";`
 
 export const WHEN_TO_USE = [
   {
@@ -358,7 +374,7 @@ import { LiftShadowButton } from '@fossilui/react'
 export const BUTTON_FAQS = [
   {
     q: 'Do I need Tailwind CSS?',
-    a: 'Yes. @fossilui/react buttons use Tailwind utility classes. Add an @source entry in your CSS so Tailwind scans the package (see the Import section).',
+    a: 'Yes. Both @fossilui/react and @fossilui/buttons use Tailwind utility classes. Add the matching @source entry in your CSS so Tailwind scans the installed package.',
   },
   {
     q: 'Can I use these in Next.js or Remix?',
@@ -366,7 +382,7 @@ export const BUTTON_FAQS = [
   },
   {
     q: 'Why does my loading button hide the label?',
-    a: 'From v0.1.0 onward, loading shows a spinner and keeps the label visible (Ant Design style). Upgrade @fossilui/react if you still see label-only spinners.',
+    a: 'From v0.1.0 onward, loading shows a spinner and keeps the label visible (Ant Design style). Upgrade @fossilui/react or @fossilui/buttons if you still see label-only spinners.',
   },
   {
     q: 'Which button should I pick?',

@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/react",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Animated React components from Fossil UI — buttons first, more coming soon.",
   "type": "module",
   "license": "MIT",

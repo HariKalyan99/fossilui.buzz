@@ -77,6 +77,8 @@ export function getAccentTokens(color) {
       staggerHover: 'group-hover:text-indigo-600',
       ring: 'ring-neutral-200 hover:ring-neutral-300',
       shine: 'via-white/25',
+      liftShadowHover: 'hover:shadow-[0_8px_20px_-6px_rgba(23,23,23,0.35)]',
+      liftShadowActive: 'active:shadow-[0_2px_8px_-4px_rgba(23,23,23,0.28)]',
     },
     primary: {
       fill: 'bg-indigo-600',
@@ -85,6 +87,8 @@ export function getAccentTokens(color) {
       staggerHover: 'group-hover:text-indigo-600',
       ring: 'ring-indigo-200 hover:ring-indigo-300',
       shine: 'via-white/25',
+      liftShadowHover: 'hover:shadow-[0_8px_20px_-6px_rgba(79,70,229,0.45)]',
+      liftShadowActive: 'active:shadow-[0_2px_8px_-4px_rgba(79,70,229,0.35)]',
     },
     danger: {
       fill: 'bg-red-600',
@@ -93,6 +97,8 @@ export function getAccentTokens(color) {
       staggerHover: 'group-hover:text-red-600',
       ring: 'ring-red-200 hover:ring-red-300',
       shine: 'via-white/25',
+      liftShadowHover: 'hover:shadow-[0_8px_20px_-6px_rgba(220,38,38,0.45)]',
+      liftShadowActive: 'active:shadow-[0_2px_8px_-4px_rgba(220,38,38,0.35)]',
     },
     success: {
       fill: 'bg-emerald-600',
@@ -101,6 +107,8 @@ export function getAccentTokens(color) {
       staggerHover: 'group-hover:text-emerald-600',
       ring: 'ring-emerald-200 hover:ring-emerald-300',
       shine: 'via-white/25',
+      liftShadowHover: 'hover:shadow-[0_8px_20px_-6px_rgba(5,150,105,0.45)]',
+      liftShadowActive: 'active:shadow-[0_2px_8px_-4px_rgba(5,150,105,0.35)]',
     },
     warning: {
       fill: 'bg-amber-500',
@@ -109,6 +117,8 @@ export function getAccentTokens(color) {
       staggerHover: 'group-hover:text-amber-600',
       ring: 'ring-amber-200 hover:ring-amber-300',
       shine: 'via-white/25',
+      liftShadowHover: 'hover:shadow-[0_8px_20px_-6px_rgba(245,158,11,0.45)]',
+      liftShadowActive: 'active:shadow-[0_2px_8px_-4px_rgba(245,158,11,0.35)]',
     },
   }
   return map[color] ?? map.default
