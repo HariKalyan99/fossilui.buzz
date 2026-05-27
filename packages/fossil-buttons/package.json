@@ -1,26 +1,16 @@
 {
-  "name": "@fossilui/react",
-  "version": "0.1.3",
-  "description": "Animated React components from Fossil UI — buttons first, more coming soon.",
+  "name": "@fossilui/buttons",
+  "version": "0.1.0",
+  "description": "Animated button components from Fossil UI.",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/fossilui/fossil.buzz",
-    "directory": "packages/fossil-ui"
+    "directory": "packages/fossil-buttons"
   },
-  "keywords": [
-    "react",
-    "components",
-    "ui",
-    "buttons",
-    "tailwind",
-    "fossil-ui"
-  ],
-  "files": [
-    "dist",
-    "README.md"
-  ],
+  "keywords": ["react", "components", "ui", "buttons", "tailwind", "fossil-ui"],
+  "files": ["dist", "README.md"],
   "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -28,17 +18,8 @@
     ".": {
       "import": "./dist/index.js"
     },
-    "./button": {
-      "import": "./dist/buttons/index.js"
-    },
-    "./button/example": {
-      "import": "./dist/buttons/example.js"
-    },
-    "./buttons": {
-      "import": "./dist/buttons/index.js"
-    },
-    "./buttons/example": {
-      "import": "./dist/buttons/example.js"
+    "./example": {
+      "import": "./dist/example.js"
     }
   },
   "scripts": {

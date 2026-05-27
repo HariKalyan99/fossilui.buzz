@@ -11,8 +11,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(root, 'src/index.js'),
-        'buttons/index': resolve(root, 'src/buttons/index.js'),
-        'buttons/example': resolve(root, 'src/buttons/example.jsx'),
+        example: resolve(root, 'src/example.jsx'),
       },
       formats: ['es'],
     },
@@ -27,8 +26,6 @@ export default defineConfig({
         'tailwind-merge',
       ],
       output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
         entryFileNames: '[name].js',
       },
     },

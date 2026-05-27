@@ -6,8 +6,8 @@ export const BUTTON_IMPORT_SNIPPET = `import {
   IconSlideButton,
 } from '@fossilui/react'
 
-// Or import a single category:
-import { ShineSweepButton } from '@fossilui/react/buttons'`
+// Or import all button components from one path:
+import { ShineSweepButton } from '@fossilui/react/button'`
 
 export const BUTTON_TAILWIND_SNIPPET = `/* app.css */
 @import "tailwindcss";
