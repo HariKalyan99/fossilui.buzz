@@ -1,0 +1,98 @@
+import { lazy, Suspense, useMemo, useState } from 'react'
+import { javascript } from '@codemirror/lang-javascript'
+import { oneDark } from '@codemirror/theme-one-dark'
+import { Check, Copy } from 'lucide-react'
+import DinoLoader from '../loader/DinoLoader'
+import { cn } from '../../lib/cn'
+
+const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
+
+export function CodeEditor({
+  value,
+  onChange,
+  className,
+  minHeight = '140px',
+  readOnly = false,
+  showCopy = true,
+}) {
+  const extensions = useMemo(() => [javascript({ jsx: true })], [])
+  const [copied, setCopied] = useState(false)
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
+
+  return (
+    <div
+      className={cn(
+        'relative max-w-full overflow-hidden rounded-lg border border-neutral-800 bg-[#282c34]',
+        className,
+      )}
+    >
+      {showCopy ? (
+        <button
+          type="button"
+          onClick={onCopy}
+          aria-label={copied ? 'Copied to clipboard' : 'Copy code'}
+          className={cn(
+            'absolute right-2 top-2 z-10 inline-flex min-h-9 min-w-9 touch-manipulation items-center justify-center gap-1 rounded-md',
+            'border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-medium text-neutral-300',
+            'transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]',
+            'sm:min-h-0 sm:min-w-0',
+          )}
+        >
+          {copied ? (
+            <>
+              <Check className="h-3.5 w-3.5 shrink-0" />
+              <span className="hidden sm:inline">Copied</span>
+            </>
+          ) : (
+            <>
+              <Copy className="h-3.5 w-3.5 shrink-0" />
+              <span className="hidden sm:inline">Copy</span>
+            </>
+          )}
+        </button>
+      ) : null}
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center p-6" style={{ minHeight }}>
+            <DinoLoader compact />
+          </div>
+        }
+      >
+        <ReactCodeMirror
+          value={value}
+          height="auto"
+          minHeight={minHeight}
+          theme={oneDark}
+          extensions={extensions}
+          onChange={readOnly ? undefined : onChange}
+          readOnly={readOnly}
+          basicSetup={{
+            lineNumbers: true,
+            highlightActiveLine: true,
+            highlightActiveLineGutter: true,
+            foldGutter: false,
+            autocompletion: true,
+            bracketMatching: true,
+            closeBrackets: true,
+          }}
+          className={cn(
+            'max-w-full text-[12px] sm:text-[13px]',
+            '[&_.cm-editor]:outline-none',
+            '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto',
+            '[&_.cm-content]:min-w-0',
+            showCopy && 'pr-2 pt-10 sm:pt-2',
+          )}
+        />
+      </Suspense>
+    </div>
+  )
+}

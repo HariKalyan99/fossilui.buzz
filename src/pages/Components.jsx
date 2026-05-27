@@ -8,7 +8,7 @@ import { Tag } from '../components/ui/Tag'
 import { Input } from '../components/ui/Input'
 
 const TEASERS = [
-  { name: 'Buttons', count: '10 variants' },
+  { name: 'Buttons', count: '11 variants' },
   { name: 'Cards', count: '8 variants' },
   { name: 'Modals', count: '6 variants' },
   { name: 'Inputs', count: '14 variants' },

@@ -1,37 +1,33 @@
-import { forwardRef } from 'react'
-import { cn } from '../lib/cn.js'
-import { BUTTON_BASE } from './buttonBase.js'
+import { createAnimatedButton } from './shared/createAnimatedButton.jsx'
+
+const STAGGER_CHAR =
+  'inline-block origin-bottom translate-y-0 text-inherit ' +
+  'transition-[transform,color] duration-300 ease-out delay-0 ' +
+  'group-hover:delay-[var(--stagger)] group-hover:-translate-y-[0.22em] group-hover:text-indigo-600'
 
 /** Each letter lifts with a staggered delay on hover. */
-export const StaggerTextButton = forwardRef(function StaggerTextButton(
-  { className, children, ...props },
-  ref,
-) {
-  const label = typeof children === 'string' ? children : String(children ?? '')
-  const chars = [...label]
+export const StaggerTextButton = createAnimatedButton({
+  displayName: 'StaggerTextButton',
+  appearanceDefaults: { color: 'default', variant: 'filled' },
+  animationClassName:
+    'gap-0 overflow-visible border shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:border-neutral-300',
+  /** Let each letter participate in the button flex row (matches original layout). */
+  contentClassName: 'contents',
+  renderContent: ({ label }) => {
+    const chars = [...label]
 
-  return (
-    <button
-      ref={ref}
-      type="button"
-      className={cn(
-        BUTTON_BASE,
-        'group h-11 gap-0 border border-neutral-200 bg-white px-5 text-[14px] text-neutral-900 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:border-neutral-300',
-        className,
-      )}
-      {...props}
-    >
-      <span className="flex">
+    return (
+      <span className="inline-flex items-end leading-none" aria-hidden={false}>
         {chars.map((char, i) => (
           <span
             key={`${char}-${i}`}
-            className="inline-block transition-[transform,color] duration-300 ease-out group-hover:-translate-y-1 group-hover:text-indigo-600"
-            style={{ transitionDelay: `${i * 28}ms` }}
+            className={STAGGER_CHAR}
+            style={{ '--stagger': `${i * 48}ms` }}
           >
             {char === ' ' ? '\u00a0' : char}
           </span>
         ))}
       </span>
-    </button>
-  )
+    )
+  },
 })
