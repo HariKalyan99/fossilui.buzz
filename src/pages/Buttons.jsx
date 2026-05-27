@@ -122,6 +122,7 @@ function PropsTable({ rows }) {
               </th>
             </tr>
           </thead>
+          
           <tbody>
             {rows.map((row) => (
               <tr key={row.property} className="border-b border-neutral-100 last:border-0">
