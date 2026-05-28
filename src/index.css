@@ -165,9 +165,9 @@
   }
 }
 
-/* CodeMirror — Kimbie Dark */
+/* CodeMirror — Dark High Contrast (VS Code hc-black inspired) */
 .cm-editor {
-  background: #221a0f !important;
+  background: #000000 !important;
   border: none !important;
   font-family: var(--font-mono) !important;
   font-size: 13px !important;
@@ -177,37 +177,31 @@
   font-family: var(--font-mono) !important;
 }
 .cm-gutters {
-  background: #221a0f !important;
+  background: #000000 !important;
   border: none !important;
-  color: #a57a4c !important;
+  color: #b0b0b0 !important;
 }
 .cm-activeLine,
 .cm-activeLineGutter {
-  background-color: #5e452b !important;
+  background-color: #0a0a0a !important;
 }
 .cm-activeLineGutter {
-  color: #adadad !important;
+  color: #ffffff !important;
 }
 
-/* Selection — override global ::selection ink color on Kimbie editor */
+/* Selection — override global ::selection ink color on dark editor */
 .cm-editor .cm-selectionBackground,
 .cm-editor.cm-focused .cm-selectionBackground {
-  background: rgba(132, 97, 61, 0.67) !important;
+  background: #008000 !important;
 }
 .cm-editor .cm-content ::selection,
 .cm-editor .cm-content *::selection {
-  background: rgba(132, 97, 61, 0.67) !important;
-  color: #d3af86 !important;
+  background: #008000 !important;
+  color: #ffffff !important;
 }
 .cm-editor .cm-selectionMatch {
-  background: rgba(132, 97, 61, 0.45) !important;
-  outline: 1px solid #a57a4c;
-}
-
-/* Template code workbench — Allotment separator + resize handle */
-.template-code-workbench {
-  --separator-border: #51412c;
-  --focus-border: #a57a4c;
+  background: rgba(0, 128, 0, 0.35) !important;
+  outline: 1px solid #008000;
 }
 
 /* Lenis */

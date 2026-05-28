@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/buttons",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Animated button components from Fossil UI.",
   "type": "module",
   "license": "MIT",

@@ -81,10 +81,10 @@ export function Navbar() {
           : "bg-white/70 backdrop-blur-sm border-b border-transparent",
       )}
     >
-      <div className="container-page flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8">
-          <Logo />
-          <nav className="hidden md:flex items-center gap-0.5 text-sm">
+      <div className="container-page flex h-16 min-w-0 items-center justify-between gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-8">
+          <Logo className="shrink-0" />
+          <nav className="hidden min-w-0 md:flex items-center gap-0.5 text-sm max-[851px]:text-[13px]">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
@@ -92,7 +92,7 @@ export function Navbar() {
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "inline-flex h-9 items-center px-3 rounded-md transition-colors",
+                    "inline-flex h-9 items-center px-2.5 lg:px-3 rounded-md transition-colors max-[851px]:px-2",
                     isActive
                       ? "text-neutral-900 bg-neutral-100/80"
                       : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50",
@@ -115,7 +115,7 @@ export function Navbar() {
                 aria-haspopup="menu"
                 aria-expanded={open}
                 className={cn(
-                  "inline-flex h-9 items-center gap-1 px-3 rounded-md transition-colors",
+                  "inline-flex h-9 items-center gap-1 px-2.5 lg:px-3 rounded-md transition-colors max-[851px]:px-2",
                   open
                     ? "text-neutral-900 bg-neutral-100/80"
                     : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50",
@@ -163,7 +163,7 @@ export function Navbar() {
               to="/contact"
               className={({ isActive }) =>
                 cn(
-                  "inline-flex h-9 items-center px-3 rounded-md transition-colors",
+                  "inline-flex h-9 items-center px-2.5 lg:px-3 rounded-md transition-colors max-[851px]:px-2",
                   isActive
                     ? "text-neutral-900 bg-neutral-100/80"
                     : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50",
@@ -175,7 +175,7 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden shrink-0 md:flex items-center gap-1.5 lg:gap-2">
           <Button
             as="a"
             href="https://github.com/HariKalyan99/fossilui.buzz"
@@ -183,12 +183,21 @@ export function Navbar() {
             rel="noreferrer"
             variant="ghost"
             size="sm"
+            className="max-[851px]:px-2"
+            aria-label="GitHub"
           >
-            <GithubIcon className="h-3.5 w-3.5" />
-            GitHub
+            <GithubIcon className="h-3.5 w-3.5 shrink-0" />
+            <span className="hidden min-[852px]:inline">GitHub</span>
           </Button>
-          <Button as={Link} to="/templates" variant="primary" size="sm">
-            Browse templates
+          <Button
+            as={Link}
+            to="/templates"
+            variant="primary"
+            size="sm"
+            className="max-[851px]:px-2.5"
+          >
+            <span className="min-[852px]:hidden">Templates</span>
+            <span className="hidden min-[852px]:inline">Browse templates</span>
           </Button>
         </div>
 

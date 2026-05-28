@@ -3,7 +3,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { css as cssLang } from '@codemirror/lang-css'
 import { html as htmlLang } from '@codemirror/lang-html'
 import { json as jsonLang } from '@codemirror/lang-json'
-import { kimbieDark } from './codeMirrorKimbieDark.js'
+import { darkHighContrast } from './codeMirrorDarkHighContrast.js'
 import DinoLoader from '../loader/DinoLoader'
 
 const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
@@ -30,7 +30,7 @@ export function CodeViewer({ file }) {
 
   if (!file) {
     return (
-      <div className="flex h-full items-center justify-center bg-[#221a0f] text-sm text-[#a57a4c]">
+      <div className="flex h-full items-center justify-center bg-black text-sm text-neutral-500">
         Select a file to view.
       </div>
     )
@@ -47,7 +47,7 @@ export function CodeViewer({ file }) {
       <ReactCodeMirror
         value={file.code}
         height="100%"
-        theme={kimbieDark}
+        theme={darkHighContrast}
         extensions={extensions}
         readOnly
         basicSetup={{
@@ -60,10 +60,10 @@ export function CodeViewer({ file }) {
         }}
         className={[
           'h-full text-[12px] sm:text-[13px]',
-          '[&_.cm-editor]:border-0 [&_.cm-editor]:bg-[#221a0f] [&_.cm-editor]:outline-none',
-          '[&_.cm-gutters]:border-0 [&_.cm-gutters]:bg-[#221a0f]',
-          '[&_.cm-scroller]:h-full [&_.cm-scroller]:overflow-x-auto [&_.cm-scroller]:bg-[#221a0f]',
-          '[&_.cm-content]:min-w-0 [&_.cm-content]:bg-[#221a0f]',
+          '[&_.cm-editor]:border-0 [&_.cm-editor]:bg-black [&_.cm-editor]:outline-none',
+          '[&_.cm-gutters]:border-0 [&_.cm-gutters]:bg-black',
+          '[&_.cm-scroller]:h-full [&_.cm-scroller]:overflow-x-auto [&_.cm-scroller]:bg-black',
+          '[&_.cm-content]:min-w-0 [&_.cm-content]:bg-black',
         ].join(' ')}
       />
     </Suspense>

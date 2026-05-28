@@ -3,7 +3,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { Check, Copy } from 'lucide-react'
 import DinoLoader from '../loader/DinoLoader'
 import { cn } from '../../lib/cn'
-import { kimbieDark } from './codeMirrorKimbieDark.js'
+import { darkHighContrast } from './codeMirrorDarkHighContrast.js'
 
 const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
 
@@ -31,7 +31,7 @@ export function CodeEditor({
   return (
     <div
       className={cn(
-        'relative max-w-full overflow-hidden rounded-lg bg-[#221a0f]',
+        'relative max-w-full overflow-hidden rounded-lg bg-black',
         className,
       )}
     >
@@ -42,8 +42,8 @@ export function CodeEditor({
           aria-label={copied ? 'Copied to clipboard' : 'Copy code'}
           className={cn(
             'absolute right-2 top-2 z-10 inline-flex min-h-9 min-w-9 touch-manipulation items-center justify-center gap-1 rounded-md',
-            'border border-[#a57a4c]/40 bg-[#5e452b]/80 px-2.5 py-1.5 text-[11px] font-medium text-[#d3af86]',
-            'transition-colors hover:bg-[#5e452b] hover:text-[#e3b583] active:scale-[0.98]',
+            'border border-white/10 bg-white/5 px-2.5 py-1.5 text-[11px] font-medium text-neutral-300',
+            'transition-colors hover:bg-white/10 hover:text-white active:scale-[0.98]',
             'sm:min-h-0 sm:min-w-0',
           )}
         >
@@ -71,7 +71,7 @@ export function CodeEditor({
           value={value}
           height="auto"
           minHeight={minHeight}
-          theme={kimbieDark}
+          theme={darkHighContrast}
           extensions={extensions}
           onChange={readOnly ? undefined : onChange}
           readOnly={readOnly}
@@ -86,10 +86,10 @@ export function CodeEditor({
           }}
           className={cn(
             'max-w-full text-[12px] sm:text-[13px]',
-            '[&_.cm-editor]:border-0 [&_.cm-editor]:bg-[#221a0f] [&_.cm-editor]:outline-none',
-            '[&_.cm-gutters]:border-0 [&_.cm-gutters]:bg-[#221a0f]',
-            '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto [&_.cm-scroller]:bg-[#221a0f]',
-            '[&_.cm-content]:min-w-0 [&_.cm-content]:bg-[#221a0f]',
+            '[&_.cm-editor]:border-0 [&_.cm-editor]:bg-black [&_.cm-editor]:outline-none',
+            '[&_.cm-gutters]:border-0 [&_.cm-gutters]:bg-black',
+            '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto [&_.cm-scroller]:bg-black',
+            '[&_.cm-content]:min-w-0 [&_.cm-content]:bg-black',
             showCopy && 'pr-2 pt-10 sm:pt-2',
           )}
         />

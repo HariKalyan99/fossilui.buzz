@@ -2,24 +2,19 @@ import { useState } from 'react'
 import { ChevronRight, File, Folder, FolderOpen } from 'lucide-react'
 import { cn } from '../../lib/cn'
 
-const FILE_ICON_COLORS = {
-  jsx: 'text-[#8ab1b0]',
-  js: 'text-[#f79a32]',
-  ts: 'text-[#8ab1b0]',
-  tsx: 'text-[#8ab1b0]',
-  css: 'text-[#f06431]',
-  json: 'text-[#f79a32]',
-  md: 'text-[#a57a4c]',
-  html: 'text-[#dc3958]',
-}
-
 function FileIcon({ name }) {
   const ext = name.split('.').pop()?.toLowerCase()
-  return (
-    <File
-      className={cn('h-3.5 w-3.5 shrink-0', FILE_ICON_COLORS[ext] || 'text-[#a57a4c]')}
-    />
-  )
+  const colors = {
+    jsx: 'text-sky-300',
+    js: 'text-yellow-300',
+    ts: 'text-blue-300',
+    tsx: 'text-blue-300',
+    css: 'text-pink-300',
+    json: 'text-amber-300',
+    md: 'text-neutral-300',
+    html: 'text-orange-300',
+  }
+  return <File className={cn('h-3.5 w-3.5 shrink-0', colors[ext] || 'text-neutral-400')} />
 }
 
 function Node({ node, depth, activePath, onSelect }) {
@@ -33,9 +28,9 @@ function Node({ node, depth, activePath, onSelect }) {
         onClick={() => onSelect(node.file)}
         className={cn(
           'group flex w-full items-center gap-1.5 px-2 py-1 rounded-md text-[12.5px] text-left',
-          'hover:bg-[#5e452b]/60',
-          isActive && 'bg-[#5e452b] text-[#e3b583]',
-          !isActive && 'text-[#a57a4c] hover:text-[#d3af86]',
+          'hover:bg-white/[0.05]',
+          isActive && 'bg-white/[0.08] text-white',
+          !isActive && 'text-neutral-400 hover:text-neutral-100',
         )}
         style={{ paddingLeft: `${depth * 12 + 8}px` }}
       >
@@ -50,19 +45,19 @@ function Node({ node, depth, activePath, onSelect }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-1 px-2 py-1 rounded-md text-[12.5px] text-[#d3af86] hover:bg-[#5e452b]/60 hover:text-[#e3b583]"
+        className="flex w-full items-center gap-1 px-2 py-1 rounded-md text-[12.5px] text-neutral-300 hover:bg-white/[0.05] hover:text-white"
         style={{ paddingLeft: `${depth * 12 + 4}px` }}
       >
         <ChevronRight
           className={cn(
-            'h-3 w-3 shrink-0 text-[#a57a4c] transition-transform',
+            'h-3 w-3 shrink-0 text-neutral-500 transition-transform',
             open && 'rotate-90',
           )}
         />
         {open ? (
-          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-[#f79a32]" />
+          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-amber-300/80" />
         ) : (
-          <Folder className="h-3.5 w-3.5 shrink-0 text-[#f79a32]" />
+          <Folder className="h-3.5 w-3.5 shrink-0 text-amber-300/80" />
         )}
         <span className="truncate">{node.name}</span>
       </button>
