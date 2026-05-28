@@ -21,12 +21,12 @@ export const IconSlideButton = forwardRef(function IconSlideButton(props, ref) {
   return (
     <ButtonRoot ref={ref} prepared={prepared}>
       <span
-        className="flex w-0 -translate-x-1 items-center overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover:w-4 group-hover:translate-x-0 group-hover:opacity-100"
+        className="flex w-0 -translate-x-1 items-center overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover:w-4 group-active:w-4 group-hover:translate-x-0 group-active:translate-x-0 group-hover:opacity-100 group-active:opacity-100"
         aria-hidden="true"
       >
         {slideIcon}
       </span>
-      <span className="transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+      <span className="transition-transform duration-300 ease-out group-hover:translate-x-0 group-active:translate-x-0.5">
         {formattedChildren}
       </span>
     </ButtonRoot>

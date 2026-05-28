@@ -11,7 +11,7 @@ export const SlideFillButton = createAnimatedButton({
       <span
         className={cn(
           'pointer-events-none absolute inset-x-[-1px] inset-y-0 rounded-[inherit]',
-          'translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0',
+          'translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0 group-active:translate-y-0',
           appearance.accent.fill,
         )}
         aria-hidden="true"

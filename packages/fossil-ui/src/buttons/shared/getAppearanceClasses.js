@@ -14,8 +14,8 @@ function getSolidTextClass(color) {
  */
 function getHoverTextClass(color) {
   return DARK_FOREGROUND_FILL_COLORS.has(color)
-    ? 'group-hover:text-neutral-900'
-    : 'group-hover:text-white'
+    ? 'group-hover:text-neutral-900 group-active:text-neutral-900'
+    : 'group-hover:text-white group-active:text-white'
 }
 
 /**
@@ -24,22 +24,22 @@ function getHoverTextClass(color) {
 function getStaggerHoverClass(color) {
   const map = {
     // Dark backgrounds (white base text): use lighter accent tones.
-    default: 'group-hover:text-indigo-300',
-    primary: 'group-hover:text-violet-200',
-    secondary: 'group-hover:text-sky-200',
-    info: 'group-hover:text-cyan-200',
-    teal: 'group-hover:text-emerald-200',
-    cyan: 'group-hover:text-blue-200',
-    blue: 'group-hover:text-indigo-200',
-    violet: 'group-hover:text-fuchsia-200',
-    purple: 'group-hover:text-pink-200',
-    pink: 'group-hover:text-rose-200',
-    rose: 'group-hover:text-orange-200',
-    danger: 'group-hover:text-rose-200',
-    success: 'group-hover:text-emerald-200',
+    default: 'group-hover:text-indigo-300 group-active:text-indigo-300',
+    primary: 'group-hover:text-violet-200 group-active:text-violet-200',
+    secondary: 'group-hover:text-sky-200 group-active:text-sky-200',
+    info: 'group-hover:text-cyan-200 group-active:text-cyan-200',
+    teal: 'group-hover:text-emerald-200 group-active:text-emerald-200',
+    cyan: 'group-hover:text-blue-200 group-active:text-blue-200',
+    blue: 'group-hover:text-indigo-200 group-active:text-indigo-200',
+    violet: 'group-hover:text-fuchsia-200 group-active:text-fuchsia-200',
+    purple: 'group-hover:text-pink-200 group-active:text-pink-200',
+    pink: 'group-hover:text-rose-200 group-active:text-rose-200',
+    rose: 'group-hover:text-orange-200 group-active:text-orange-200',
+    danger: 'group-hover:text-rose-200 group-active:text-rose-200',
+    success: 'group-hover:text-emerald-200 group-active:text-emerald-200',
     // Light backgrounds (dark base text): use deeper accents.
-    lime: 'group-hover:text-lime-900',
-    warning: 'group-hover:text-amber-900',
+    lime: 'group-hover:text-lime-900 group-active:text-lime-900',
+    warning: 'group-hover:text-amber-900 group-active:text-amber-900',
   }
   return map[color] ?? map.default
 }

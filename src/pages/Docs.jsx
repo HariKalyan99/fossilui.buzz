@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -206,6 +206,8 @@ function Feedback() {
 export default function Docs() {
   const [active, setActive] = useState("install");
   const [copiedKey, setCopiedKey] = useState(null);
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const mobileTocRef = useRef(null);
 
   const copySnippet = async (key, value) => {
     try {
@@ -237,10 +239,98 @@ export default function Docs() {
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!mobileTocOpen) return;
+
+    const handlePointerDown = (event) => {
+      if (!mobileTocRef.current?.contains(event.target)) {
+        setMobileTocOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, [mobileTocOpen]);
+
   return (
     <Section className="pt-12 md:pt-20">
+      <div ref={mobileTocRef} className="relative mb-6 flex justify-start md:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileTocOpen((v) => !v)}
+          aria-expanded={mobileTocOpen}
+          aria-controls="docs-mobile-toc"
+          className={cn(
+            "inline-flex min-h-9 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-[12px] font-medium text-neutral-700",
+            "transition-colors hover:border-neutral-300 hover:text-neutral-900 active:bg-neutral-50",
+          )}
+        >
+          On this page
+          <ChevronDown
+            className={cn("h-3.5 w-3.5 transition-transform", mobileTocOpen && "rotate-180")}
+          />
+        </button>
+
+        <AnimatePresence>
+          {mobileTocOpen ? (
+            <>
+              <motion.button
+                type="button"
+                aria-label="Close table of contents"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.16 }}
+                className="fixed inset-0 z-20 bg-transparent"
+                onClick={() => setMobileTocOpen(false)}
+              />
+              <motion.div
+                id="docs-mobile-toc"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.16 }}
+                className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,88vw)] rounded-xl border border-neutral-200 bg-white p-2 shadow-lg"
+              >
+                <nav className="space-y-3">
+                  {NAV.map((group) => (
+                    <div key={group.title}>
+                      <p className="px-2 pb-1 text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+                        {group.title}
+                      </p>
+                      <ul className="space-y-1">
+                        {group.items.map((item) => (
+                          <li key={item.id}>
+                            <a
+                              href={`#${item.id}`}
+                              onClick={() => setMobileTocOpen(false)}
+                              className={cn(
+                                "block rounded-md px-2.5 py-1.5 text-[12px]",
+                                active === item.id
+                                  ? "bg-neutral-100 text-neutral-900 font-medium"
+                                  : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900",
+                              )}
+                            >
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </nav>
+              </motion.div>
+            </>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
       <div className="grid gap-10 md:grid-cols-[220px_1fr]">
-        <aside className="md:sticky md:top-24 md:self-start">
+        <aside className="hidden md:sticky md:top-24 md:self-start md:block">
           <nav className="flex flex-col gap-6 text-sm">
             {NAV.map((group) => (
               <div key={group.title}>

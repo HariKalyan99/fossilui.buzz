@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ChevronDown, Mail } from 'lucide-react'
@@ -60,10 +60,10 @@ const VARIANT_PREVIEW_PROPS = {
 }
 
 const DOC_NAV = [
-  { id: 'variants', label: 'Variants' },
-  { id: 'import', label: 'Import' },
+  { id: 'variants', label: 'All variants' },
+  { id: 'import', label: 'How to import' },
   { id: 'when-to-use', label: 'When to use' },
-  { id: 'examples', label: 'Examples' },
+  { id: 'examples', label: 'Configurator' },
   { id: 'api', label: 'API' },
   { id: 'faq', label: 'FAQ' },
 ]
@@ -250,6 +250,25 @@ function ReadOnlySnippet({ label, code }) {
 
 export default function Buttons() {
   const reduceMotion = useReducedMotion()
+  const [mobileTocOpen, setMobileTocOpen] = useState(false)
+  const mobileTocRef = useRef(null)
+
+  useEffect(() => {
+    if (!mobileTocOpen) return
+
+    const handlePointerDown = (event) => {
+      if (!mobileTocRef.current?.contains(event.target)) {
+        setMobileTocOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handlePointerDown)
+    document.addEventListener('touchstart', handlePointerDown)
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown)
+      document.removeEventListener('touchstart', handlePointerDown)
+    }
+  }, [mobileTocOpen])
 
   return (
     <Section className="overflow-x-clip pt-10 pb-16 sm:pt-12 md:pt-20 md:pb-24">
@@ -269,31 +288,68 @@ export default function Buttons() {
           description="Preview every variant, then install from @fossilui/react or @fossilui/buttons, configure props, and copy examples into your app."
         />
 
-        <nav
-          aria-label="On this page"
-          className={cn(
-            'mb-8 flex gap-2 overflow-x-auto pb-1 md:mb-10 md:flex-wrap',
-            '[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
-            'overscroll-x-contain snap-x snap-mandatory',
-          )}
-        >
-          {DOC_NAV.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className={cn(
-                'shrink-0 snap-start touch-manipulation rounded-full border border-neutral-200 bg-white',
-                'px-3.5 py-1.5 text-[12px] font-medium text-neutral-600',
-                'transition-colors hover:border-neutral-300 hover:text-neutral-900 active:bg-neutral-50',
-              )}
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <div ref={mobileTocRef} className="relative mb-6 flex justify-start xl:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileTocOpen((v) => !v)}
+            aria-expanded={mobileTocOpen}
+            aria-controls="buttons-mobile-toc"
+            className={cn(
+              'inline-flex min-h-9 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-[12px] font-medium text-neutral-700',
+              'transition-colors hover:border-neutral-300 hover:text-neutral-900 active:bg-neutral-50',
+            )}
+          >
+            On this page
+            <ChevronDown className={cn('h-3.5 w-3.5 transition-transform', mobileTocOpen && 'rotate-180')} />
+          </button>
 
-        {/* Variants */}
-        <section className="mb-12 sm:mb-16 md:mb-20">
+          <AnimatePresence>
+            {mobileTocOpen ? (
+              <>
+                <motion.button
+                  type="button"
+                  aria-label="Close table of contents"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.16 }}
+                  className="fixed inset-0 z-20 bg-transparent"
+                  onClick={() => setMobileTocOpen(false)}
+                />
+                <motion.div
+                  id="buttons-mobile-toc"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.16 }}
+                  className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,88vw)] rounded-xl border border-neutral-200 bg-white p-2 shadow-lg"
+                >
+                  <ul className="space-y-1">
+                    {DOC_NAV.map((item) => (
+                      <li key={item.id}>
+                        <a
+                          href={`#${item.id}`}
+                          onClick={() => setMobileTocOpen(false)}
+                          className={cn(
+                            'block rounded-md px-3 py-2 text-[12px] font-medium text-neutral-700',
+                            'transition-colors hover:bg-neutral-50 hover:text-neutral-900',
+                          )}
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </>
+            ) : null}
+          </AnimatePresence>
+        </div>
+
+        <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_220px] xl:items-start">
+          <main className="min-w-0">
+            {/* Variants */}
+            <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="variants"
             title="All variants"
@@ -352,10 +408,10 @@ export default function Buttons() {
               )
             })}
           </motion.div>
-        </section>
+            </section>
 
-        {/* Import */}
-        <section className="mb-12 sm:mb-16 md:mb-20">
+            {/* Import */}
+            <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="import"
             title="How to import"
@@ -377,10 +433,10 @@ export default function Buttons() {
           <div className="mt-4 min-w-0">
             <ReadOnlySnippet label="Import" code={BUTTON_IMPORT_SNIPPET} />
           </div>
-        </section>
+            </section>
 
-        {/* When to use */}
-        <section className="mb-12 sm:mb-16 md:mb-20">
+            {/* When to use */}
+            <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="when-to-use"
             title="When to use"
@@ -394,10 +450,10 @@ export default function Buttons() {
               </li>
             ))}
           </ul>
-        </section>
+            </section>
 
-        {/* Examples */}
-        <section className="mb-12 sm:mb-16 md:mb-20">
+            {/* Examples */}
+            <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="examples"
             title="Configurator"
@@ -406,10 +462,10 @@ export default function Buttons() {
           <div className="mt-6">
             <ButtonConfigurator />
           </div>
-        </section>
+            </section>
 
-        {/* API */}
-        <section className="mb-12 sm:mb-16 md:mb-20">
+            {/* API */}
+            <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="api"
             title="API"
@@ -424,10 +480,10 @@ export default function Buttons() {
             </p>
             <MotionCompatibilityTable rows={BUTTON_MOTION_COMPATIBILITY} />
           </div>
-        </section>
+            </section>
 
-        {/* FAQ */}
-        <section className="min-w-0 pb-4">
+            {/* FAQ */}
+            <section className="min-w-0 pb-4">
           <DocHeading
             id="faq"
             title="FAQ"
@@ -438,7 +494,38 @@ export default function Buttons() {
               <FAQItem key={item.q} q={item.q} a={item.a} />
             ))}
           </div>
-        </section>
+            </section>
+          </main>
+
+          <aside className="hidden xl:sticky xl:top-24 xl:block">
+            <nav
+              aria-label="On this page"
+              className={cn(
+                'card p-3 sm:p-4',
+                'xl:max-h-[calc(100vh-7rem)] xl:overflow-auto',
+              )}
+            >
+              <p className="px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
+                On this page
+              </p>
+              <ul className="flex gap-2 overflow-x-auto pb-1 xl:flex-col xl:overflow-visible">
+                {DOC_NAV.map((item) => (
+                  <li key={item.id} className="shrink-0 xl:shrink">
+                    <a
+                      href={`#${item.id}`}
+                      className={cn(
+                        'block rounded-md border border-neutral-200 bg-white px-3 py-2 text-[12px] font-medium text-neutral-600',
+                        'transition-colors hover:border-neutral-300 hover:text-neutral-900 active:bg-neutral-50',
+                      )}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        </div>
       </div>
     </Section>
   )

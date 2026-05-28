@@ -10,20 +10,20 @@ export const BorderRevealButton = createAnimatedButton({
     <>
       <span
         className={cn(
-          'pointer-events-none absolute inset-x-4 top-0 h-px origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100',
+          'pointer-events-none absolute inset-x-4 top-0 h-px origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-active:scale-x-100',
           appearance.accent.line,
         )}
         aria-hidden="true"
       />
       <span
         className={cn(
-          'pointer-events-none absolute inset-x-4 bottom-0 h-px origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100',
+          'pointer-events-none absolute inset-x-4 bottom-0 h-px origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100 group-active:scale-x-100',
           appearance.accent.line,
         )}
         style={{ transitionDelay: '60ms' }}
         aria-hidden="true"
       />
-      <span className="relative z-10 transition-transform duration-300 group-hover:scale-[1.02]">
+      <span className="relative z-10 transition-transform duration-300 group-hover:scale-[1.02] group-active:scale-[1.02]">
         {formattedChildren}
       </span>
     </>
