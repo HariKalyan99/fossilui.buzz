@@ -20,6 +20,7 @@ import { GithubIcon } from "../components/icons/Brand";
 import { TEMPLATES, CATEGORIES } from "../data/templates";
 import { DINO_FACTS } from "../data/dinoFacts";
 import { Hero3D } from "../components/Hero3D";
+import { RexMark } from "../components/RexMark";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -154,13 +155,7 @@ export default function Home() {
                 transition={{ duration: 0.55 }}
                 className="mt-6 text-[clamp(2.2rem,5.2vw,4.4rem)] leading-[1.03] font-semibold tracking-[-0.03em] text-neutral-900 text-balance"
               >
-                <img
-                  src="/Rex.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="inline-block align-middle h-[0.9em] w-auto mb-1"
-                  draggable="false"
-                />{" "}
+                <RexMark className="align-middle mb-1 h-[0.9em] w-auto" />{" "}
                 Fossil UI —{" "}
                 <span className="text-neutral-900">
                   UI that never goes extinct
@@ -464,13 +459,7 @@ export default function Home() {
             transition={{ duration: 0.2 }}
             className="inline-flex items-center justify-center whitespace-nowrap py-0.5"
           >
-            <img
-              src="/Rex.svg"
-              alt=""
-              aria-hidden="true"
-              draggable="false"
-              className="h-5 w-auto"
-            />
+            <RexMark className="h-5 w-auto" />
           </motion.span>
         )}
       </motion.button>

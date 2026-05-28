@@ -6,6 +6,7 @@ import { Section } from '../components/ui/Section'
 import { Button } from '../components/ui/Button'
 import { Tag } from '../components/ui/Tag'
 import { Input } from '../components/ui/Input'
+import { RexMark } from '../components/RexMark'
 
 const TEASERS = [
   { name: 'Buttons', count: '12 variants' },
@@ -137,13 +138,7 @@ export default function Components() {
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
               <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
-              <img
-                src="/Rex.svg"
-                alt=""
-                aria-hidden="true"
-                draggable="false"
-                className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10"
-              />
+              <RexMark className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10" />
               <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
                 <Box className="h-4 w-4" />
               </span>

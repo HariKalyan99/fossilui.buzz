@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Mail } from "lucide-react";
 import { GithubIcon } from "./icons/Brand";
+import { RexMark } from "./RexMark";
 import { Modal } from "./ui/Modal";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
@@ -89,12 +90,7 @@ export function LeadMagnet() {
     <Modal open={open} onClose={dismiss} label="Stay updated">
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
-          <img
-            src="/Rex.svg"
-            alt=""
-            aria-hidden="true"
-            className="h-7 w-auto"
-          />
+          <RexMark className="h-7 w-auto" />
           <span className="text-[11px] uppercase tracking-[0.18em] text-neutral-500 font-medium">
             FossilUI
           </span>
