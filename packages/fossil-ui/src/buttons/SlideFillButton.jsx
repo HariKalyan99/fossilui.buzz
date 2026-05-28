@@ -5,7 +5,7 @@ import { createAnimatedButton } from './shared/createAnimatedButton.jsx'
 export const SlideFillButton = createAnimatedButton({
   displayName: 'SlideFillButton',
   appearanceDefaults: { color: 'primary', variant: 'outlined' },
-  animationClassName: 'relative overflow-hidden',
+  animationClassName: 'relative overflow-hidden bg-white hover:bg-white',
   renderContent: ({ formattedChildren, appearance }) => (
     <>
       <span
@@ -18,7 +18,7 @@ export const SlideFillButton = createAnimatedButton({
       />
       <span
         className={cn(
-          'relative z-10 transition-colors duration-300',
+          'relative z-10 text-neutral-900 transition-colors duration-300',
           appearance.accent.hoverText,
         )}
       >

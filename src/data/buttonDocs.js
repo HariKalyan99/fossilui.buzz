@@ -16,18 +16,16 @@ export default defineConfig({
 
 export const BUTTON_IMPORT_SNIPPET = `// Full library import
 import {
-  RollTextButton,
-  LiftShadowButton,
-  IconSlideButton,
+  Button,
 } from '@fossilui/react'
 
-// Buttons path inside @fossilui/react:
-import { ShineSweepButton } from '@fossilui/react/button'
+// OR buttons path inside @fossilui/react:
+import { Button } from '@fossilui/react/button'
 
-// Standalone buttons package:
-import { ShineSweepButton } from '@fossilui/buttons'
+// OR standalone buttons package:
+import { Button } from '@fossilui/buttons'
 
-// Ready template with all variants:
+// OR ready template with all variants:
 import { ButtonExample } from '@fossilui/buttons/example'`
 
 export const BUTTON_TAILWIND_SNIPPET = `/* app.css */
@@ -72,6 +70,12 @@ export const BUTTON_PROPS = [
     default: '—',
   },
   {
+    property: 'motion',
+    description: 'Animation style when using the standard <Button /> wrapper.',
+    type: "'rollText' | 'staggerText' | 'slideFill' | 'shineSweep' | 'borderReveal' | 'iconSlide' | 'underlineGrow' | 'liftShadow' | 'letterSpacing' | 'skewFill'",
+    default: "'liftShadow'",
+  },
+  {
     property: 'size',
     description: 'Control height, padding, and type scale.',
     type: "'small' | 'medium' | 'large'",
@@ -80,7 +84,7 @@ export const BUTTON_PROPS = [
   {
     property: 'color',
     description: 'Semantic color for fills, borders, and accents.',
-    type: "'default' | 'primary' | 'danger' | 'success' | 'warning'",
+    type: "'default' | 'primary' | 'secondary' | 'info' | 'teal' | 'cyan' | 'blue' | 'violet' | 'purple' | 'pink' | 'rose' | 'lime' | 'danger' | 'success' | 'warning'",
     default: 'Per variant',
   },
   {
@@ -193,52 +197,117 @@ export const BUTTON_PROPS = [
   },
 ]
 
+export const BUTTON_MOTION_COMPATIBILITY = [
+  {
+    motion: 'rollText',
+    bestWith: 'solid / filled; medium-large labels; primary/default colors',
+    limited: 'Avoid circle shape for text readability',
+    notes: 'Best for primary CTAs where text animation is the main effect.',
+  },
+  {
+    motion: 'staggerText',
+    bestWith: 'filled / text; short labels; any semantic palette',
+    limited: 'Long labels reduce stagger clarity',
+    notes: 'Character-by-character lift uses color-aware hover accents for each palette.',
+  },
+  {
+    motion: 'slideFill',
+    bestWith: 'outlined; default/primary/success; medium size',
+    limited: 'Ghost + outlined often feels too subtle',
+    notes: 'Starts from white surface and reveals color fill on hover.',
+  },
+  {
+    motion: 'shineSweep',
+    bestWith: 'solid / filled; primary and danger',
+    limited: 'Link variant provides little room for shine',
+    notes: 'Great for directional actions with premium highlight feel.',
+  },
+  {
+    motion: 'borderReveal',
+    bestWith: 'outlined default look',
+    limited: 'Color, variant, ghost, icon, loading are intentionally constrained',
+    notes: 'Use as minimal editorial button with simple text content.',
+  },
+  {
+    motion: 'iconSlide',
+    bestWith: 'outlined / filled + icon + iconPlacement=end',
+    limited: 'Without icon, effect falls back to label-only motion',
+    notes: 'Ideal for “Continue”, “Explore”, “Next” style actions.',
+  },
+  {
+    motion: 'underlineGrow',
+    bestWith: 'text / link; medium size; concise labels',
+    limited: 'Solid variant can hide underline emphasis',
+    notes: 'Works well for navigation and doc links.',
+  },
+  {
+    motion: 'liftShadow',
+    bestWith: 'solid / outlined; all semantic colors; icon optional',
+    limited: 'Very subtle on text/link variants',
+    notes: 'Most flexible default motion for general CTAs.',
+  },
+  {
+    motion: 'letterSpacing',
+    bestWith: 'outlined / text; short uppercase or title-case labels',
+    limited: 'Dense copy looks noisy',
+    notes: 'Editorial style; great for brand-forward sections.',
+  },
+  {
+    motion: 'skewFill',
+    bestWith: 'outlined / solid; medium-large size; short labels',
+    limited: 'Circle shape and long labels are not ideal',
+    notes: 'High-energy motion for standout secondary actions.',
+  },
+]
+
 export const BUTTON_EXAMPLES = [
   {
     title: 'Sizes and loading',
     description: 'Try changing size or toggling loading. Copy the snippet when it looks right.',
-    defaultCode: `import { LiftShadowButton } from '@fossilui/react'
+    defaultCode: `import { Button } from '@fossilui/react'
 
-<LiftShadowButton size="large" loading>
+<Button motion="liftShadow" size="large" loading>
   Saving…
-</LiftShadowButton>`,
+</Button>`,
   },
   {
     title: 'Danger + block',
     description: 'Combine danger and block for full-width destructive actions.',
-    defaultCode: `import { LiftShadowButton } from '@fossilui/react'
+    defaultCode: `import { Button } from '@fossilui/react'
 
-<LiftShadowButton danger block>
+<Button motion="liftShadow" danger block>
   Delete project
-</LiftShadowButton>`,
+</Button>`,
   },
   {
     title: 'Outlined with icon',
     description: 'Use icon and iconPlacement with any lucide-react icon.',
     defaultCode: `import { Mail } from 'lucide-react'
-import { LiftShadowButton } from '@fossilui/react'
+import { Button } from '@fossilui/react'
 
-<LiftShadowButton
+<Button
+  motion="liftShadow"
   color="primary"
   variant="outlined"
   icon={<Mail className="h-4 w-4" />}
   iconPlacement="end"
 >
   Contact us
-</LiftShadowButton>`,
+</Button>`,
   },
   {
     title: 'Link-style CTA',
     description: 'Use href for navigation; underline animations pair well with link variant.',
-    defaultCode: `import { UnderlineGrowButton } from '@fossilui/react'
+    defaultCode: `import { Button } from '@fossilui/react'
 
-<UnderlineGrowButton
+<Button
+  motion="underlineGrow"
   href="https://fossilui.buzz"
   target="_blank"
   color="primary"
 >
   Documentation
-</UnderlineGrowButton>`,
+</Button>`,
   },
 ]
 
@@ -249,11 +318,11 @@ export const BUTTON_VARIANTS = [
     description: 'Label rolls upward; a duplicate line slides into place.',
     component: 'RollTextButton',
     label: 'Fossil UI',
-    snippet: `import { RollTextButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<RollTextButton>
+<Button motion="rollText">
   Fossil UI
-</RollTextButton>`,
+</Button>`,
   },
   {
     id: 'stagger-letters',
@@ -261,11 +330,11 @@ export const BUTTON_VARIANTS = [
     description: 'Each character lifts with a short staggered delay.',
     component: 'StaggerTextButton',
     label: 'Fossil UI',
-    snippet: `import { StaggerTextButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<StaggerTextButton>
+<Button motion="staggerText">
   Fossil UI
-</StaggerTextButton>`,
+</Button>`,
   },
   {
     id: 'slide-fill',
@@ -273,11 +342,11 @@ export const BUTTON_VARIANTS = [
     description: 'Accent background scales up from the bottom edge.',
     component: 'SlideFillButton',
     label: 'Fossil UI',
-    snippet: `import { SlideFillButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<SlideFillButton>
+<Button motion="slideFill">
   Fossil UI
-</SlideFillButton>`,
+</Button>`,
   },
   {
     id: 'shine-sweep',
@@ -285,11 +354,11 @@ export const BUTTON_VARIANTS = [
     description: 'A diagonal highlight sweeps across on hover.',
     component: 'ShineSweepButton',
     label: 'Fossil UI',
-    snippet: `import { ShineSweepButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<ShineSweepButton>
+<Button motion="shineSweep">
   Fossil UI
-</ShineSweepButton>`,
+</Button>`,
   },
   {
     id: 'border-reveal',
@@ -297,11 +366,11 @@ export const BUTTON_VARIANTS = [
     description: 'Hairlines grow from the center on the top and bottom.',
     component: 'BorderRevealButton',
     label: 'Fossil UI',
-    snippet: `import { BorderRevealButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<BorderRevealButton>
+<Button motion="borderReveal">
   Fossil UI
-</BorderRevealButton>`,
+</Button>`,
   },
   {
     id: 'icon-slide',
@@ -309,11 +378,11 @@ export const BUTTON_VARIANTS = [
     description: 'Arrow slides in from the left; label shifts slightly right.',
     component: 'IconSlideButton',
     label: 'Fossil UI',
-    snippet: `import { IconSlideButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<IconSlideButton>
+<Button motion="iconSlide">
   Fossil UI
-</IconSlideButton>`,
+</Button>`,
   },
   {
     id: 'underline-grow',
@@ -321,11 +390,11 @@ export const BUTTON_VARIANTS = [
     description: 'Indigo underline expands from the center on hover.',
     component: 'UnderlineGrowButton',
     label: 'Fossil UI',
-    snippet: `import { UnderlineGrowButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<UnderlineGrowButton>
+<Button motion="underlineGrow">
   Fossil UI
-</UnderlineGrowButton>`,
+</Button>`,
   },
   {
     id: 'lift-shadow',
@@ -333,11 +402,11 @@ export const BUTTON_VARIANTS = [
     description: 'Button rises with a soft indigo glow beneath it.',
     component: 'LiftShadowButton',
     label: 'Fossil UI',
-    snippet: `import { LiftShadowButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<LiftShadowButton>
+<Button motion="liftShadow">
   Fossil UI
-</LiftShadowButton>`,
+</Button>`,
   },
   {
     id: 'outlined-icon',
@@ -346,16 +415,17 @@ export const BUTTON_VARIANTS = [
     component: 'LiftShadowButton',
     label: 'Contact us',
     snippet: `import { Mail } from 'lucide-react'
-import { LiftShadowButton } from '@fossilui/react'
+import { Button } from '@fossilui/react'
 
-<LiftShadowButton
+<Button
+  motion="liftShadow"
   color="primary"
   variant="outlined"
   icon={<Mail className="h-4 w-4" />}
   iconPlacement="end"
 >
   Contact us
-</LiftShadowButton>`,
+</Button>`,
   },
   {
     id: 'letter-spacing',
@@ -363,11 +433,11 @@ import { LiftShadowButton } from '@fossilui/react'
     description: 'Tracking widens smoothly for an airy, editorial feel.',
     component: 'LetterSpacingButton',
     label: 'Fossil UI',
-    snippet: `import { LetterSpacingButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<LetterSpacingButton>
+<Button motion="letterSpacing">
   Fossil UI
-</LetterSpacingButton>`,
+</Button>`,
   },
   {
     id: 'skew-fill',
@@ -375,11 +445,11 @@ import { LiftShadowButton } from '@fossilui/react'
     description: 'Skewed panel sweeps in from the left and inverts the text.',
     component: 'SkewFillButton',
     label: 'Fossil UI',
-    snippet: `import { SkewFillButton } from '@fossilui/react'
+    snippet: `import { Button } from '@fossilui/react'
 
-<SkewFillButton>
+<Button motion="skewFill">
   Fossil UI
-</SkewFillButton>`,
+</Button>`,
   },
 ]
 
@@ -391,6 +461,14 @@ export const BUTTON_FAQS = [
   {
     q: 'Which @source path should I add?',
     a: 'Add only the @source line for the package you installed. Full library: @source "../node_modules/@fossilui/react/dist". Buttons-only: @source "../node_modules/@fossilui/buttons/dist". See the separate Tailwind snippets in Import — do not add both unless you installed both packages.',
+  },
+  {
+    q: 'Does the configurator sync controls and code both ways?',
+    a: 'Yes. The control panel and code editor share one source of truth. Changing controls updates code + preview, and valid code edits update controls + preview. If code is temporarily invalid while typing, the UI shows a parse warning and keeps a safe fallback preview.',
+  },
+  {
+    q: 'How is text contrast handled across colors?',
+    a: 'Foreground text is contrast-aware for light and dark fills. Motions such as slideFill and staggerText use semantic color tokens (including hover text) so each palette stays readable without hardcoded single-color behavior.',
   },
   {
     q: 'Can I use these in Next.js or Remix?',

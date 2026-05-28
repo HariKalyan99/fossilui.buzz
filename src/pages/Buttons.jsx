@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft, ChevronDown, Mail } from 'lucide-react'
 import {
+  Button,
   RollTextButton,
   StaggerTextButton,
   SlideFillButton,
@@ -14,13 +15,13 @@ import {
   LetterSpacingButton,
   SkewFillButton,
 } from '@fossilui/react'
-import { ButtonPlayground } from '../components/buttons/ButtonPlayground'
+import { ButtonConfigurator } from '../components/buttons/ButtonConfigurator'
 import { CopySnippetButton } from '../components/buttons/CopySnippetButton'
 import { CodeEditor } from '../components/code/CodeEditor'
 import { Section, SectionHeader } from '../components/ui/Section'
 import { Tag } from '../components/ui/Tag'
 import {
-  BUTTON_EXAMPLES,
+  BUTTON_MOTION_COMPATIBILITY,
   BUTTON_FAQS,
   BUTTON_IMPORT_SNIPPET,
   BUTTON_INSTALL_SNIPPET,
@@ -35,6 +36,7 @@ import {
 import { cn } from '../lib/cn'
 
 const BUTTON_COMPONENTS = {
+  Button,
   RollTextButton,
   StaggerTextButton,
   SlideFillButton,
@@ -148,6 +150,57 @@ function PropsTable({ rows }) {
   )
 }
 
+function MotionCompatibilityTable({ rows }) {
+  return (
+    <div className="mt-6 min-w-0">
+      <p className="mb-2 text-[12px] text-neutral-500 md:sr-only">Swipe horizontally to see all columns</p>
+      <div
+        className={cn(
+          'overflow-x-auto rounded-xl border border-neutral-200',
+          'overscroll-x-contain [-webkit-overflow-scrolling:touch]',
+        )}
+      >
+        <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
+          <colgroup>
+            <col className="w-[16%]" />
+            <col className="w-[28%]" />
+            <col className="w-[24%]" />
+            <col className="w-[32%]" />
+          </colgroup>
+          <thead>
+            <tr className="border-b border-neutral-200 bg-neutral-50/90">
+              <th scope="col" className={cn(PROPS_TABLE_CELL, 'font-semibold text-neutral-900')}>
+                Motion
+              </th>
+              <th scope="col" className={cn(PROPS_TABLE_CELL, 'font-semibold text-neutral-900')}>
+                Works best with
+              </th>
+              <th scope="col" className={cn(PROPS_TABLE_CELL, 'font-semibold text-neutral-900')}>
+                Limited / constrained
+              </th>
+              <th scope="col" className={cn(PROPS_TABLE_CELL, 'font-semibold text-neutral-900')}>
+                Notes
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.motion} className="border-b border-neutral-100 last:border-0">
+                <td className={cn(PROPS_TABLE_CELL, 'font-mono text-[12px] font-medium text-indigo-700')}>
+                  {row.motion}
+                </td>
+                <td className={cn(PROPS_TABLE_CELL, 'text-neutral-600')}>{row.bestWith}</td>
+                <td className={cn(PROPS_TABLE_CELL, 'text-neutral-600')}>{row.limited}</td>
+                <td className={cn(PROPS_TABLE_CELL, 'text-neutral-600')}>{row.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
 function FAQItem({ q, a }) {
   const [open, setOpen] = useState(false)
 
@@ -244,7 +297,7 @@ export default function Buttons() {
           <DocHeading
             id="variants"
             title="All variants"
-            description="Hover to preview each animation, then copy the component snippet from any card."
+            description="Hover to preview each animation, then copy the standard Button motion snippet from any card."
           />
           <Tag tone="accent" className="mt-4 mb-6 max-w-xl text-balance sm:mb-8">
             Live from @fossilui/react and @fossilui/buttons
@@ -347,18 +400,11 @@ export default function Buttons() {
         <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
             id="examples"
-            title="Examples"
-            description="Each snippet includes imports. Edit the code, preview updates live, then copy into your project."
+            title="Configurator"
+            description="Controls and code editor stay in sync: update either one and preview updates instantly."
           />
-          <div className="mt-6 space-y-4 sm:space-y-6">
-            {BUTTON_EXAMPLES.map((example) => (
-              <ButtonPlayground
-                key={example.title}
-                title={example.title}
-                description={example.description}
-                defaultCode={example.defaultCode}
-              />
-            ))}
+          <div className="mt-6">
+            <ButtonConfigurator />
           </div>
         </section>
 
@@ -370,6 +416,14 @@ export default function Buttons() {
             description="All animated buttons share the same props (Ant Design–style). Native button and anchor attributes are also supported."
           />
           <PropsTable rows={BUTTON_PROPS} />
+          <div className="mt-8">
+            <h3 className="text-[15px] font-medium text-neutral-900 sm:text-base">Motion compatibility</h3>
+            <p className="mt-1.5 max-w-3xl text-[13px] leading-relaxed text-neutral-600">
+              Use this matrix to pick combinations that look best. Some motions intentionally constrain
+              certain attributes for cleaner visuals.
+            </p>
+            <MotionCompatibilityTable rows={BUTTON_MOTION_COMPATIBILITY} />
+          </div>
         </section>
 
         {/* FAQ */}

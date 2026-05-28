@@ -1,5 +1,6 @@
 import { Mail } from 'lucide-react'
 import {
+  Button,
   RollTextButton,
   StaggerTextButton,
   SlideFillButton,
@@ -13,6 +14,7 @@ import {
 } from '@fossilui/react'
 
 export const BUTTON_COMPONENT_MAP = {
+  Button,
   RollTextButton,
   StaggerTextButton,
   SlideFillButton,
@@ -36,6 +38,7 @@ const BOOLEAN_PROPS = [
 ]
 
 const STRING_PROPS = [
+  'motion',
   'size',
   'color',
   'variant',
@@ -109,7 +112,7 @@ function findOpeningTagEnd(code, fromIndex) {
  * @param {string} code
  */
 function parseOpeningTag(code) {
-  const open = code.match(/^<(\w+Button)\s*/)
+  const open = code.match(/^<(Button|\w+Button)\s*/)
   if (!open) return null
 
   const name = open[1]
@@ -167,7 +170,7 @@ function cleanLabel(raw) {
  * @param {string} code
  */
 function extractJsxFromSnippet(code) {
-  const tagIndex = code.search(/<(\w+Button)\b/)
+  const tagIndex = code.search(/<(Button|\w+Button)\b/)
   if (tagIndex === -1) return code.trim()
   return code.slice(tagIndex).trim()
 }
@@ -186,7 +189,7 @@ export function parseButtonSnippet(code) {
   const opening = parseOpeningTag(jsx)
   if (!opening) {
     return {
-      error: 'Include a button component, e.g. <LiftShadowButton>Label</LiftShadowButton>',
+      error: 'Include a button component, e.g. <Button motion="liftShadow">Label</Button>',
     }
   }
 
@@ -195,7 +198,7 @@ export function parseButtonSnippet(code) {
 
   if (!Component) {
     return {
-      error: `Unknown component "${name}". Try RollTextButton, LiftShadowButton, etc.`,
+      error: `Unknown component "${name}". Try <Button motion="liftShadow">...</Button> or LiftShadowButton.`,
     }
   }
 
@@ -215,5 +218,5 @@ export function parseButtonSnippet(code) {
   const props = parseAttrs(attrString)
   const children = cleanLabel(childrenRaw) || 'Button'
 
-  return { Component, props, children, error: null }
+  return { Component, name, props, children, error: null }
 }

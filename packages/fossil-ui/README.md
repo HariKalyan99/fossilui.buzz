@@ -46,17 +46,22 @@ Monorepo dev:
 ## Usage
 
 ```jsx
-import { RollTextButton, LiftShadowButton } from '@fossilui/react'
+import { Button } from '@fossilui/react'
 import { Mail } from 'lucide-react'
 
 export function Demo() {
   return (
     <>
-      <RollTextButton type="primary" size="large" loading>
-        Submit
-      </RollTextButton>
+      <Button motion="slideFill" color="primary">
+        Explore docs
+      </Button>
 
-      <LiftShadowButton
+      <Button motion="rollText" type="primary" size="large" loading>
+        Submit
+      </Button>
+
+      <Button
+        motion="liftShadow"
         danger
         block
         icon={<Mail className="h-3.5 w-3.5" />}
@@ -64,11 +69,11 @@ export function Demo() {
         onClick={() => {}}
       >
         Delete
-      </LiftShadowButton>
+      </Button>
 
-      <RollTextButton href="https://fossilui.buzz" target="_blank" variant="link">
+      <Button motion="underlineGrow" href="https://fossilui.buzz" target="_blank" variant="link">
         Visit site
-      </RollTextButton>
+      </Button>
     </>
   )
 }
@@ -83,7 +88,7 @@ All animated buttons share these props (plus standard `button` / `a` attributes)
 | `autoInsertSpace` | Insert space between adjacent CJK characters in the label | `boolean` | `true` |
 | `block` | Fit width to parent | `boolean` | `false` |
 | `classNames` | Classes per semantic part (`root`, `icon`, `content`) | `object \| (info) => object` | — |
-| `color` | `default` \| `primary` \| `danger` \| `success` \| `warning` | `string` | per variant |
+| `color` | `default` \| `primary` \| `secondary` \| `info` \| `teal` \| `cyan` \| `blue` \| `violet` \| `purple` \| `pink` \| `rose` \| `lime` \| `danger` \| `success` \| `warning` | `string` | per variant |
 | `danger` | Shortcut for danger color | `boolean` | `false` |
 | `disabled` | Disabled state | `boolean` | `false` |
 | `ghost` | Transparent background, colored text | `boolean` | `false` |
@@ -93,6 +98,7 @@ All animated buttons share these props (plus standard `button` / `a` attributes)
 | `iconPlacement` | `start` \| `end` | `string` | `start` |
 | `loading` | Loading state; optional `{ delay, icon }` | `boolean \| object` | `false` |
 | `loadingIcon` | Custom loading spinner | `ReactNode` | `<Loader2 />` |
+| `motion` | Only for `<Button />`: `rollText` \| `staggerText` \| `slideFill` \| `shineSweep` \| `borderReveal` \| `iconSlide` \| `underlineGrow` \| `liftShadow` \| `letterSpacing` \| `skewFill` | `string` | `liftShadow` |
 | `shape` | `default` \| `circle` \| `round` | `string` | `default` |
 | `size` | `small` \| `medium` \| `large` | `string` | `medium` |
 | `styles` | Inline styles per semantic part | `object \| (info) => object` | — |
@@ -116,6 +122,11 @@ All animated buttons share these props (plus standard `button` / `a` attributes)
 | `LiftShadowButton` | Lifts with shadow |
 | `LetterSpacingButton` | Tracking widens on hover |
 | `SkewFillButton` | Skewed panel slides in |
+
+## Notes
+
+- `Button` configurator on docs is two-way synced: control changes update code, and valid code edits update controls + preview.
+- Semantic colors include contrast-aware foreground handling for lighter fills (for example `warning` and `lime`) and color-aware hover accents across motions like `slideFill` and `staggerText`.
 
 ## Develop
 

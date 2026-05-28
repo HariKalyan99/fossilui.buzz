@@ -45,10 +45,15 @@ Import that CSS from your app entry (e.g. `src/main.jsx` → `import './index.cs
 ## Usage
 
 ```jsx
-import { LiftShadowButton, RollTextButton } from '@fossilui/buttons'
+import { Button } from '@fossilui/buttons'
 
 export default function App() {
-  return <LiftShadowButton>Get Started</LiftShadowButton>
+  return (
+    <>
+      <Button motion="shineSweep">Get Started</Button>
+      <Button motion="liftShadow">Alt CTA</Button>
+    </>
+  )
 }
 ```
 
@@ -59,3 +64,8 @@ import { ButtonExample } from '@fossilui/buttons/example'
 ```
 
 Mount `ButtonExample` in your app to preview all button variants quickly.
+
+## Notes
+
+- Supports the same semantic color palette and motion system as `@fossilui/react`.
+- Foreground/hover text is contrast-aware for lighter fills and color-aware across motions.

@@ -4,7 +4,7 @@
 
 /** @typedef {'default' | 'circle' | 'round'} ButtonShape */
 
-/** @typedef {'default' | 'primary' | 'danger' | 'success' | 'warning'} ButtonColor */
+/** @typedef {'default' | 'primary' | 'secondary' | 'info' | 'teal' | 'cyan' | 'blue' | 'violet' | 'purple' | 'pink' | 'rose' | 'lime' | 'danger' | 'success' | 'warning'} ButtonColor */
 
 /**
  * @typedef {'outlined' | 'dashed' | 'solid' | 'filled' | 'text' | 'link'} ButtonVariant

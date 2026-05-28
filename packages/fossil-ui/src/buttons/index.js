@@ -1,5 +1,6 @@
 export { BUTTON_SEMANTIC_DOM, BUTTON_SIZES, BUTTON_SHAPES } from './shared/constants.js'
 export { prepareButtonProps, FOSSIL_BUTTON_PROP_KEYS } from './shared/prepareButtonProps.js'
+export { Button, BUTTON_MOTIONS } from './Button.jsx'
 export { RollTextButton } from './RollTextButton.jsx'
 export { StaggerTextButton } from './StaggerTextButton.jsx'
 export { SlideFillButton } from './SlideFillButton.jsx'
