@@ -469,7 +469,7 @@ export default function Buttons() {
           <DocHeading
             id="api"
             title="API"
-            description="All animated buttons share the same props (Ant Design–style). Native button and anchor attributes are also supported."
+            description="All animated buttons share the same props. Native button and anchor attributes are also supported."
           />
           <PropsTable rows={BUTTON_PROPS} />
           <div className="mt-8">

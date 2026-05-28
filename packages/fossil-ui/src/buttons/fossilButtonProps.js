@@ -9,7 +9,7 @@
  */
 
 /**
- * Ant Design–style props shared by all Fossil animated buttons.
+ * Shared props for all Fossil animated buttons.
  *
  * @typedef {import('react').ButtonHTMLAttributes<HTMLButtonElement> & import('react').AnchorHTMLAttributes<HTMLAnchorElement> & {
  *   autoInsertSpace?: boolean

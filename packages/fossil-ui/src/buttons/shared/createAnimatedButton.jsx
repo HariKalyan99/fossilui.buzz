@@ -4,7 +4,7 @@ import { prepareButtonProps } from './prepareButtonProps.js'
 import { useLoadingState } from './normalizeLoading.js'
 
 /**
- * Factory for animated buttons with shared Fossil / Ant Design-style props.
+ * Factory for animated buttons with shared Fossil button props.
  *
  * @param {object} config
  * @param {string} config.displayName

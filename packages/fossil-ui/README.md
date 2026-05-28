@@ -79,7 +79,7 @@ export function Demo() {
 }
 ```
 
-## Button props (Ant Design–style)
+## Button props
 
 All animated buttons share these props (plus standard `button` / `a` attributes):
 
@@ -99,7 +99,7 @@ All animated buttons share these props (plus standard `button` / `a` attributes)
 | `loading` | Loading state; optional `{ delay, icon }` | `boolean \| object` | `false` |
 | `loadingIcon` | Custom loading spinner | `ReactNode` | `<Loader2 />` |
 | `motion` | Only for `<Button />`: `rollText` \| `staggerText` \| `slideFill` \| `shineSweep` \| `borderReveal` \| `iconSlide` \| `underlineGrow` \| `liftShadow` \| `letterSpacing` \| `skewFill` | `string` | `liftShadow` |
-| `shape` | `default` \| `circle` \| `round` | `string` | `default` |
+| `shape` | `default` (rounded) \| `square` (no rounded edges) \| `round` (pill) | `string` | `default` |
 | `size` | `small` \| `medium` \| `large` | `string` | `medium` |
 | `styles` | Inline styles per semantic part | `object \| (info) => object` | — |
 | `target` | Anchor `target` when `href` is set | `string` | — |

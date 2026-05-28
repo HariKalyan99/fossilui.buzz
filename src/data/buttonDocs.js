@@ -95,7 +95,7 @@ export const BUTTON_PROPS = [
   },
   {
     property: 'type',
-    description: 'Ant Design legacy shorthand (maps to variant + color).',
+    description: 'Legacy shorthand (maps to variant + color).',
     type: "'primary' | 'default' | 'dashed' | 'link' | 'text'",
     default: '—',
   },
@@ -143,8 +143,8 @@ export const BUTTON_PROPS = [
   },
   {
     property: 'shape',
-    description: 'Corner shape of the button.',
-    type: "'default' | 'circle' | 'round'",
+    description: 'Corner shape: `default` (rounded), `square` (no rounded edges), `round` (pill).',
+    type: "'default' | 'square' | 'round'",
     default: "'default'",
   },
   {
@@ -201,7 +201,7 @@ export const BUTTON_MOTION_COMPATIBILITY = [
   {
     motion: 'rollText',
     bestWith: 'solid / filled; medium-large labels; primary/default colors',
-    limited: 'Avoid circle shape for text readability',
+    limited: 'Very long labels with round shape can feel tight',
     notes: 'Best for primary CTAs where text animation is the main effect.',
   },
   {
@@ -255,7 +255,7 @@ export const BUTTON_MOTION_COMPATIBILITY = [
   {
     motion: 'skewFill',
     bestWith: 'outlined / solid; medium-large size; short labels',
-    limited: 'Circle shape and long labels are not ideal',
+    limited: 'Very long labels with round shape can feel tight',
     notes: 'High-energy motion for standout secondary actions.',
   },
 ]
@@ -476,7 +476,7 @@ export const BUTTON_FAQS = [
   },
   {
     q: 'Why does my loading button hide the label?',
-    a: 'From v0.1.0 onward, loading shows a spinner and keeps the label visible (Ant Design style). Upgrade @fossilui/react or @fossilui/buttons if you still see label-only spinners.',
+    a: 'From v0.1.0 onward, loading shows a spinner and keeps the label visible. Upgrade @fossilui/react or @fossilui/buttons if you still see label-only spinners.',
   },
   {
     q: 'Which button should I pick?',
@@ -484,7 +484,7 @@ export const BUTTON_FAQS = [
   },
   {
     q: 'Can I pass className or override styles?',
-    a: 'Yes. className merges on the root. For finer control, use classNames and styles on root, icon, and content slots — same pattern as Ant Design.',
+    a: 'Yes. className merges on the root. For finer control, use classNames and styles on root, icon, and content slots.',
   },
   {
     q: 'Do animations work on touch devices?',

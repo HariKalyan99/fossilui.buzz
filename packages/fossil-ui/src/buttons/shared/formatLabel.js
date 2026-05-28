@@ -1,7 +1,7 @@
 const CJK_PAIR = /([\u4e00-\u9fff\u3400-\u4dbf])([\u4e00-\u9fff\u3400-\u4dbf])/g
 
 /**
- * Ant Design inserts a space between adjacent CJK characters in button labels.
+ * Inserts a space between adjacent CJK characters in button labels when enabled.
  * @param {import('react').ReactNode} children
  * @param {boolean} [autoInsertSpace=true]
  */

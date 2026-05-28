@@ -37,7 +37,7 @@ const COLORS = [
 ]
 const VARIANTS = ['solid', 'outlined', 'dashed', 'filled', 'text', 'link']
 const SIZES = ['small', 'medium', 'large']
-const SHAPES = ['default', 'round', 'circle']
+const SHAPES = ['default', 'round', 'square']
 const ICON_PLACEMENTS = ['start', 'end']
 const DEFAULT_STATE = {
   label: 'Get Started',
@@ -100,7 +100,6 @@ export function ButtonConfigurator() {
   const [snippetSource, setSnippetSource] = useState('controls')
 
   const rules = MOTION_RULES[motion] ?? {}
-  const isCircle = shape === 'circle'
   const allowVariant = rules.allowVariant !== false
   const allowColor = rules.allowColor !== false
   const allowGhost = rules.allowGhost !== false
@@ -113,11 +112,9 @@ export function ButtonConfigurator() {
   const effectiveColor = effectiveDanger ? 'danger' : baseColor
   const effectiveGhost = allowGhost ? ghost : (rules.force?.ghost ?? false)
   const effectiveLoading = allowLoading ? loading : false
-  const effectiveWithIcon =
-    (allowWithIcon ? withIcon : false) || isCircle
-  const effectiveBlock = isCircle ? false : block
+  const effectiveWithIcon = allowWithIcon ? withIcon : false
   const buttonLabel = (label || 'Button').trim() || 'Button'
-  const previewChildren = isCircle ? '' : buttonLabel
+  const previewChildren = buttonLabel
 
   const previewProps = {
     motion,
@@ -129,7 +126,7 @@ export function ButtonConfigurator() {
     loading: effectiveLoading,
     danger: effectiveDanger,
     ghost: effectiveGhost,
-    block: effectiveBlock,
+    block,
     disabled,
     ...(effectiveWithIcon ? { icon: <Mail className="h-4 w-4" aria-hidden /> } : {}),
   }
@@ -143,7 +140,7 @@ export function ButtonConfigurator() {
     if (iconPlacement !== 'start') parts.push(`iconPlacement="${iconPlacement}"`)
     if (effectiveDanger) parts.push('danger')
     if (effectiveGhost) parts.push('ghost')
-    if (effectiveBlock) parts.push('block')
+    if (block) parts.push('block')
     if (disabled) parts.push('disabled')
     if (effectiveLoading) parts.push('loading')
     if (effectiveWithIcon) parts.push('icon={<Mail className="h-4 w-4" />}')
@@ -151,7 +148,7 @@ export function ButtonConfigurator() {
     const attrs = parts.length ? `\n  ${parts.join('\n  ')}` : ''
     const iconImport = effectiveWithIcon ? `import { Mail } from 'lucide-react'\n` : ''
 
-    return `${iconImport}import { Button } from '@fossilui/react'\n\n<Button${attrs}\n>${isCircle ? '' : `\n  ${buttonLabel}\n`}</Button>`
+    return `${iconImport}import { Button } from '@fossilui/react'\n\n<Button${attrs}\n>\n  ${buttonLabel}\n</Button>`
   }, [
     motion,
     effectiveColor,
@@ -161,11 +158,10 @@ export function ButtonConfigurator() {
     iconPlacement,
     effectiveDanger,
     effectiveGhost,
-    effectiveBlock,
+    block,
     disabled,
     effectiveLoading,
     effectiveWithIcon,
-    isCircle,
     buttonLabel,
   ])
 
@@ -207,7 +203,7 @@ export function ButtonConfigurator() {
     setDisabled(Boolean(parsedProps.disabled))
     setLoading(Boolean(parsedProps.loading))
     setWithIcon(Boolean(parsedProps.icon))
-    setLabel(nextShape === 'circle' ? '' : (parsedSnippet.children || DEFAULT_STATE.label))
+    setLabel(parsedSnippet.children || DEFAULT_STATE.label)
   }, [parsedSnippet, snippetSource])
 
   const applyDefaults = (nextMotion = DEFAULT_STATE.motion) => {
@@ -263,7 +259,6 @@ export function ButtonConfigurator() {
                   setSnippetSource('controls')
                   setLabel(e.target.value)
                 }}
-                disabled={isCircle}
                 className={cn(SELECT_CLASS, 'px-2.5')}
               />
             </label>
@@ -388,8 +383,7 @@ export function ButtonConfigurator() {
                 (key === 'loading' && !allowLoading) ||
                 (key === 'withIcon' && !allowWithIcon) ||
                 (key === 'withIcon' && effectiveLoading) ||
-                (key === 'loading' && effectiveWithIcon && !isCircle) ||
-                (key === 'block' && isCircle)
+                (key === 'loading' && effectiveWithIcon)
               return (
               <label
                 key={key}
@@ -412,9 +406,9 @@ export function ButtonConfigurator() {
               </label>
             )})}
           </div>
-          {isCircle || !allowVariant || !allowColor || !allowLoading || !allowWithIcon ? (
+          {!allowVariant || !allowColor || !allowLoading || !allowWithIcon ? (
             <p className="mt-3 text-[12px] text-neutral-500">
-              Circle auto-enables icon and disables block. Some controls are disabled when the selected motion does not use them.
+              Some controls are disabled when the selected motion does not use them.
             </p>
           ) : null}
         </div>
@@ -444,9 +438,9 @@ export function ButtonConfigurator() {
               'overflow-y-visible border border-dashed border-neutral-200 bg-neutral-50/90 p-4 sm:min-h-[10rem] sm:p-6',
             )}
           >
-            <div className={cn('flex w-full max-w-full items-center overflow-x-auto overflow-y-hidden px-1 py-2', effectiveBlock ? 'justify-stretch' : 'justify-center')}>
+            <div className={cn('flex w-full max-w-full items-center overflow-x-auto overflow-y-hidden px-1 py-2', block ? 'justify-stretch' : 'justify-center')}>
               {parsedSnippet?.error ? (
-                <Button {...previewProps} className={cn('max-w-full shrink-0', effectiveBlock && 'w-full')}>
+                <Button {...previewProps} className={cn('max-w-full shrink-0', block && 'w-full')}>
                   {previewChildren}
                 </Button>
               ) : (

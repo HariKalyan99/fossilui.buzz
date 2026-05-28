@@ -2,7 +2,7 @@
 
 /** @typedef {'small' | 'medium' | 'large'} ButtonSize */
 
-/** @typedef {'default' | 'circle' | 'round'} ButtonShape */
+/** @typedef {'default' | 'square' | 'round'} ButtonShape */
 
 /** @typedef {'default' | 'primary' | 'secondary' | 'info' | 'teal' | 'cyan' | 'blue' | 'violet' | 'purple' | 'pink' | 'rose' | 'lime' | 'danger' | 'success' | 'warning'} ButtonColor */
 
@@ -11,7 +11,7 @@
  */
 
 /**
- * Ant Design legacy `type` — maps to variant + color when variant/color omitted.
+ * Legacy `type` shorthand — maps to variant + color when variant/color omitted.
  * @typedef {'primary' | 'dashed' | 'link' | 'text' | 'default'} ButtonLegacyType
  */
 
@@ -36,6 +36,7 @@ export const BUTTON_SIZES = /** @type {const} */ ({
 
 export const BUTTON_SHAPES = /** @type {const} */ ({
   default: 'rounded-lg',
-  circle: 'rounded-full aspect-square p-0 min-w-0 justify-center',
+  /** Sharp corners — no border radius. */
+  square: '!rounded-none',
   round: 'rounded-full',
 })

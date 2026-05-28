@@ -69,6 +69,10 @@ export function prepareButtonProps(props, options = {}) {
     contentClassName = 'inline-flex min-w-0 items-center justify-center overflow-visible leading-none',
   } = options
 
+  const formattedChildren = formatLabel(children, autoInsertSpace)
+  const label = labelToString(formattedChildren)
+  const resolvedShape = shape === 'circle' ? 'round' : shape
+
   const appearance = resolveAppearance({
     color: color ?? appearanceDefaults.color,
     variant: variant ?? appearanceDefaults.variant,
@@ -78,10 +82,7 @@ export function prepareButtonProps(props, options = {}) {
   })
   const semantic = resolveSemantic(classNames, styles, props)
   const sizeToken = BUTTON_SIZES[size] ?? BUTTON_SIZES.medium
-  const shapeClass = BUTTON_SHAPES[shape] ?? BUTTON_SHAPES.default
-
-  const formattedChildren = formatLabel(children, autoInsertSpace)
-  const label = labelToString(formattedChildren)
+  const shapeClass = BUTTON_SHAPES[resolvedShape] ?? BUTTON_SHAPES.default
 
   const rootClassName = cn(
     BUTTON_BASE,
