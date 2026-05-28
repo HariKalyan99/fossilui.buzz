@@ -11,7 +11,8 @@
     "build": "vite build",
     "build:ui": "npm run build -w @fossilui/react",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",

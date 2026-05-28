@@ -28,7 +28,7 @@ function PageFallback() {
 }
 
 const SEO_BASE_URL = 'https://fossilui.buzz'
-const SEO_IMAGE_URL = `${SEO_BASE_URL}/Rex.svg`
+const SEO_IMAGE_URL = `${SEO_BASE_URL}/icon-512.png`
 
 function RouteSeo() {
   const location = useLocation()
