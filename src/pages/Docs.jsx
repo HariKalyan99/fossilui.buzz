@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -21,6 +21,15 @@ import { Section } from "../components/ui/Section";
 import { Button } from "../components/ui/Button";
 import { Tag } from "../components/ui/Tag";
 import { cn } from "../lib/cn";
+import { CodeEditor } from "../components/code/CodeEditor";
+
+const INSTALL_SNIPPET = `# Pick the template you want
+git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
+cd fossilUI-template-v1-nebula
+npm install`;
+
+const RUN_SNIPPET = `npm run dev
+# → http://localhost:5173`;
 
 const NAV = [
   {
@@ -205,19 +214,8 @@ function Feedback() {
 
 export default function Docs() {
   const [active, setActive] = useState("install");
-  const [copiedKey, setCopiedKey] = useState(null);
-
-  const copySnippet = async (key, value) => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopiedKey(key);
-      window.setTimeout(() => {
-        setCopiedKey((current) => (current === key ? null : current));
-      }, 1300);
-    } catch {
-      /* ignore clipboard failures */
-    }
-  };
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const mobileTocRef = useRef(null);
 
   useEffect(() => {
     const ids = NAV.flatMap((n) => n.items.map((i) => i.id));
@@ -237,10 +235,98 @@ export default function Docs() {
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!mobileTocOpen) return;
+
+    const handlePointerDown = (event) => {
+      if (!mobileTocRef.current?.contains(event.target)) {
+        setMobileTocOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, [mobileTocOpen]);
+
   return (
     <Section className="pt-12 md:pt-20">
+      <div ref={mobileTocRef} className="relative mb-6 flex justify-start md:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileTocOpen((v) => !v)}
+          aria-expanded={mobileTocOpen}
+          aria-controls="docs-mobile-toc"
+          className={cn(
+            "inline-flex min-h-9 items-center gap-1.5 rounded-md border border-neutral-200 bg-white px-3 py-1.5 text-[12px] font-medium text-neutral-700",
+            "transition-colors hover:border-neutral-300 hover:text-neutral-900 active:bg-neutral-50",
+          )}
+        >
+          On this page
+          <ChevronDown
+            className={cn("h-3.5 w-3.5 transition-transform", mobileTocOpen && "rotate-180")}
+          />
+        </button>
+
+        <AnimatePresence>
+          {mobileTocOpen ? (
+            <>
+              <motion.button
+                type="button"
+                aria-label="Close table of contents"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.16 }}
+                className="fixed inset-0 z-20 bg-transparent"
+                onClick={() => setMobileTocOpen(false)}
+              />
+              <motion.div
+                id="docs-mobile-toc"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.16 }}
+                className="absolute left-0 top-full z-30 mt-2 w-[min(18rem,88vw)] rounded-xl border border-neutral-200 bg-white p-2 shadow-lg"
+              >
+                <nav className="space-y-3">
+                  {NAV.map((group) => (
+                    <div key={group.title}>
+                      <p className="px-2 pb-1 text-[10px] uppercase tracking-[0.14em] text-neutral-500">
+                        {group.title}
+                      </p>
+                      <ul className="space-y-1">
+                        {group.items.map((item) => (
+                          <li key={item.id}>
+                            <a
+                              href={`#${item.id}`}
+                              onClick={() => setMobileTocOpen(false)}
+                              className={cn(
+                                "block rounded-md px-2.5 py-1.5 text-[12px]",
+                                active === item.id
+                                  ? "bg-neutral-100 text-neutral-900 font-medium"
+                                  : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-900",
+                              )}
+                            >
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </nav>
+              </motion.div>
+            </>
+          ) : null}
+        </AnimatePresence>
+      </div>
+
       <div className="grid gap-10 md:grid-cols-[220px_1fr]">
-        <aside className="md:sticky md:top-24 md:self-start">
+        <aside className="hidden md:sticky md:top-24 md:self-start md:block">
           <nav className="flex flex-col gap-6 text-sm">
             {NAV.map((group) => (
               <div key={group.title}>
@@ -293,33 +379,8 @@ export default function Docs() {
             <p className="mt-2 text-neutral-600">
               Clone the repo from any template's GitHub link.
             </p>
-            <div className="mt-4 rounded-lg border border-neutral-900/10 bg-[#0a0a0a]">
-              <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-                <span className="text-[11px] uppercase tracking-[0.14em] text-neutral-400">
-                  Install
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    copySnippet(
-                      "install",
-                      `# Pick the template you want
-git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
-cd fossilUI-template-v1-nebula
-npm install`,
-                    )
-                  }
-                  className="rounded-md border border-white/15 px-2 py-1 text-[11px] text-neutral-200 hover:bg-white/10"
-                >
-                  {copiedKey === "install" ? "Copied" : "Copy"}
-                </button>
-              </div>
-              <pre className="overflow-x-auto p-4 font-mono text-[13px] text-neutral-200 selection:bg-indigo-500/50 selection:text-white">
-                {`# Pick the template you want
-git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
-cd fossilUI-template-v1-nebula
-npm install`}
-              </pre>
+            <div className="mt-4">
+              <CodeEditor value={INSTALL_SNIPPET} readOnly minHeight="112px" />
             </div>
           </article>
 
@@ -330,29 +391,8 @@ npm install`}
             <p className="mt-2 text-neutral-600">
               Start the dev server and open the local URL.
             </p>
-            <div className="mt-4 rounded-lg border border-neutral-900/10 bg-[#0a0a0a]">
-              <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-                <span className="text-[11px] uppercase tracking-[0.14em] text-neutral-400">
-                  Run
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    copySnippet(
-                      "run",
-                      `npm run dev
-# → http://localhost:5173`,
-                    )
-                  }
-                  className="rounded-md border border-white/15 px-2 py-1 text-[11px] text-neutral-200 hover:bg-white/10"
-                >
-                  {copiedKey === "run" ? "Copied" : "Copy"}
-                </button>
-              </div>
-              <pre className="overflow-x-auto p-4 font-mono text-[13px] text-neutral-200 selection:bg-indigo-500/50 selection:text-white">
-                {`npm run dev
-# → http://localhost:5173`}
-              </pre>
+            <div className="mt-4">
+              <CodeEditor value={RUN_SNIPPET} readOnly minHeight="72px" />
             </div>
           </article>
 

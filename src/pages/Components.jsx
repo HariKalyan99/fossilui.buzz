@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Bell, Box } from 'lucide-react'
@@ -9,13 +9,58 @@ import { Input } from '../components/ui/Input'
 import { RexMark } from '../components/RexMark'
 
 const TEASERS = [
-  { name: 'Buttons', count: '12 variants' },
+  { name: 'Buttons', count: '11 variants', href: '/components/buttons' },
   { name: 'Cards', count: '8 variants' },
   { name: 'Modals', count: '6 variants' },
   { name: 'Inputs', count: '14 variants' },
   { name: 'Navbars', count: '5 variants' },
   { name: 'Hero blocks', count: '10 variants' },
 ]
+
+const MotionLink = motion.create(Link)
+const MotionDiv = motion.create('div')
+
+const TeaserCard = memo(function TeaserCard({ name, count, href, index }) {
+  const Card = href ? MotionLink : MotionDiv
+  const linkProps = href ? { to: href } : {}
+
+  return (
+    <Card
+      {...linkProps}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04, duration: 0.45 }}
+      className="card card-hover group relative overflow-hidden p-5 flex flex-col gap-3 aspect-square justify-end"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
+      <RexMark className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10" />
+      <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
+        <Box className="h-4 w-4" />
+      </span>
+      <div className="relative z-10">
+        <div className="text-[15px] font-medium text-neutral-900">{name}</div>
+        <div className="text-[12px] text-neutral-500 mt-0.5">{count}</div>
+      </div>
+    </Card>
+  )
+})
+
+const TeaserGrid = memo(function TeaserGrid() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55 }}
+      className="grid grid-cols-2 gap-3"
+    >
+      {TEASERS.map((t, i) => (
+        <TeaserCard key={t.name} name={t.name} count={t.count} href={t.href} index={i} />
+      ))}
+    </motion.div>
+  )
+})
 
 export default function Components() {
   const [email, setEmail] = useState('')
@@ -64,7 +109,7 @@ export default function Components() {
         <div>
           <Tag tone="accent">Coming soon</Tag>
           <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-[-0.025em] text-neutral-900 text-balance">
-            A library of polished, copy-pasteable components.
+            A library of polished, installable components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
             FossilUI Components is in design. Drop your email and we'll let you know when it ships — no spam, ever.
@@ -121,34 +166,7 @@ export default function Components() {
           </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55 }}
-          className="grid grid-cols-2 gap-3"
-        >
-          {TEASERS.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.04, duration: 0.45 }}
-              className="card card-hover group relative overflow-hidden p-5 flex flex-col gap-3 aspect-square justify-end"
-            >
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
-              <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
-              <RexMark className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10" />
-              <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
-                <Box className="h-4 w-4" />
-              </span>
-              <div className="relative z-10">
-                <div className="text-[15px] font-medium text-neutral-900">{t.name}</div>
-                <div className="text-[12px] text-neutral-500 mt-0.5">{t.count}</div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <TeaserGrid />
       </div>
     </Section>
   )
