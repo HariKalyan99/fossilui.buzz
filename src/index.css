@@ -165,9 +165,9 @@
   }
 }
 
-/* CodeMirror — Dark High Contrast (VS Code hc-black inspired) */
+/* CodeMirror — Quiet Light */
 .cm-editor {
-  background: #000000 !important;
+  background: #f5f5f5 !important;
   border: none !important;
   font-family: var(--font-mono) !important;
   font-size: 13px !important;
@@ -177,31 +177,30 @@
   font-family: var(--font-mono) !important;
 }
 .cm-gutters {
-  background: #000000 !important;
+  background: #f5f5f5 !important;
   border: none !important;
-  color: #b0b0b0 !important;
+  color: #737373 !important;
 }
 .cm-activeLine,
 .cm-activeLineGutter {
-  background-color: #0a0a0a !important;
+  background-color: #79ff002b !important;
 }
 .cm-activeLineGutter {
-  color: #ffffff !important;
+  color: #333333 !important;
 }
 
-/* Selection — override global ::selection ink color on dark editor */
 .cm-editor .cm-selectionBackground,
 .cm-editor.cm-focused .cm-selectionBackground {
-  background: #008000 !important;
+  background: #c9d0d9 !important;
 }
 .cm-editor .cm-content ::selection,
 .cm-editor .cm-content *::selection {
-  background: #008000 !important;
-  color: #ffffff !important;
+  background: #c9d0d9 !important;
+  color: #333333 !important;
 }
 .cm-editor .cm-selectionMatch {
-  background: rgba(0, 128, 0, 0.35) !important;
-  outline: 1px solid #008000;
+  background: rgba(201, 208, 217, 0.65) !important;
+  outline: 1px solid #c9d0d9;
 }
 
 /* Lenis */

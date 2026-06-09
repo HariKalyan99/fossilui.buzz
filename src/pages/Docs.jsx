@@ -21,6 +21,15 @@ import { Section } from "../components/ui/Section";
 import { Button } from "../components/ui/Button";
 import { Tag } from "../components/ui/Tag";
 import { cn } from "../lib/cn";
+import { CodeEditor } from "../components/code/CodeEditor";
+
+const INSTALL_SNIPPET = `# Pick the template you want
+git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
+cd fossilUI-template-v1-nebula
+npm install`;
+
+const RUN_SNIPPET = `npm run dev
+# → http://localhost:5173`;
 
 const NAV = [
   {
@@ -205,21 +214,8 @@ function Feedback() {
 
 export default function Docs() {
   const [active, setActive] = useState("install");
-  const [copiedKey, setCopiedKey] = useState(null);
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const mobileTocRef = useRef(null);
-
-  const copySnippet = async (key, value) => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopiedKey(key);
-      window.setTimeout(() => {
-        setCopiedKey((current) => (current === key ? null : current));
-      }, 1300);
-    } catch {
-      /* ignore clipboard failures */
-    }
-  };
 
   useEffect(() => {
     const ids = NAV.flatMap((n) => n.items.map((i) => i.id));
@@ -383,33 +379,8 @@ export default function Docs() {
             <p className="mt-2 text-neutral-600">
               Clone the repo from any template's GitHub link.
             </p>
-            <div className="mt-4 rounded-lg border border-neutral-900/10 bg-[#0a0a0a]">
-              <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-                <span className="text-[11px] uppercase tracking-[0.14em] text-neutral-400">
-                  Install
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    copySnippet(
-                      "install",
-                      `# Pick the template you want
-git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
-cd fossilUI-template-v1-nebula
-npm install`,
-                    )
-                  }
-                  className="rounded-md border border-white/15 px-2 py-1 text-[11px] text-neutral-200 hover:bg-white/10"
-                >
-                  {copiedKey === "install" ? "Copied" : "Copy"}
-                </button>
-              </div>
-              <pre className="overflow-x-auto p-4 font-mono text-[13px] text-neutral-200 selection:bg-indigo-500/50 selection:text-white">
-                {`# Pick the template you want
-git clone https://github.com/HariKalyan99/fossilUI-template-v1-nebula
-cd fossilUI-template-v1-nebula
-npm install`}
-              </pre>
+            <div className="mt-4">
+              <CodeEditor value={INSTALL_SNIPPET} readOnly minHeight="112px" />
             </div>
           </article>
 
@@ -420,29 +391,8 @@ npm install`}
             <p className="mt-2 text-neutral-600">
               Start the dev server and open the local URL.
             </p>
-            <div className="mt-4 rounded-lg border border-neutral-900/10 bg-[#0a0a0a]">
-              <div className="flex items-center justify-between border-b border-white/10 px-3 py-2">
-                <span className="text-[11px] uppercase tracking-[0.14em] text-neutral-400">
-                  Run
-                </span>
-                <button
-                  type="button"
-                  onClick={() =>
-                    copySnippet(
-                      "run",
-                      `npm run dev
-# → http://localhost:5173`,
-                    )
-                  }
-                  className="rounded-md border border-white/15 px-2 py-1 text-[11px] text-neutral-200 hover:bg-white/10"
-                >
-                  {copiedKey === "run" ? "Copied" : "Copy"}
-                </button>
-              </div>
-              <pre className="overflow-x-auto p-4 font-mono text-[13px] text-neutral-200 selection:bg-indigo-500/50 selection:text-white">
-                {`npm run dev
-# → http://localhost:5173`}
-              </pre>
+            <div className="mt-4">
+              <CodeEditor value={RUN_SNIPPET} readOnly minHeight="72px" />
             </div>
           </article>
 
