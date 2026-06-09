@@ -81,11 +81,10 @@ export function Navbar() {
           : "bg-white/70 backdrop-blur-sm border-b border-transparent",
       )}
     >
-      <div className="container-page flex h-16 min-w-0 items-center justify-between gap-3">
-        <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-8">
-          <Logo className="shrink-0" />
-          <nav className="hidden min-w-0 md:flex items-center gap-0.5 text-sm max-[851px]:text-[13px]">
-            {NAV.map((item) => (
+      <div className="container-page flex h-16 min-w-0 items-center justify-between gap-3 md:grid md:grid-cols-[1fr_auto_1fr]">
+        <Logo className="shrink-0 md:justify-self-start" />
+        <nav className="hidden min-w-0 md:flex items-center justify-center gap-0.5 text-sm max-[851px]:text-[13px]">
+          {NAV.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -101,15 +100,15 @@ export function Navbar() {
               >
                 {item.label}
               </NavLink>
-            ))}
+          ))}
 
-            <div
-              className="relative"
-              ref={dropdownRef}
-              onMouseEnter={openDropdown}
-              onMouseLeave={scheduleClose}
-            >
-              <button
+          <div
+            className="relative"
+            ref={dropdownRef}
+            onMouseEnter={openDropdown}
+            onMouseLeave={scheduleClose}
+          >
+            <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
                 aria-haspopup="menu"
@@ -157,25 +156,24 @@ export function Navbar() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+          </div>
 
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                cn(
-                  "inline-flex h-9 items-center px-2.5 lg:px-3 rounded-md transition-colors max-[851px]:px-2",
-                  isActive
-                    ? "text-neutral-900 bg-neutral-100/80"
-                    : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50",
-                )
-              }
-            >
-              Contact
-            </NavLink>
-          </nav>
-        </div>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              cn(
+                "inline-flex h-9 items-center px-2.5 lg:px-3 rounded-md transition-colors max-[851px]:px-2",
+                isActive
+                  ? "text-neutral-900 bg-neutral-100/80"
+                  : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50",
+              )
+            }
+          >
+            Contact
+          </NavLink>
+        </nav>
 
-        <div className="hidden shrink-0 md:flex items-center gap-1.5 lg:gap-2">
+        <div className="hidden shrink-0 md:flex items-center justify-end gap-1.5 lg:gap-2 md:justify-self-end">
           <Button
             as="a"
             href="https://github.com/HariKalyan99/fossilui.buzz"
