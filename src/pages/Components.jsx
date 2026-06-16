@@ -10,7 +10,7 @@ import { RexMark } from '../components/RexMark'
 
 const TEASERS = [
   { name: 'Buttons', count: '11 variants', href: '/components/buttons' },
-  { name: 'Cards', count: '8 variants' },
+  { name: 'Cards', count: '8 variants', href: '/components/cards' },
   { name: 'Modals', count: '6 variants' },
   { name: 'Inputs', count: '14 variants' },
   { name: 'Navbars', count: '5 variants' },

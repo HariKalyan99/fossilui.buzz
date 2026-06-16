@@ -37,8 +37,8 @@
     "./buttons": {
       "import": "./dist/buttons/index.js"
     },
-    "./buttons/example": {
-      "import": "./dist/buttons/example.js"
+    "./cards": {
+      "import": "./dist/cards/index.js"
     }
   },
   "scripts": {

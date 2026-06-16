@@ -13,6 +13,7 @@ export default defineConfig({
         index: resolve(root, 'src/index.js'),
         'buttons/index': resolve(root, 'src/buttons/index.js'),
         'buttons/example': resolve(root, 'src/buttons/example.jsx'),
+        'cards/index': resolve(root, 'src/cards/index.js'),
       },
       formats: ['es'],
     },
