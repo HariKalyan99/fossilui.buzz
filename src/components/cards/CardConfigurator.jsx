@@ -166,7 +166,7 @@ export function CardConfigurator() {
           </button>
         </div>
         <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-500">
-          Pick props from the panel or edit the code directly. Preview updates instantly from either source.
+          Pick props from the panel or edit the code directly — including className and style. Preview updates instantly from either source.
         </p>
       </div>
 
@@ -341,10 +341,16 @@ export function CardConfigurator() {
               {parsedSnippet?.error ? (
                 <Card className="w-full max-w-full" {...previewProps} />
               ) : (
-                <parsedSnippet.Component
-                  {...parsedSnippet.props}
-                  className="w-full max-w-full"
-                />
+                (() => {
+                  const { className: snippetClassName, ...snippetProps } = parsedSnippet.props ?? {}
+                  return (
+                    <parsedSnippet.Component
+                      key={`${parsedSnippet.name}-${String(snippetProps.motion ?? '')}-${String(snippetProps.title ?? '')}-${String(snippetProps.imageSrc ?? '')}-${JSON.stringify(snippetProps.style ?? {})}`}
+                      {...snippetProps}
+                      className={cn('w-full max-w-full', snippetClassName)}
+                    />
+                  )
+                })()
               )}
             </div>
           </div>

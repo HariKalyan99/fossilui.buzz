@@ -117,6 +117,18 @@ export const CARD_PROPS = [
     default: '—',
   },
   {
+    property: 'className',
+    description: 'Extra Tailwind or custom classes merged onto the root element.',
+    type: 'string',
+    default: '—',
+  },
+  {
+    property: 'style',
+    description: 'Inline styles on the root element. In the configurator use object syntax, e.g. style={{ maxWidth: 320 }}.',
+    type: 'CSSProperties',
+    default: '—',
+  },
+  {
     property: 'href',
     description: 'When set, renders the card root as an anchor.',
     type: 'string',
@@ -275,6 +287,10 @@ export const CARD_FAQS = [
   {
     q: 'Do I need Tailwind CSS?',
     a: 'Yes. Install tailwindcss and @tailwindcss/vite, enable the Vite plugin, and add @import "tailwindcss" plus @source "../node_modules/@fossilui/react/dist" in your CSS. Without Tailwind, cards mount but look unstyled.',
+  },
+  {
+    q: 'Can I add className or inline styles?',
+    a: 'Yes. Pass className for Tailwind or custom classes, and style with object syntax (e.g. style={{ maxWidth: 320 }}) in your snippet. The configurator preview parses both from the code editor.',
   },
   {
     q: 'Can I use custom media instead of the default gradient?',
