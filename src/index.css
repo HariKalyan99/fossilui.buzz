@@ -172,6 +172,21 @@
   font-family: var(--font-mono) !important;
   font-size: 13px !important;
   height: 100% !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.cm-editor.cm-focused {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.cm-editor .cm-scroller {
+  outline: none !important;
+}
+.cm-editor .cm-content {
+  outline: none !important;
+}
+.cm-editor .cm-content:focus {
+  outline: none !important;
 }
 .cm-scroller {
   font-family: var(--font-mono) !important;
@@ -200,7 +215,7 @@
 }
 .cm-editor .cm-selectionMatch {
   background: rgba(201, 208, 217, 0.65) !important;
-  outline: 1px solid #c9d0d9;
+  outline: none !important;
 }
 
 /* Lenis */
@@ -216,6 +231,14 @@ html.lenis body {
 }
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+@keyframes fossil-alert-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fossil-spin-dots {
+  to { transform: rotate(360deg); }
 }
 
 @keyframes float-slow {

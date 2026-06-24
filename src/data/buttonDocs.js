@@ -463,10 +463,6 @@ export const BUTTON_FAQS = [
     a: 'Add only the @source line for the package you installed. Full library: @source "../node_modules/@fossilui/react/dist". Buttons-only: @source "../node_modules/@fossilui/buttons/dist". See the separate Tailwind snippets in Import — do not add both unless you installed both packages.',
   },
   {
-    q: 'Does the configurator sync controls and code both ways?',
-    a: 'Yes. The control panel and code editor share one source of truth. Changing controls updates code + preview, and valid code edits update controls + preview. If code is temporarily invalid while typing, the UI shows a parse warning and keeps a safe fallback preview.',
-  },
-  {
     q: 'How is text contrast handled across colors?',
     a: 'Foreground text is contrast-aware for light and dark fills. Motions such as slideFill and staggerText use semantic color tokens (including hover text) so each palette stays readable without hardcoded single-color behavior.',
   },

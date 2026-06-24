@@ -16,6 +16,14 @@ const TemplateDetail = lazy(() => import('./pages/TemplateDetail'))
 const Components = lazy(() => import('./pages/Components'))
 const Buttons = lazy(() => import('./pages/Buttons'))
 const Cards = lazy(() => import('./pages/Cards'))
+const Modals = lazy(() => import('./pages/Modals'))
+const Inputs = lazy(() => import('./pages/Inputs'))
+const Badges = lazy(() => import('./pages/Badges'))
+const Alerts = lazy(() => import('./pages/Alerts'))
+const Navbars = lazy(() => import('./pages/Navbars'))
+const Heroes = lazy(() => import('./pages/Heroes'))
+const Separators = lazy(() => import('./pages/Separators'))
+const Spinners = lazy(() => import('./pages/Spinners'))
 const Docs = lazy(() => import('./pages/Docs'))
 const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -57,13 +65,38 @@ function RouteSeo() {
     }
   } else if (path === '/components') {
     title = 'Components - Fossil UI'
-    description = 'UI component library updates, previews, and release notifications from Fossil UI.'
+    description =
+      'Installable React components from @fossilui/react — buttons, cards, modals, inputs, navbars, heroes, and more.'
   } else if (path === '/components/buttons') {
     title = 'Buttons - Fossil UI'
     description = 'Animated button variants from @fossilui/react — roll text, stagger letters, shine sweep, and more.'
   } else if (path === '/components/cards') {
     title = 'Cards - Fossil UI'
     description = 'Animated card variants from @fossilui/react — lift shadow, image zoom, shine sweep, tilt hover, and more.'
+  } else if (path === '/components/modals') {
+    title = 'Modals - Fossil UI'
+    description = 'Dialog variants from @fossilui/react — fade, slide, scale, blur overlay, and drawer motion.'
+  } else if (path === '/components/inputs') {
+    title = 'Inputs - Fossil UI'
+    description = 'Input variants from @fossilui/react — text fields, selects, toggles, and form helpers.'
+  } else if (path === '/components/badges') {
+    title = 'Badges - Fossil UI'
+    description = 'Badge variants from @fossilui/react — pulse, shine, scale, dot, and border glow.'
+  } else if (path === '/components/alerts') {
+    title = 'Alerts - Fossil UI'
+    description = 'Alert banners from @fossilui/react — info, success, warning, and danger states.'
+  } else if (path === '/components/navbars') {
+    title = 'Navbars - Fossil UI'
+    description = 'Navbar layouts from @fossilui/react — minimal, centered, CTA, scroll blur, and bordered.'
+  } else if (path === '/components/heroes') {
+    title = 'Hero blocks - Fossil UI'
+    description = 'Hero section layouts from @fossilui/react — split, stats, media, newsletter, and more.'
+  } else if (path === '/components/separators') {
+    title = 'Separators - Fossil UI'
+    description = 'Divider components from @fossilui/react — horizontal, vertical, and labeled.'
+  } else if (path === '/components/spinners') {
+    title = 'Spinners - Fossil UI'
+    description = 'Loading spinners from @fossilui/react — default, ring, and dots motion.'
   } else if (path === '/docs') {
     title = 'Docs - Fossil UI'
     description = 'Get Fossil UI templates running fast with install, local run, and customization guides.'
@@ -118,6 +151,14 @@ function AnimatedRoutes() {
           <Route path="/components" element={<Components />} />
           <Route path="/components/buttons" element={<Buttons />} />
           <Route path="/components/cards" element={<Cards />} />
+          <Route path="/components/modals" element={<Modals />} />
+          <Route path="/components/inputs" element={<Inputs />} />
+          <Route path="/components/badges" element={<Badges />} />
+          <Route path="/components/alerts" element={<Alerts />} />
+          <Route path="/components/navbars" element={<Navbars />} />
+          <Route path="/components/heroes" element={<Heroes />} />
+          <Route path="/components/separators" element={<Separators />} />
+          <Route path="/components/spinners" element={<Spinners />} />
           <Route path="/code" element={<Navigate to="/templates" replace />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/contact" element={<Contact />} />

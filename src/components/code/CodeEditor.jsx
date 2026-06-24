@@ -78,16 +78,18 @@ export function CodeEditor({
           readOnly={readOnly}
           basicSetup={{
             lineNumbers: true,
-            highlightActiveLine: true,
-            highlightActiveLineGutter: true,
+            highlightActiveLine: !readOnly,
+            highlightActiveLineGutter: !readOnly,
             foldGutter: false,
-            autocompletion: true,
+            autocompletion: !readOnly,
             bracketMatching: true,
-            closeBrackets: true,
+            closeBrackets: !readOnly,
           }}
           className={cn(
             'max-w-full text-[12px] sm:text-[13px]',
-            '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none',
+            '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none [&_.cm-editor]:shadow-none',
+            '[&_.cm-editor.cm-focused]:outline-none [&_.cm-editor.cm-focused]:shadow-none',
+            '[&_.cm-scroller]:outline-none [&_.cm-content]:outline-none',
             '[&_.cm-gutters]:border-0',
             '[&_.cm-scroller]:min-h-[inherit] [&_.cm-scroller]:overflow-x-auto',
             '[&_.cm-content]:min-w-0',

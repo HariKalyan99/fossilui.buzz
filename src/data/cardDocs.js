@@ -124,7 +124,7 @@ export const CARD_PROPS = [
   },
   {
     property: 'style',
-    description: 'Inline styles on the root element. In the configurator use object syntax, e.g. style={{ maxWidth: 320 }}.',
+    description: 'Inline styles on the root element. Use object syntax, e.g. style={{ maxWidth: 320 }}.',
     type: 'CSSProperties',
     default: '—',
   },
@@ -290,15 +290,11 @@ export const CARD_FAQS = [
   },
   {
     q: 'Can I add className or inline styles?',
-    a: 'Yes. Pass className for Tailwind or custom classes, and style with object syntax (e.g. style={{ maxWidth: 320 }}) in your snippet. The configurator preview parses both from the code editor.',
+    a: 'Yes. Pass className for Tailwind or custom classes, and style with object syntax (e.g. style={{ maxWidth: 320 }}) on the Card root.',
   },
   {
     q: 'Can I use custom media instead of the default gradient?',
     a: 'Pass imageSrc for a photo from your public folder (e.g. imageSrc="/14.jpg"), or pass a media prop with any React node. You can also compose with CardMedia and CardBody for full control.',
-  },
-  {
-    q: 'Does the configurator sync controls and code both ways?',
-    a: 'Yes. The control panel and code editor share one source of truth. Changing controls updates code and preview, and valid code edits update controls and preview.',
   },
   {
     q: 'Should every card in a grid use a different motion?',

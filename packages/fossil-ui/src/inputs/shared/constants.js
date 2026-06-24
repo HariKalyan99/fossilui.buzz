@@ -1,0 +1,16 @@
+export const INPUT_MOTIONS = /** @type {const} */ ([
+  'default',
+  'underline',
+  'filled',
+  'ghost',
+  'ringGlow',
+  'compact',
+  'search',
+  'textarea',
+  'select',
+  'checkbox',
+  'switch',
+  'field',
+  'error',
+  'success',
+])

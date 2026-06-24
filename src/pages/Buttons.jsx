@@ -63,7 +63,7 @@ const DOC_NAV = [
   { id: 'variants', label: 'All variants' },
   { id: 'import', label: 'How to import' },
   { id: 'when-to-use', label: 'When to use' },
-  { id: 'examples', label: 'Configurator' },
+  { id: 'playground', label: 'Try a motion' },
   { id: 'api', label: 'API' },
   { id: 'faq', label: 'FAQ' },
 ]
@@ -285,7 +285,7 @@ export default function Buttons() {
           className="mt-4 mb-6 sm:mt-6 sm:mb-8 md:mb-10"
           eyebrow="Buttons"
           title="Animated button variants"
-          description="Preview every variant, then install from @fossilui/react or @fossilui/buttons, configure props, and copy examples into your app."
+          description="Preview every variant, install from @fossilui/react or @fossilui/buttons, and copy examples into your app."
         />
 
         <div ref={mobileTocRef} className="relative mb-6 flex justify-start xl:hidden">
@@ -452,12 +452,11 @@ export default function Buttons() {
           </ul>
             </section>
 
-            {/* Examples */}
             <section className="mb-12 sm:mb-16 md:mb-20">
           <DocHeading
-            id="examples"
-            title="Configurator"
-            description="Controls and code editor stay in sync: update either one and preview updates instantly."
+            id="playground"
+            title="Try a motion"
+            description="Pick a motion, preview it live, then copy the starter snippet and customize props in your project."
           />
           <div className="mt-6">
             <ButtonConfigurator />

@@ -5,6 +5,19 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(fileURLToPath(import.meta.url), '..')
 
+const families = [
+  'buttons',
+  'cards',
+  'modals',
+  'inputs',
+  'badges',
+  'alerts',
+  'separators',
+  'spinners',
+  'navbars',
+  'heroes',
+]
+
 export default defineConfig({
   plugins: [react()],
   build: {
@@ -13,7 +26,7 @@ export default defineConfig({
         index: resolve(root, 'src/index.js'),
         'buttons/index': resolve(root, 'src/buttons/index.js'),
         'buttons/example': resolve(root, 'src/buttons/example.jsx'),
-        'cards/index': resolve(root, 'src/cards/index.js'),
+        ...Object.fromEntries(families.filter((f) => f !== 'buttons').map((f) => [`${f}/index`, resolve(root, `src/${f}/index.js`)])),
       },
       formats: ['es'],
     },

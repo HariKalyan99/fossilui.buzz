@@ -1,172 +1,186 @@
-import { memo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowRight, Bell, Box } from 'lucide-react'
-import { Section } from '../components/ui/Section'
+import { motion, useReducedMotion } from 'framer-motion'
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CircleAlert,
+  LayoutGrid,
+  LayoutTemplate,
+  LoaderCircle,
+  Menu,
+  Minus,
+  MousePointerClick,
+  Package,
+  PanelTop,
+  Tag as TagIcon,
+  TextCursorInput,
+} from 'lucide-react'
+import { CodeEditor } from '../components/code/CodeEditor'
+import { Section, SectionHeader } from '../components/ui/Section'
 import { Button } from '../components/ui/Button'
 import { Tag } from '../components/ui/Tag'
-import { Input } from '../components/ui/Input'
-import { RexMark } from '../components/RexMark'
+import {
+  COMPONENT_FAMILIES,
+  COMPONENT_INSTALL_SNIPPET,
+  COMPONENT_STATS,
+} from '../data/componentsHub'
 
-const TEASERS = [
-  { name: 'Buttons', count: '11 variants', href: '/components/buttons' },
-  { name: 'Cards', count: '8 variants', href: '/components/cards' },
-  { name: 'Modals', count: '6 variants' },
-  { name: 'Inputs', count: '14 variants' },
-  { name: 'Navbars', count: '5 variants' },
-  { name: 'Hero blocks', count: '10 variants' },
-]
+const FAMILY_ICONS = {
+  buttons: MousePointerClick,
+  cards: LayoutGrid,
+  modals: PanelTop,
+  inputs: TextCursorInput,
+  badges: TagIcon,
+  alerts: CircleAlert,
+  navbars: Menu,
+  'hero-blocks': LayoutTemplate,
+  separators: Minus,
+  spinners: LoaderCircle,
+}
 
 const MotionLink = motion.create(Link)
-const MotionDiv = motion.create('div')
 
-const TeaserCard = memo(function TeaserCard({ name, count, href, index }) {
-  const Card = href ? MotionLink : MotionDiv
-  const linkProps = href ? { to: href } : {}
+const FamilyCard = function FamilyCard({ family, index, reduceMotion }) {
+  const Icon = FAMILY_ICONS[family.id] ?? LayoutGrid
 
   return (
-    <Card
-      {...linkProps}
-      initial={{ opacity: 0, y: 10 }}
+    <MotionLink
+      to={family.href}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.04, duration: 0.45 }}
-      className="card card-hover group relative overflow-hidden p-5 flex flex-col gap-3 aspect-square justify-end"
+      transition={
+        reduceMotion ? { duration: 0 } : { delay: Math.min(index * 0.04, 0.28), duration: 0.4 }
+      }
+      className="card group card-hover relative flex min-h-[220px] flex-col overflow-hidden p-5 sm:p-6"
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-indigo-100/70" />
-      <div className="pointer-events-none absolute inset-0 bg-grid opacity-35" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/20" />
-      <RexMark className="pointer-events-none absolute right-3 top-3 h-10 w-auto opacity-25 transition-opacity duration-300 group-hover:opacity-10" />
-      <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
-        <Box className="h-4 w-4" />
-      </span>
-      <div className="relative z-10">
-        <div className="text-[15px] font-medium text-neutral-900">{name}</div>
-        <div className="text-[12px] text-neutral-500 mt-0.5">{count}</div>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-slate-100/80 via-white to-indigo-50/60" />
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-30" />
+      <div className="relative z-10 flex items-start justify-between gap-3">
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-indigo-100 bg-indigo-50 text-indigo-700">
+          <Icon className="h-4 w-4" strokeWidth={2} />
+        </span>
+        <Tag tone="accent">Live</Tag>
       </div>
-    </Card>
-  )
-})
 
-const TeaserGrid = memo(function TeaserGrid() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55 }}
-      className="grid grid-cols-2 gap-3"
-    >
-      {TEASERS.map((t, i) => (
-        <TeaserCard key={t.name} name={t.name} count={t.count} href={t.href} index={i} />
-      ))}
-    </motion.div>
+      <div className="relative z-10 mt-5 flex flex-1 flex-col">
+        <div className="flex items-center gap-2">
+          <h3 className="text-[16px] font-medium tracking-tight text-neutral-900">{family.name}</h3>
+          <ArrowUpRight className="h-3.5 w-3.5 text-neutral-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-neutral-700" />
+        </div>
+        <p className="mt-2 flex-1 text-[13px] leading-relaxed text-neutral-600">{family.description}</p>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Tag>{family.variants} variants</Tag>
+          <Tag tone="soft">@fossilui/react</Tag>
+        </div>
+      </div>
+    </MotionLink>
   )
-})
+}
+
+function FamilyGrid({ reduceMotion }) {
+  return (
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+      {COMPONENT_FAMILIES.map((family, index) => (
+        <FamilyCard key={family.id} family={family} index={index} reduceMotion={reduceMotion} />
+      ))}
+    </div>
+  )
+}
 
 export default function Components() {
-  const [email, setEmail] = useState('')
-  const [done, setDone] = useState(false)
-  const [sending, setSending] = useState(false)
-  const [error, setError] = useState('')
-
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if (!email || !email.includes('@')) return
-    setSending(true)
-    setError('')
-    try {
-      const userLocation =
-        typeof Intl !== 'undefined'
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone
-          : undefined
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: '',
-          email,
-          contact: '',
-          info: 'components notify',
-          remarks: 'FossilUI Components waitlist signup',
-          userLocation,
-        }),
-      })
-      const payload = await response.json().catch(() => ({}))
-      if (!response.ok) {
-        throw new Error(payload?.error || 'Failed to sign up')
-      }
-      setEmail('')
-      setDone(true)
-    } catch (err) {
-      setError(err.message || 'Could not sign up right now')
-    } finally {
-      setSending(false)
-    }
-  }
+  const reduceMotion = useReducedMotion()
 
   return (
-    <Section className="pt-12 md:pt-20">
-      <div className="grid gap-12 md:grid-cols-2 items-center">
-        <div>
-          <Tag tone="accent">Coming soon</Tag>
-          <h1 className="mt-4 text-4xl md:text-5xl font-semibold tracking-[-0.025em] text-neutral-900 text-balance">
-            A library of polished, installable components.
-          </h1>
-          <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
-            FossilUI Components is in design. Drop your email and we'll let you know when it ships — no spam, ever.
-          </p>
+    <Section className="overflow-x-clip pt-10 pb-16 sm:pt-12 md:pt-20 md:pb-24">
+      <div className="min-w-0">
+        <SectionHeader
+          className="mb-6 sm:mb-8 md:mb-10"
+          eyebrow="Components"
+          title="Installable UI library for React"
+          description="Browse live previews, copy snippets, and ship buttons, cards, modals, inputs, navbars, heroes, and more from @fossilui/react."
+        />
 
-          <form
-            onSubmit={onSubmit}
-            className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start"
-          >
-            <div className="relative flex-1 w-full min-w-0">
-              <Bell className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
-              <Input
-                type="email"
-                placeholder="you@developer.dev"
-                className="pl-9"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                  if (done) setDone(false)
-                }}
-                required
-                disabled={sending}
-                autoComplete="email"
-              />
+        <div className="mb-8 flex flex-wrap items-center gap-2 sm:mb-10">
+          <Tag tone="accent">Live from @fossilui/react</Tag>
+          <Tag tone="soft">{COMPONENT_STATS.liveFamilies} families</Tag>
+          <Tag tone="soft">{COMPONENT_STATS.liveVariants} variants</Tag>
+        </div>
+
+        <div className="mb-10 grid gap-3 sm:mb-12 sm:grid-cols-3 sm:gap-4">
+          {[
+            {
+              label: 'Families',
+              value: `${COMPONENT_STATS.liveFamilies} component groups`,
+              icon: Package,
+            },
+            {
+              label: 'Install',
+              value: 'npm install @fossilui/react',
+              icon: MousePointerClick,
+            },
+            {
+              label: 'Variants',
+              value: `${COMPONENT_STATS.liveVariants} live previews`,
+              icon: LayoutTemplate,
+            },
+          ].map(({ label, value, icon: Icon }) => (
+            <div key={label} className="card flex items-start gap-3 p-4 sm:p-5">
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
+                <Icon className="h-4 w-4" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">{label}</p>
+                <p className="mt-1 text-[14px] font-medium text-neutral-900">{value}</p>
+              </div>
             </div>
-            <Button
-              type="submit"
-              variant="primary"
-              size="md"
-              className="shrink-0 sm:self-stretch"
-              disabled={sending || done}
-            >
-              {done
-                ? "You're on the list"
-                : sending
-                  ? 'Submitting…'
-                  : 'Notify me'}
-            </Button>
-            {error ? (
-              <p className="order-last w-full basis-full text-[12px] text-rose-600">
-                {error}
-              </p>
-            ) : null}
-          </form>
+          ))}
+        </div>
 
-          <div className="mt-10 flex items-center gap-3">
-            <Button as={Link} to="/templates" variant="secondary" size="md">
-              Browse templates
+        <div className="mb-10 sm:mb-12">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold tracking-tight text-neutral-900 sm:text-xl">
+                Component families
+              </h2>
+              <p className="mt-1 text-[13px] text-neutral-600">
+                Open a family to preview variants and copy code.
+              </p>
+            </div>
+            <Button as={Link} to="/docs" variant="ghost" size="md" className="shrink-0">
+              Installation guide
               <ArrowRight className="h-3.5 w-3.5" />
             </Button>
-            <Button as={Link} to="/docs" variant="ghost" size="md">
-              Read the docs
-            </Button>
+          </div>
+          <FamilyGrid reduceMotion={reduceMotion} />
+        </div>
+
+        <div className="mb-10 sm:mb-12">
+          <div className="card overflow-hidden">
+            <div className="border-b border-neutral-200/80 px-4 py-4 sm:px-5 sm:py-5">
+              <h2 className="text-[15px] font-medium text-neutral-900 sm:text-base">Quick install</h2>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-600">
+                Add the package, point Tailwind at the library, then import components in your app.
+              </p>
+            </div>
+            <div className="p-4 sm:p-5">
+              <CodeEditor value={COMPONENT_INSTALL_SNIPPET} readOnly minHeight="120px" />
+            </div>
           </div>
         </div>
 
-        <TeaserGrid />
+        <div className="flex flex-wrap gap-3">
+          <Button as={Link} to="/components/buttons" variant="primary" size="md">
+            Browse buttons
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+          <Button as={Link} to="/components/inputs" variant="secondary" size="md">
+            Browse inputs
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+          <Button as={Link} to="/templates" variant="ghost" size="md">
+            View templates
+          </Button>
+        </div>
       </div>
     </Section>
   )

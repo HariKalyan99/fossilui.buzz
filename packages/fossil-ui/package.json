@@ -1,7 +1,7 @@
 {
   "name": "@fossilui/react",
-  "version": "0.1.11",
-  "description": "Animated React components from Fossil UI — buttons first, more coming soon.",
+  "version": "0.3.0",
+  "description": "Complete React UI library from Fossil UI — buttons, cards, modals, inputs, navbars, heroes, and more.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -14,6 +14,11 @@
     "components",
     "ui",
     "buttons",
+    "cards",
+    "modals",
+    "inputs",
+    "navbar",
+    "hero",
     "tailwind",
     "fossil-ui"
   ],
@@ -25,21 +30,19 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    },
-    "./button": {
-      "import": "./dist/buttons/index.js"
-    },
-    "./button/example": {
-      "import": "./dist/buttons/example.js"
-    },
-    "./buttons": {
-      "import": "./dist/buttons/index.js"
-    },
-    "./cards": {
-      "import": "./dist/cards/index.js"
-    }
+    ".": { "import": "./dist/index.js" },
+    "./buttons": { "import": "./dist/buttons/index.js" },
+    "./button": { "import": "./dist/buttons/index.js" },
+    "./button/example": { "import": "./dist/buttons/example.js" },
+    "./cards": { "import": "./dist/cards/index.js" },
+    "./modals": { "import": "./dist/modals/index.js" },
+    "./inputs": { "import": "./dist/inputs/index.js" },
+    "./badges": { "import": "./dist/badges/index.js" },
+    "./alerts": { "import": "./dist/alerts/index.js" },
+    "./separators": { "import": "./dist/separators/index.js" },
+    "./spinners": { "import": "./dist/spinners/index.js" },
+    "./navbars": { "import": "./dist/navbars/index.js" },
+    "./heroes": { "import": "./dist/heroes/index.js" }
   },
   "scripts": {
     "build": "vite build",
@@ -52,9 +55,7 @@
     "lucide-react": ">=0.400.0"
   },
   "peerDependenciesMeta": {
-    "lucide-react": {
-      "optional": false
-    }
+    "lucide-react": { "optional": false }
   },
   "dependencies": {
     "clsx": "^2.1.1",

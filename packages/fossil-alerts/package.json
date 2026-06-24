@@ -1,0 +1,30 @@
+{
+  "name": "@fossilui/alerts",
+  "version": "0.1.0",
+  "description": "Fossil UI alerts components.",
+  "type": "module",
+  "license": "MIT",
+  "files": ["dist", "README.md"],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": { ".": { "import": "./dist/index.js" } },
+  "scripts": {
+    "build": "vite build",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "vite": "^8.0.10"
+  }
+}

@@ -58,15 +58,17 @@ export function CodeViewer({ file }) {
         readOnly
         basicSetup={{
           lineNumbers: true,
-          highlightActiveLine: true,
-          highlightActiveLineGutter: true,
+          highlightActiveLine: false,
+          highlightActiveLineGutter: false,
           foldGutter: true,
           autocompletion: false,
           searchKeymap: true,
         }}
         className={[
           'h-full text-[12px] sm:text-[13px]',
-          '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none',
+          '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none [&_.cm-editor]:shadow-none',
+          '[&_.cm-editor.cm-focused]:outline-none [&_.cm-editor.cm-focused]:shadow-none',
+          '[&_.cm-scroller]:outline-none [&_.cm-content]:outline-none',
           '[&_.cm-gutters]:border-0',
           '[&_.cm-scroller]:h-full [&_.cm-scroller]:overflow-x-auto',
           '[&_.cm-content]:min-w-0',
