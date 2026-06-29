@@ -16,6 +16,8 @@ node/
 api/*
 !api/
 !api/contact.js
+!api/lib/
+!api/lib/**
 supabase/
 
 # Editor directories and files

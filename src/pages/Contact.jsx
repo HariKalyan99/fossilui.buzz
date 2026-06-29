@@ -2,16 +2,21 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MessageSquare, Send, Check } from "lucide-react";
 import { GithubIcon, TwitterIcon } from "../components/icons/Brand";
+import { ContactSecurityFields } from "../components/ContactSecurityFields";
 import { Section } from "../components/ui/Section";
 import { Button } from "../components/ui/Button";
 import { Tag } from "../components/ui/Tag";
 import { Input, Textarea } from "../components/ui/Input";
+import { useContactSecurity } from "../hooks/useContactSecurity";
+import { submitContact } from "../lib/submitContact";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
+  const { honeypot, turnstileToken, resetSecurity, assertReady, securityProps } =
+    useContactSecurity();
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -19,28 +24,20 @@ export default function Contact() {
     setSending(true);
     setError("");
     try {
-      const userLocation =
-        typeof Intl !== "undefined"
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone
-          : undefined;
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      assertReady();
+      await submitContact(
+        {
           username: form.name,
           email: form.email,
           contact: "",
           info: "contact request",
           remarks: form.message,
-          userLocation,
-        }),
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(payload?.error || "Failed to send message");
-      }
+        },
+        { honeypot, turnstileToken },
+      );
       setSent(true);
       setForm({ name: "", email: "", message: "" });
+      resetSecurity();
     } catch (err) {
       setError(err.message || "Could not send your message right now");
     } finally {
@@ -113,7 +110,7 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
           onSubmit={onSubmit}
-          className="card p-6 md:p-8 flex flex-col gap-4"
+          className="card p-6 md:p-8 flex flex-col gap-4 relative"
         >
           <div className="flex items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
@@ -173,6 +170,8 @@ export default function Contact() {
               required
             />
           </div>
+
+          <ContactSecurityFields {...securityProps} />
 
           <Button
             type="submit"

@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowRight, Bell, Box } from 'lucide-react'
+import { ContactSecurityFields } from '../components/ContactSecurityFields'
 import { Section } from '../components/ui/Section'
 import { Button } from '../components/ui/Button'
 import { Tag } from '../components/ui/Tag'
 import { Input } from '../components/ui/Input'
 import { RexMark } from '../components/RexMark'
+import { useContactSecurity } from '../hooks/useContactSecurity'
+import { submitContact } from '../lib/submitContact'
 
 const TEASERS = [
   { name: 'Buttons', count: '12 variants' },
@@ -22,6 +25,8 @@ export default function Components() {
   const [done, setDone] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  const { honeypot, turnstileToken, resetSecurity, assertReady, securityProps } =
+    useContactSecurity()
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -29,28 +34,20 @@ export default function Components() {
     setSending(true)
     setError('')
     try {
-      const userLocation =
-        typeof Intl !== 'undefined'
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone
-          : undefined
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      assertReady()
+      await submitContact(
+        {
           username: '',
           email,
           contact: '',
           info: 'components notify',
           remarks: 'FossilUI Components waitlist signup',
-          userLocation,
-        }),
-      })
-      const payload = await response.json().catch(() => ({}))
-      if (!response.ok) {
-        throw new Error(payload?.error || 'Failed to sign up')
-      }
+        },
+        { honeypot, turnstileToken },
+      )
       setEmail('')
       setDone(true)
+      resetSecurity()
     } catch (err) {
       setError(err.message || 'Could not sign up right now')
     } finally {
@@ -72,7 +69,7 @@ export default function Components() {
 
           <form
             onSubmit={onSubmit}
-            className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start"
+            className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start relative"
           >
             <div className="relative flex-1 w-full min-w-0">
               <Bell className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />
@@ -90,6 +87,7 @@ export default function Components() {
                 autoComplete="email"
               />
             </div>
+            <ContactSecurityFields {...securityProps} />
             <Button
               type="submit"
               variant="primary"

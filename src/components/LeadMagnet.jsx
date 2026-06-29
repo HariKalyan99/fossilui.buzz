@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Mail } from "lucide-react";
 import { GithubIcon } from "./icons/Brand";
+import { ContactSecurityFields } from "./ContactSecurityFields";
 import { RexMark } from "./RexMark";
 import { Modal } from "./ui/Modal";
 import { Button } from "./ui/Button";
 import { Input } from "./ui/Input";
+import { useContactSecurity } from "../hooks/useContactSecurity";
+import { submitContact } from "../lib/submitContact";
 
 const STORAGE_KEY_DISMISSED = "fossilui:lead-magnet:dismissed";
 const STORAGE_KEY_WAS_OPEN = "fossilui:lead-magnet:was-open";
@@ -15,6 +18,8 @@ export function LeadMagnet() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const { honeypot, turnstileToken, resetSecurity, assertReady, securityProps } =
+    useContactSecurity();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -58,26 +63,19 @@ export function LeadMagnet() {
     setSending(true);
     setError("");
     try {
-      const userLocation =
-        typeof Intl !== "undefined"
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone
-          : undefined;
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      assertReady();
+      await submitContact(
+        {
           username: "",
           email,
           contact: "",
           info: "lead magnet",
           remarks: "lead magnet request",
-          userLocation,
-        }),
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok)
-        throw new Error(payload?.error || "Failed to subscribe");
+        },
+        { honeypot, turnstileToken },
+      );
       setSubmitted(true);
+      resetSecurity();
       setTimeout(dismiss, 1400);
     } catch (err) {
       setError(err.message || "Failed to subscribe right now");
@@ -111,7 +109,7 @@ export function LeadMagnet() {
             Thanks — you're on the list.
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="flex flex-col gap-2.5">
+          <form onSubmit={onSubmit} className="flex flex-col gap-2.5 relative">
             <label className="sr-only" htmlFor="lead-email">
               Email
             </label>
@@ -128,6 +126,7 @@ export function LeadMagnet() {
                 autoComplete="email"
               />
             </div>
+            <ContactSecurityFields {...securityProps} />
             <Button
               type="submit"
               variant="primary"

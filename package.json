@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:icons": "node scripts/generate-icons.mjs"
+    "generate:icons": "node scripts/generate-icons.mjs",
+    "test:contact-security": "node scripts/test-contact-security.mjs"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.1",
@@ -19,6 +20,8 @@
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@supabase/supabase-js": "^2.105.3",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.36.3",
     "@uiw/react-codemirror": "^4.25.9",
     "allotment": "^1.20.5",
     "clsx": "^2.1.1",
@@ -32,7 +35,8 @@
     "react-router-dom": "^7.15.0",
     "resend": "^6.12.3",
     "tailwind-merge": "^3.5.0",
-    "three": "^0.183.0"
+    "three": "^0.183.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
