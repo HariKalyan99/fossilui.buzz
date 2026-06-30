@@ -4,10 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, GitBranch, Send, Check } from 'lucide-react'
 import { Section, SectionHeader } from '../components/ui/Section'
 import { TemplateCard } from '../components/TemplateCard'
+import { ContactSecurityFields } from '../components/ContactSecurityFields'
 import { TEMPLATES, CATEGORIES } from '../data/templates'
 import { cn } from '../lib/cn'
 import { Button } from '../components/ui/Button'
 import { Input, Textarea } from '../components/ui/Input'
+import { useContactSecurity } from '../hooks/useContactSecurity'
+import { submitContact } from '../lib/submitContact'
 
 function looksLikeRepoUrl(value) {
   const v = value.trim().toLowerCase()
@@ -34,6 +37,8 @@ export default function Templates() {
   const [shareSending, setShareSending] = useState(false)
   const [shareError, setShareError] = useState('')
   const [shareSent, setShareSent] = useState(false)
+  const { honeypot, turnstileToken, resetSecurity, assertReady, securityProps } =
+    useContactSecurity()
 
   const patchShareForm = (patch) => {
     setShareSent(false)
@@ -90,33 +95,25 @@ export default function Templates() {
     setShareSending(true)
     setShareError('')
     try {
-      const userLocation =
-        typeof Intl !== 'undefined'
-          ? Intl.DateTimeFormat().resolvedOptions().timeZone
-          : undefined
+      assertReady()
       const remarksParts = [
         'Template submission',
         `Repository: ${repo}`,
         shareForm.note.trim() ? `Note: ${shareForm.note.trim()}` : null,
       ].filter(Boolean)
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      await submitContact(
+        {
           username: shareForm.name.trim(),
           email: shareForm.email.trim(),
           contact: '',
           info: 'template submission',
           remarks: remarksParts.join('\n'),
-          userLocation,
-        }),
-      })
-      const payload = await response.json().catch(() => ({}))
-      if (!response.ok) {
-        throw new Error(payload?.error || 'Could not send your submission')
-      }
+        },
+        { honeypot, turnstileToken },
+      )
       setShareSent(true)
       setShareForm({ name: '', email: '', repo: '', note: '' })
+      resetSecurity()
     } catch (err) {
       setShareError(
         err instanceof Error ? err.message : 'Something went wrong. Try again in a moment.',
@@ -229,7 +226,7 @@ export default function Templates() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         onSubmit={onShareSubmit}
-        className="card scroll-mt-28 p-5 md:p-6 mt-10 flex flex-col gap-4 border border-neutral-200/80"
+        className="card scroll-mt-28 p-5 md:p-6 mt-10 flex flex-col gap-4 border border-neutral-200/80 relative"
       >
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -302,6 +299,8 @@ export default function Templates() {
             className="min-h-[88px]"
           />
         </div>
+
+        <ContactSecurityFields {...securityProps} />
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <Button type="submit" variant="secondary" size="md" disabled={shareSending}>

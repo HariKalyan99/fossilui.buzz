@@ -1,5 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
+import {
+  applyCors,
+  enforceRateLimits,
+  escapeHtml,
+  getClientIp,
+  parseRequestBody,
+  validateContactPayload,
+  verifyTurnstileToken,
+} from "./lib/contact-security.js";
 
 function classifyLead(remarks = "", info = "") {
   const r = String(remarks).toLowerCase();
@@ -14,7 +23,9 @@ function getEmailContent({ type, username }) {
   const safeName = username || "there";
   if (type === "template") {
     const greeting =
-      safeName !== "there" ? `Thanks for sharing, ${safeName}.` : "Thanks for sharing your template.";
+      safeName !== "there"
+        ? `Thanks for sharing, ${safeName}.`
+        : "Thanks for sharing your template.";
     return {
       subject: "We received your template — FossilUI",
       heading: "Your template contribution is in review",
@@ -44,12 +55,16 @@ function getEmailImageUrl() {
 }
 
 function buildEmailHtml({ heading, body, imageUrl }) {
+  const safeHeading = escapeHtml(heading);
+  const safeBody = escapeHtml(body);
+  const safeImageUrl = escapeHtml(imageUrl);
+
   return `
     <div style="margin:0;padding:24px;background:#0a0a0a;font-family:Arial,sans-serif;color:#ffffff;text-align:center;">
       <div style="max-width:600px;margin:0 auto;background:#121212;border:1px solid #2a2a2a;border-radius:14px;padding:28px 22px;">
-        <h2 style="margin:0 0 14px 0;font-size:28px;line-height:1.2;">${heading}</h2>
-        <p style="margin:0 0 20px 0;font-size:16px;line-height:1.6;color:#d4d4d8;">${body}</p>
-        <img src="${imageUrl}" alt="FossilUI" style="max-width:600px;width:100%;height:auto;border-radius:10px;margin:0 0 20px 0;" />
+        <h2 style="margin:0 0 14px 0;font-size:28px;line-height:1.2;">${safeHeading}</h2>
+        <p style="margin:0 0 20px 0;font-size:16px;line-height:1.6;color:#d4d4d8;">${safeBody}</p>
+        <img src="${safeImageUrl}" alt="FossilUI" style="max-width:600px;width:100%;height:auto;border-radius:10px;margin:0 0 20px 0;" />
         <p style="margin:0;font-size:14px;line-height:1.5;color:#a1a1aa;">- FossilUI Team</p>
       </div>
     </div>
@@ -57,12 +72,17 @@ function buildEmailHtml({ heading, body, imageUrl }) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  const corsAllowed = applyCors(req, res);
 
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (req.method === "OPTIONS") {
+    return res.status(corsAllowed ? 200 : 403).end();
+  }
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+  if (!corsAllowed) {
+    return res.status(403).json({ error: "Origin not allowed" });
+  }
 
   try {
     const supabaseUrl = process.env.SUPABASE_URL;
@@ -74,16 +94,37 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Server configuration error" });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
-    const resend = new Resend(resendApiKey);
-
-    const body =
-      req.body && typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
-    const { username, email, contact, info, remarks, userLocation } = body;
-
-    if (!email || !remarks) {
-      return res.status(400).json({ error: "Email and message are required" });
+    let body;
+    try {
+      body = parseRequestBody(req);
+    } catch {
+      return res.status(400).json({ error: "Invalid JSON body" });
     }
+
+    const validation = validateContactPayload(body);
+    if (!validation.ok) {
+      if (validation.honeypot) {
+        return res.status(200).json({ success: true });
+      }
+      return res.status(400).json({ error: validation.error });
+    }
+
+    const { username, email, contact, info, remarks, userLocation, turnstileToken } =
+      validation.data;
+
+    const ip = getClientIp(req);
+    const turnstile = await verifyTurnstileToken({ token: turnstileToken, ip });
+    if (!turnstile.ok) {
+      return res.status(400).json({ error: turnstile.error });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
+    const rateLimit = await enforceRateLimits({ req, email, supabase });
+    if (!rateLimit.ok) {
+      return res.status(rateLimit.status).json({ error: rateLimit.error });
+    }
+
+    const resend = new Resend(resendApiKey);
 
     const { data, error } = await supabase
       .from("leads")
