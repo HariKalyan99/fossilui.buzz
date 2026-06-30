@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useTurnstileConfig } from "./useTurnstileConfig";
 
 export function useContactSecurity() {
@@ -8,14 +8,25 @@ export function useContactSecurity() {
   const turnstileRef = useRef(null);
   const turnstileConfig = useTurnstileConfig();
 
-  const resetSecurity = () => {
+  const onTurnstileChange = useCallback((token) => {
+    setTurnstileToken(token);
+    if (token) setTurnstileError("");
+  }, []);
+
+  const onTurnstileLoadError = useCallback(() => {
+    setTurnstileError(
+      "Security check could not load. Check your connection or refresh the page.",
+    );
+  }, []);
+
+  const resetSecurity = useCallback(() => {
     setHoneypot("");
     setTurnstileToken("");
     setTurnstileError("");
     turnstileRef.current?.reset();
-  };
+  }, []);
 
-  const assertReady = () => {
+  const assertReady = useCallback(() => {
     if (turnstileConfig.loading) {
       throw new Error("Security check is still loading. Please wait a moment.");
     }
@@ -32,7 +43,26 @@ export function useContactSecurity() {
           "Please complete the security check before submitting.",
       );
     }
-  };
+  }, [turnstileConfig, turnstileError, turnstileToken]);
+
+  const securityProps = useMemo(
+    () => ({
+      honeypot,
+      onHoneypotChange: setHoneypot,
+      onTurnstileChange,
+      turnstileRef,
+      turnstileSiteKey: turnstileConfig.siteKey,
+      turnstileLoading: turnstileConfig.loading,
+      onTurnstileLoadError: onTurnstileLoadError,
+    }),
+    [
+      honeypot,
+      onTurnstileChange,
+      onTurnstileLoadError,
+      turnstileConfig.loading,
+      turnstileConfig.siteKey,
+    ],
+  );
 
   return {
     honeypot,
@@ -40,21 +70,6 @@ export function useContactSecurity() {
     turnstileError,
     resetSecurity,
     assertReady,
-    securityProps: {
-      honeypot,
-      onHoneypotChange: setHoneypot,
-      onTurnstileChange: (token) => {
-        setTurnstileToken(token);
-        if (token) setTurnstileError("");
-      },
-      turnstileRef,
-      turnstileSiteKey: turnstileConfig.siteKey,
-      turnstileLoading: turnstileConfig.loading,
-      onTurnstileLoadError: () => {
-        setTurnstileError(
-          "Security check could not load. Check your connection or refresh the page.",
-        );
-      },
-    },
+    securityProps,
   };
 }

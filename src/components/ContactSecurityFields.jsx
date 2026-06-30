@@ -36,6 +36,16 @@ function loadTurnstileScript() {
 function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
   const containerId = useId().replace(/:/g, "");
   const widgetIdRef = useRef(null);
+  const onChangeRef = useRef(onChange);
+  const onLoadErrorRef = useRef(onLoadError);
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  useEffect(() => {
+    onLoadErrorRef.current = onLoadError;
+  }, [onLoadError]);
 
   useEffect(() => {
     if (!siteKey) return undefined;
@@ -44,17 +54,17 @@ function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
 
     loadTurnstileScript()
       .then((turnstile) => {
-        if (cancelled) return;
+        if (cancelled || widgetIdRef.current != null) return;
 
         widgetIdRef.current = turnstile.render(`#${containerId}`, {
           sitekey: siteKey,
           theme: "light",
-          size: "flexible",
-          callback: (token) => onChange(token),
-          "expired-callback": () => onChange(""),
+          size: "normal",
+          callback: (token) => onChangeRef.current(token),
+          "expired-callback": () => onChangeRef.current(""),
           "error-callback": () => {
-            onChange("");
-            onLoadError?.();
+            onChangeRef.current("");
+            onLoadErrorRef.current?.();
           },
         });
 
@@ -64,15 +74,15 @@ function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
               if (widgetIdRef.current != null) {
                 turnstile.reset(widgetIdRef.current);
               }
-              onChange("");
+              onChangeRef.current("");
             },
           };
         }
       })
       .catch((err) => {
         console.error(err);
-        onChange("");
-        onLoadError?.();
+        onChangeRef.current("");
+        onLoadErrorRef.current?.();
       });
 
     return () => {
@@ -83,9 +93,9 @@ function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
       }
       if (widgetRef) widgetRef.current = null;
     };
-  }, [containerId, onChange, onLoadError, siteKey, widgetRef]);
+  }, [containerId, siteKey, widgetRef]);
 
-  return <div id={containerId} className="min-h-[65px]" />;
+  return <div id={containerId} className="min-h-[65px] w-full" />;
 }
 
 export function ContactSecurityFields({
@@ -97,6 +107,29 @@ export function ContactSecurityFields({
   turnstileLoading,
   onTurnstileLoadError,
 }) {
+  if (turnstileLoading) {
+    return (
+      <>
+        <div
+          aria-hidden="true"
+          className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+        >
+          <label htmlFor="contact-website">Website</label>
+          <input
+            id="contact-website"
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            value={honeypot}
+            onChange={(e) => onHoneypotChange(e.target.value)}
+          />
+        </div>
+        <p className="text-[12px] text-neutral-500">Loading security check…</p>
+      </>
+    );
+  }
+
   return (
     <>
       <div
@@ -114,10 +147,6 @@ export function ContactSecurityFields({
           onChange={(e) => onHoneypotChange(e.target.value)}
         />
       </div>
-
-      {turnstileLoading ? (
-        <p className="text-[12px] text-neutral-500">Loading security check…</p>
-      ) : null}
 
       {turnstileSiteKey ? (
         <TurnstileWidget
