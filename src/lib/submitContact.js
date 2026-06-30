@@ -24,3 +24,5 @@ export async function submitContact(payload, { honeypot = "", turnstileToken = "
 
 export const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "";
 export const TURNSTILE_ENABLED = Boolean(TURNSTILE_SITE_KEY);
+
+// Site key is also loaded at runtime from GET /api/contact-config (see useTurnstileConfig).

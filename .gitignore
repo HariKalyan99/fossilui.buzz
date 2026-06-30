@@ -16,6 +16,7 @@ node/
 api/*
 !api/
 !api/contact.js
+!api/contact-config.js
 !api/lib/
 !api/lib/**
 supabase/
