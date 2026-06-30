@@ -1,8 +1,8 @@
 import { useEffect, useId, useRef } from "react";
-import { TURNSTILE_ENABLED, TURNSTILE_SITE_KEY } from "../lib/submitContact";
 
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
-const TURNSTILE_SCRIPT_SRC = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+const TURNSTILE_SCRIPT_SRC =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 function loadTurnstileScript() {
   if (typeof window === "undefined") {
@@ -33,12 +33,12 @@ function loadTurnstileScript() {
   });
 }
 
-function TurnstileWidget({ onChange, widgetRef }) {
+function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
   const containerId = useId().replace(/:/g, "");
   const widgetIdRef = useRef(null);
 
   useEffect(() => {
-    if (!TURNSTILE_ENABLED) return undefined;
+    if (!siteKey) return undefined;
 
     let cancelled = false;
 
@@ -47,12 +47,15 @@ function TurnstileWidget({ onChange, widgetRef }) {
         if (cancelled) return;
 
         widgetIdRef.current = turnstile.render(`#${containerId}`, {
-          sitekey: TURNSTILE_SITE_KEY,
+          sitekey: siteKey,
           theme: "light",
           size: "flexible",
           callback: (token) => onChange(token),
           "expired-callback": () => onChange(""),
-          "error-callback": () => onChange(""),
+          "error-callback": () => {
+            onChange("");
+            onLoadError?.();
+          },
         });
 
         if (widgetRef) {
@@ -69,6 +72,7 @@ function TurnstileWidget({ onChange, widgetRef }) {
       .catch((err) => {
         console.error(err);
         onChange("");
+        onLoadError?.();
       });
 
     return () => {
@@ -79,7 +83,7 @@ function TurnstileWidget({ onChange, widgetRef }) {
       }
       if (widgetRef) widgetRef.current = null;
     };
-  }, [containerId, onChange, widgetRef]);
+  }, [containerId, onChange, onLoadError, siteKey, widgetRef]);
 
   return <div id={containerId} className="min-h-[65px]" />;
 }
@@ -89,6 +93,9 @@ export function ContactSecurityFields({
   onHoneypotChange,
   onTurnstileChange,
   turnstileRef,
+  turnstileSiteKey,
+  turnstileLoading,
+  onTurnstileLoadError,
 }) {
   return (
     <>
@@ -108,8 +115,17 @@ export function ContactSecurityFields({
         />
       </div>
 
-      {TURNSTILE_ENABLED ? (
-        <TurnstileWidget onChange={onTurnstileChange} widgetRef={turnstileRef} />
+      {turnstileLoading ? (
+        <p className="text-[12px] text-neutral-500">Loading security check…</p>
+      ) : null}
+
+      {turnstileSiteKey ? (
+        <TurnstileWidget
+          siteKey={turnstileSiteKey}
+          onChange={onTurnstileChange}
+          widgetRef={turnstileRef}
+          onLoadError={onTurnstileLoadError}
+        />
       ) : null}
     </>
   );
