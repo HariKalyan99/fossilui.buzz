@@ -532,3 +532,16 @@ html.lenis body {
     transform: translateY(0);
   }
 }
+
+.turnstile-widget {
+  width: 100%;
+  max-width: 300px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.turnstile-widget__frame {
+  display: block;
+  width: 300px;
+  height: 65px;
+}
