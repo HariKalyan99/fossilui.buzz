@@ -69,7 +69,7 @@ export default function Components() {
 
           <form
             onSubmit={onSubmit}
-            className="mt-6 flex max-w-md flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start relative"
+            className="mt-6 flex max-w-md min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-start relative"
           >
             <div className="relative flex-1 w-full min-w-0">
               <Bell className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-neutral-400" />

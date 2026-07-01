@@ -1,8 +1,11 @@
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
 const TURNSTILE_SCRIPT_SRC =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+
+const TURNSTILE_WIDTH = 300;
+const TURNSTILE_HEIGHT = 65;
 
 function loadTurnstileScript() {
   if (typeof window === "undefined") {
@@ -35,9 +38,11 @@ function loadTurnstileScript() {
 
 function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
   const containerId = useId().replace(/:/g, "");
+  const shellRef = useRef(null);
   const widgetIdRef = useRef(null);
   const onChangeRef = useRef(onChange);
   const onLoadErrorRef = useRef(onLoadError);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -46,6 +51,29 @@ function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
   useEffect(() => {
     onLoadErrorRef.current = onLoadError;
   }, [onLoadError]);
+
+  useEffect(() => {
+    const el = shellRef.current;
+    if (!el) return undefined;
+
+    const updateScale = () => {
+      const width = el.getBoundingClientRect().width;
+      if (!width) return;
+      setScale(Math.min(1, width / TURNSTILE_WIDTH));
+    };
+
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(el);
+    window.addEventListener("resize", updateScale);
+    window.visualViewport?.addEventListener("resize", updateScale);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateScale);
+      window.visualViewport?.removeEventListener("resize", updateScale);
+    };
+  }, []);
 
   useEffect(() => {
     if (!siteKey) return undefined;
@@ -95,7 +123,32 @@ function TurnstileWidget({ siteKey, onChange, widgetRef, onLoadError }) {
     };
   }, [containerId, siteKey, widgetRef]);
 
-  return <div id={containerId} className="min-h-[65px] w-full" />;
+  const scaled = scale < 0.999;
+  const shellHeight = scaled ? TURNSTILE_HEIGHT * scale : TURNSTILE_HEIGHT;
+
+  return (
+    <div
+      ref={shellRef}
+      className="turnstile-widget w-full max-w-[300px] min-w-0 overflow-hidden"
+      style={{ height: shellHeight }}
+    >
+      <div
+        className="turnstile-widget__frame"
+        style={
+          scaled
+            ? {
+                width: TURNSTILE_WIDTH,
+                height: TURNSTILE_HEIGHT,
+                transform: `scale(${scale})`,
+                transformOrigin: "top left",
+              }
+            : undefined
+        }
+      >
+        <div id={containerId} />
+      </div>
+    </div>
+  );
 }
 
 export function ContactSecurityFields({

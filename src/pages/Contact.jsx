@@ -110,7 +110,7 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
           onSubmit={onSubmit}
-          className="card p-6 md:p-8 flex flex-col gap-4 relative"
+          className="card p-6 md:p-8 flex min-w-0 flex-col gap-4 relative"
         >
           <div className="flex items-center gap-2">
             <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
@@ -121,7 +121,7 @@ export default function Contact() {
             </span>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-3 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="contact-name"

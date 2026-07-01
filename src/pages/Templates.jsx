@@ -226,7 +226,7 @@ export default function Templates() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
         onSubmit={onShareSubmit}
-        className="card scroll-mt-28 p-5 md:p-6 mt-10 flex flex-col gap-4 border border-neutral-200/80 relative"
+        className="card scroll-mt-28 p-5 md:p-6 mt-10 flex min-w-0 flex-col gap-4 border border-neutral-200/80 relative"
       >
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -245,7 +245,7 @@ export default function Templates() {
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <label htmlFor="share-name" className="text-[12px] text-neutral-600 mb-1 block font-medium">
               Name <span className="text-neutral-400 font-normal">(optional)</span>

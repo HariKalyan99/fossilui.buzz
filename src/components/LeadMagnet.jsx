@@ -109,7 +109,7 @@ export function LeadMagnet() {
             Thanks — you're on the list.
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="flex flex-col gap-2.5 relative">
+          <form onSubmit={onSubmit} className="flex min-w-0 flex-col gap-2.5 relative">
             <label className="sr-only" htmlFor="lead-email">
               Email
             </label>
