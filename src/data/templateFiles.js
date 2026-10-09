@@ -35,6 +35,13 @@ const sourcePatterns = {
       { query: '?raw', import: 'default' },
     ),
   },
+  iron_volt: {
+    src: import.meta.glob('../../iron_volt/src/**/*.{js,jsx,ts,tsx,css,json,md}', { query: '?raw', import: 'default' }),
+    root: import.meta.glob(
+      '../../iron_volt/{package.json,README.md,vite.config.js,eslint.config.js,index.html,tailwind.config.js,postcss.config.js}',
+      { query: '?raw', import: 'default' },
+    ),
+  },
   nebula: {
     src: import.meta.glob('../../nebula/src/**/*.{js,jsx,ts,tsx,css,json,md}', { query: '?raw', import: 'default' }),
     root: import.meta.glob(

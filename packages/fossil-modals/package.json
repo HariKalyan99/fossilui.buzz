@@ -6,8 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fossilui/fossil.buzz.git",
+    "url": "git+https://github.com/HariKalyan99/fossilui.buzz.git",
     "directory": "packages/fossil-modals"
+  },
+  "homepage": "https://fossilui.buzz/components/modals",
+  "bugs": {
+    "url": "https://github.com/HariKalyan99/fossilui.buzz/issues"
   },
   "keywords": [
     "react",

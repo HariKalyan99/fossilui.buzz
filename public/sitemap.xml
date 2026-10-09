@@ -19,6 +19,9 @@
     <loc>https://fossilui.buzz/templates/glimpse</loc>
   </url>
   <url>
+    <loc>https://fossilui.buzz/templates/iron_volt</loc>
+  </url>
+  <url>
     <loc>https://fossilui.buzz/templates/nebula</loc>
   </url>
   <url>
@@ -32,6 +35,24 @@
   </url>
   <url>
     <loc>https://fossilui.buzz/components</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/buttons</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/cards</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/modals</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/inputs</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/navbars</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/heroes</loc>
   </url>
   <url>
     <loc>https://fossilui.buzz/docs</loc>

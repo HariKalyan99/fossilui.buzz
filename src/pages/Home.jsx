@@ -9,6 +9,12 @@ import {
   Box,
   Layout,
   Zap,
+  Palette,
+  LayoutDashboard,
+  Sparkles,
+  Megaphone,
+  ShoppingBag,
+  Dumbbell,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -24,8 +30,17 @@ import { RexMark } from "../components/RexMark";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const CATEGORY_ICONS = {
+  Portfolio: Palette,
+  Dashboard: LayoutDashboard,
+  SaaS: Sparkles,
+  Marketing: Megaphone,
+  "E-commerce": ShoppingBag,
+  Fitness: Dumbbell,
+};
+
 const STATS = [
-  { value: "8", label: "Production templates" },
+  { value: String(TEMPLATES.length), label: "Production templates" },
   { value: "100%", label: "Unlimited demos" },
   { value: "0", label: "Lock-in" },
   { value: "∞", label: "Reuse" },
@@ -50,7 +65,7 @@ const FEATURES = [
   {
     icon: Box,
     title: "Modern stack",
-    desc: "React, Vite, Tailwind, Framer Motion, Gsap, Three.js — predictable and easy to extend.",
+    desc: "React, Vite, Tailwind, Framer Motion, GSAP, Three.js — predictable and easy to extend.",
   },
 ];
 
@@ -145,7 +160,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-[12px] text-neutral-600 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-[pulse-soft_2s_ease-in-out_infinite]" />
-                  v1 — 8 free templates available now
+                  v1 — {TEMPLATES.length} free templates available now
                 </motion.div>
               </div>
 
@@ -276,21 +291,22 @@ export default function Home() {
           <SectionHeader
             eyebrow="Categories"
             title="Find something for every product"
-            description="From editorial portfolios to operational dashboards. Pick your starting point and tailor it from there."
+            description="From editorial portfolios and SaaS launches to dashboards, shops and gyms. Pick your starting point and tailor it from there."
           />
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-3 grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
           {CATEGORIES.filter((c) => c !== "All").map((cat) => {
             const count = TEMPLATES.filter((t) => t.category === cat).length;
+            const Icon = CATEGORY_ICONS[cat] ?? Layout;
             return (
               <Link
                 key={cat}
                 to={`/templates?category=${encodeURIComponent(cat)}`}
-                className="card card-hover p-5 flex flex-col gap-3"
+                className="card card-hover group p-5 flex flex-col gap-3"
                 data-reveal
               >
-                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-700">
-                  <Layout className="h-4 w-4" />
+                <div className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 transition-colors group-hover:bg-indigo-600 group-hover:text-white">
+                  <Icon className="h-4 w-4" />
                 </div>
                 <div>
                   <div className="text-[15px] font-medium text-neutral-900">
