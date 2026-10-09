@@ -189,26 +189,33 @@ async function countRecentEmailSubmissions(supabase, email) {
   return count ?? 0;
 }
 
+async function tryLimit(limiter, key) {
+  if (!limiter) return true;
+  try {
+    const { success } = await Promise.race([
+      limiter.limit(key),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Upstash timeout")), 1500)),
+    ]);
+    return success;
+  } catch (err) {
+    // Redis outages must not block real submissions; the Supabase email cap below still applies.
+    console.error("Rate limiter unavailable:", err.message);
+    return true;
+  }
+}
+
 export async function enforceRateLimits({ req, email, supabase }) {
   const ip = getClientIp(req);
-  const ipLimiter = getIpRatelimit();
-  if (ipLimiter) {
-    const { success } = await ipLimiter.limit(ip);
-    if (!success) {
-      return { ok: false, status: 429, error: "Too many requests. Please try again later." };
-    }
+  if (!(await tryLimit(getIpRatelimit(), ip))) {
+    return { ok: false, status: 429, error: "Too many requests. Please try again later." };
   }
 
-  const emailLimiter = getEmailRatelimit();
-  if (emailLimiter) {
-    const { success } = await emailLimiter.limit(email);
-    if (!success) {
-      return {
-        ok: false,
-        status: 429,
-        error: "Too many submissions for this email. Please try again later.",
-      };
-    }
+  if (!(await tryLimit(getEmailRatelimit(), email))) {
+    return {
+      ok: false,
+      status: 429,
+      error: "Too many submissions for this email. Please try again later.",
+    };
   }
 
   const recentCount = await countRecentEmailSubmissions(supabase, email);
