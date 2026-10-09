@@ -109,6 +109,7 @@ const INSTALL_COMMAND = 'npm install @fossilui/react lucide-react'
 const TOTAL_VARIANTS = TEASERS.reduce((sum, t) => sum + Number.parseInt(t.count, 10), 0)
 
 const HIGHLIGHTS = [
+  'Lightweight & tree-shakeable',
   'React + Tailwind CSS v4',
   'Respects reduced motion',
   'Zero animation dependencies',
@@ -159,8 +160,9 @@ export default function Components() {
             A library of polished, animated components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
-            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars and hero blocks. Install the
-            whole library or just the family you need, then copy any variant straight into your app.
+            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars and hero blocks.{' '}
+            <span className="font-medium text-neutral-900">Lightweight by design</span> — pure CSS and native
+            browser animations, so you only ship the components you import.
           </p>
 
           <div className="mt-6">
