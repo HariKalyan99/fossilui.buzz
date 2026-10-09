@@ -5,6 +5,7 @@ export const TEMPLATE_STACKS = {
   eleven: ['tailwind3', 'motion', 'router', 'radix', 'tiptap', 'recharts', 'zustand'],
   evently: ['tailwind3', 'motion', 'router', 'lucide', 'vite'],
   glimpse: ['tailwind4', 'motion', 'router', 'zustand', 'lucide'],
+  iron_volt: ['tailwind4', 'motion', 'gsap', 'lenis', 'router', 'lucide', 'vite'],
   nebula: ['tailwind4', 'motion', 'lucide', 'vite'],
   northbound_labs: ['tailwind4', 'motion', 'lucide', 'vite'],
   norwin_ai: ['tailwind3', 'motion', 'router', 'lucide', 'vite'],
@@ -56,6 +57,16 @@ export const STACK_META = {
     label: 'Zustand',
     shortLabel: 'Zustand',
     color: '#c4712f',
+  },
+  gsap: {
+    label: 'GSAP',
+    shortLabel: 'GSAP',
+    color: '#0ae448',
+  },
+  lenis: {
+    label: 'Lenis',
+    shortLabel: 'Lenis',
+    color: '#ff98a2',
   },
   vite: {
     label: 'Vite',

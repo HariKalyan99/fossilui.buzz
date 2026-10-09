@@ -72,7 +72,7 @@ const FEATURES = [
   {
     icon: Box,
     title: "Modern stack",
-    desc: "React, Vite, Tailwind, Framer Motion, Gsap, Three.js — the same set of tools across every template.",
+    desc: "React, Vite and Tailwind in every template, plus Framer Motion, GSAP or Lenis where motion matters.",
   },
 ];
 

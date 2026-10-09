@@ -98,6 +98,40 @@ export function ZustandIcon({ className, color, ...props }) {
   )
 }
 
+export function GsapIcon({ className, color, ...props }) {
+  return (
+    <StackSvg
+      className={className}
+      color={color}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.25"
+      strokeLinecap="round"
+      {...props}
+    >
+      <path d="M3 17c3.5 0 4.5-10 9-10s5.5 10 9 10" />
+      <circle cx="12" cy="7" r="1.6" fill="currentColor" stroke="none" />
+    </StackSvg>
+  )
+}
+
+export function LenisIcon({ className, color, ...props }) {
+  return (
+    <StackSvg
+      className={className}
+      color={color}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      {...props}
+    >
+      <rect x="7" y="3" width="10" height="18" rx="5" />
+      <path d="M12 7v4" />
+    </StackSvg>
+  )
+}
+
 export function ViteIcon({ className, color, ...props }) {
   return (
     <StackSvg className={className} color={color} fill="currentColor" {...props}>
@@ -116,6 +150,8 @@ const STACK_ICONS = {
   tiptap: TiptapIcon,
   recharts: RechartsIcon,
   zustand: ZustandIcon,
+  gsap: GsapIcon,
+  lenis: LenisIcon,
   vite: ViteIcon,
 }
 

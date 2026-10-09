@@ -13,6 +13,7 @@ export default defineConfig([
     'eleven/**',
     'evently/**',
     'glimpse/**',
+    'iron_volt/**',
     'nebula/**',
     'northbound_labs/**',
     'norwin_ai/**',

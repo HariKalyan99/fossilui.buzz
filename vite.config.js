@@ -15,6 +15,11 @@ export default defineConfig({
       '@fossilui/react': path.resolve(root, 'packages/fossil-ui/src/index.js'),
     },
   },
+  optimizeDeps: {
+    // Template folders (atelier_09/, iron_volt/, ...) have their own index.html and
+    // dependencies; scanning them makes Vite re-optimize mid-session and serve stale deps.
+    entries: ['index.html'],
+  },
   server: {
     proxy: {
       '/api': {

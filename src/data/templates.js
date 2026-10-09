@@ -60,6 +60,20 @@ export const TEMPLATES = [
     githubUrl: 'https://github.com/HariKalyan99/fossilUI-template-v1-glimpse',
   },
   {
+    slug: 'iron_volt',
+    name: 'Iron Volt',
+    tagline: 'Gym & performance coaching site',
+    description:
+      'A bold, high-contrast site for gyms and coaching studios. Programs, coaches, memberships and trial booking, with GSAP-driven motion and smooth scrolling.',
+    category: 'Fitness',
+    tags: ['Fitness', 'Gym', 'Coaching'],
+    accent: 'from-lime-50 via-yellow-50 to-neutral-100',
+    swatch: '#d7ff00',
+    previewVideoUrl: '/videos/iron_volt.optimized.mp4',
+    liveUrl: 'https://fossil-ui-template-v1-iron-volt.vercel.app/',
+    githubUrl: 'https://github.com/HariKalyan99/fossilUI-template-v1-iron_volt',
+  },
+  {
     slug: 'nebula',
     name: 'Nebula',
     tagline: 'AI / Developer tooling SaaS',
@@ -117,7 +131,7 @@ export const TEMPLATES = [
   },
 ]
 
-export const CATEGORIES = ['All', 'Portfolio', 'Dashboard', 'SaaS', 'Marketing', 'E-commerce']
+export const CATEGORIES = ['All', 'Portfolio', 'Dashboard', 'SaaS', 'Marketing', 'E-commerce', 'Fitness']
 
 export function getTemplate(slug) {
   return TEMPLATES.find((t) => t.slug === slug)

@@ -53,7 +53,7 @@ export default function App() {
       primaryLabel="Get started"
       primaryHref="/docs"
       secondaryLabel="GitHub"
-      secondaryHref="https://github.com/fossilui"
+      secondaryHref="https://github.com/HariKalyan99/fossilui.buzz"
     />
   )
 }
