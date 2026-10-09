@@ -27,7 +27,7 @@ function Node({ node, depth, activePath, onSelect }) {
         type="button"
         onClick={() => onSelect(node.file)}
         className={cn(
-          'group flex w-full items-center gap-1.5 px-2 py-1 rounded-md text-[12.5px] text-left',
+          'group flex w-full items-center gap-1.5 px-2 py-2 sm:py-1 rounded-md text-[13.5px] sm:text-[12.5px] text-left',
           'hover:bg-neutral-200/70',
           isActive && 'bg-neutral-200 text-neutral-900',
           !isActive && 'text-neutral-600 hover:text-neutral-900',
@@ -45,7 +45,8 @@ function Node({ node, depth, activePath, onSelect }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-1 px-2 py-1 rounded-md text-[12.5px] text-neutral-700 hover:bg-neutral-200/70 hover:text-neutral-900"
+        aria-expanded={open}
+        className="flex w-full items-center gap-1 px-2 py-2 sm:py-1 rounded-md text-[13.5px] sm:text-[12.5px] text-neutral-700 hover:bg-neutral-200/70 hover:text-neutral-900"
         style={{ paddingLeft: `${depth * 12 + 4}px` }}
       >
         <ChevronRight
