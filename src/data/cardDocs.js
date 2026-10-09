@@ -1,30 +1,15 @@
 import { CARD_DEMO_IMAGE, CARD_DEMO_IMAGE_ALT } from './cardDemo'
+import { importGuideSnippets, importSnippet } from './sharedDocs'
 
-export const CARD_INSTALL_SNIPPET = `# Full component library
-npm install @fossilui/react
+export const CARD_PACKAGE = { label: 'Cards', packageName: '@fossilui/cards' }
 
-# Required — Tailwind v4 (Vite)
-npm install -D tailwindcss @tailwindcss/vite`
+export const CARD_IMPORT_SNIPPETS = importGuideSnippets(CARD_PACKAGE)
 
-export const CARD_VITE_SNIPPET = `// vite.config.js
-import tailwindcss from '@tailwindcss/vite'
-
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-})`
-
-export const CARD_IMPORT_SNIPPET = `// Full library import
-import { Card } from '@fossilui/react'
-
-// OR cards path inside @fossilui/react:
-import { Card } from '@fossilui/react/cards'`
-
-export const CARD_TAILWIND_SNIPPET = `/* app.css */
-@import "tailwindcss";`
-
-export const CARD_TAILWIND_REACT_SNIPPET = `/* app.css — use with @fossilui/react */
-@import "tailwindcss";
-@source "../node_modules/@fossilui/react/dist";`
+export const CARD_IMPORT_SNIPPET = importSnippet({
+  names: ['Card'],
+  subpath: 'cards',
+  packageName: CARD_PACKAGE.packageName,
+})
 
 export const WHEN_TO_USE = [
   {

@@ -1,12 +1,12 @@
 {
   "name": "@fossilui/buttons",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Animated button components from Fossil UI.",
   "type": "module",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fossilui/fossil.buzz",
+    "url": "git+https://github.com/fossilui/fossil.buzz.git",
     "directory": "packages/fossil-buttons"
   },
   "keywords": [

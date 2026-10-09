@@ -1,6 +1,15 @@
 # @fossilui/react
 
-Publishable React components from [Fossil UI](https://fossilui.buzz). Buttons are the first category; cards, inputs, and more will land here over time.
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, and hero sections. Each family is also importable on its own path (`@fossilui/react/cards`, `/modals`, `/inputs`, `/navbars`, `/heroes`) or as a standalone package (`@fossilui/buttons`, `@fossilui/cards`, `@fossilui/modals`, `@fossilui/inputs`, `@fossilui/navbars`, `@fossilui/heroes`).
+
+```jsx
+import { Modal, Input, Navbar, Hero } from '@fossilui/react'
+
+<Hero motion="staggerWords" title="Ship polished interfaces faster" primaryLabel="Get started" />
+<Input motion="floatingLabel" label="Email" type="email" />
+```
+
+Live docs and configurators: https://fossilui.buzz/components
 
 ## Requirements
 

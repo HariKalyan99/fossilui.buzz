@@ -99,7 +99,7 @@ const FAQS = [
   },
   {
     q: "Will there be more templates and components?",
-    a: "Yes. Components are coming soon, and new templates are added regularly. Subscribe on the Components page for updates.",
+    a: "Yes. Animated component families (buttons, cards, modals, inputs, navbars and hero blocks) are live on npm under @fossilui, and new templates are added regularly.",
   },
   {
     q: "How can I contribute?",
