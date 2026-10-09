@@ -4,6 +4,7 @@ import { NAV_LINK, NAV_LINK_ACTIVE, createAnimatedNavbar } from './shared/create
 /** Each link draws its own underline from the left on hover; the active link keeps it. */
 export const GrowUnderlineNavbar = createAnimatedNavbar({
   displayName: 'GrowUnderlineNavbar',
+  mobileMenu: 'cascadeLeft',
   renderLinks: (ctx) => (
     <ul className="flex items-center">
       {ctx.links.map((link) => {
@@ -17,7 +18,7 @@ export const GrowUnderlineNavbar = createAnimatedNavbar({
                 className={cn(
                   'pointer-events-none absolute inset-x-3 bottom-1.5 h-px origin-left bg-neutral-900',
                   'transition-transform duration-300 ease-out motion-reduce:transition-none',
-                  active ? 'scale-x-100' : 'scale-x-0 group-hover/link:scale-x-100',
+                  active ? 'scale-x-100' : 'scale-x-0 group-hover/link:scale-x-100 group-data-[touch]/link:scale-x-100',
                 )}
               />
             </a>

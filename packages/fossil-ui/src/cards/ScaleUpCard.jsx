@@ -8,7 +8,7 @@ export const ScaleUpCard = createAnimatedCard({
   animationClassName: ({ interactive = true }) =>
     cn(
       interactive &&
-        'origin-center transition-[transform,translate,scale,rotate,box-shadow] duration-300 ease-out hover:scale-[1.02] hover:shadow-[0_10px_30px_-14px_rgba(15,23,42,0.18)]',
+        'origin-center transition-[transform,translate,scale,rotate,box-shadow] duration-300 ease-out hover:scale-[1.02] data-[touch]:scale-[1.02] hover:shadow-[0_10px_30px_-14px_rgba(15,23,42,0.18)] data-[touch]:shadow-[0_10px_30px_-14px_rgba(15,23,42,0.18)]',
     ),
   renderContent: (prepared) => renderDefaultCardContent(prepared),
 })

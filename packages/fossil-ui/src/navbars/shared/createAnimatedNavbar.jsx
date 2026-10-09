@@ -1,9 +1,11 @@
 import { forwardRef, useId, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '../../lib/cn.js'
+import { useTouchHover, useTouchKey } from '../../lib/touch.js'
+import { MOBILE_MENUS } from './mobileMenus.js'
 
 export const NAV_LINK =
-  'relative z-[1] inline-flex h-9 items-center whitespace-nowrap rounded-md px-3 text-[13.5px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+  'relative z-[1] inline-flex h-9 items-center whitespace-nowrap rounded-md px-3 text-[13.5px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 data-[touch]:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
 
 export const NAV_LINK_ACTIVE = 'text-neutral-900'
 
@@ -35,56 +37,69 @@ function MenuButton({ open, controls, onClick }) {
   )
 }
 
-function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName }) {
+function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName, variant }) {
+  const preset = MOBILE_MENUS[variant] ?? MOBILE_MENUS.dropdown
+  const stagger = preset.stagger ?? 45
+  const total = ctx.links.length + (ctaLabel ? 1 : 0)
+  const delayFor = (index) => {
+    if (!open || stagger === 0) return '0ms'
+    const order = preset.reverse ? total - 1 - index : index
+    return `${80 + order * stagger}ms`
+  }
+  const itemClass = (extra) => cn(preset.item, preset.itemState?.(open), extra)
+
   return (
     <div
       id={id}
       aria-hidden={!open}
       className={cn(
-        'grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none @xl:hidden',
+        'grid @xl:hidden',
+        preset.animateHeight
+          ? 'transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none'
+          : // Snap open instantly; on close, wait for the exit motion before collapsing.
+            cn('transition-[grid-template-rows] duration-0', !open && 'delay-[420ms] motion-reduce:delay-0'),
         open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
       )}
     >
       <div className="min-h-0 overflow-hidden">
-        <ul className="flex flex-col gap-0.5 border-t border-neutral-200/80 px-3 pb-4 pt-3">
-          {ctx.links.map((link, index) => (
-            <li
-              key={link.label}
-              style={{ transitionDelay: open ? `${80 + index * 45}ms` : '0ms' }}
-              className={cn(
-                'transition-[opacity,translate] duration-300 ease-out motion-reduce:transition-none',
-                open ? 'translate-y-0 opacity-100' : '-translate-y-1.5 opacity-0',
-              )}
-            >
-              <a
-                {...ctx.linkProps(link)}
-                tabIndex={open ? undefined : -1}
-                className={cn(
-                  'flex h-10 items-center rounded-md px-3 text-[14px] font-medium text-neutral-600 transition-colors hover:bg-neutral-50 hover:text-neutral-900',
-                  ctx.isActive(link) && 'bg-neutral-100 text-neutral-900',
-                )}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-          {ctaLabel ? (
-            <li
-              style={{ transitionDelay: open ? `${80 + ctx.links.length * 45}ms` : '0ms' }}
-              className={cn(
-                'pt-2 transition-[opacity,translate] duration-300 ease-out motion-reduce:transition-none',
-                open ? 'translate-y-0 opacity-100' : '-translate-y-1.5 opacity-0',
-              )}
-            >
-              <CtaLink
-                label={ctaLabel}
-                href={ctaHref}
-                tabIndex={open ? undefined : -1}
-                className={cn('flex w-full justify-center', ctaClassName)}
-              />
-            </li>
-          ) : null}
-        </ul>
+        <div className={cn(preset.panel, preset.panelState?.(open))}>
+          <ul className={preset.list}>
+            {ctx.links.map((link, index) => {
+              const active = ctx.isActive(link)
+              return (
+                <li key={link.label} style={{ transitionDelay: delayFor(index) }} className={itemClass()}>
+                  <a
+                    {...ctx.linkProps(link)}
+                    tabIndex={open ? undefined : -1}
+                    className={cn(preset.link, preset.linkState?.(open), active && preset.linkActive)}
+                  >
+                    {link.label}
+                    {preset.underline ? (
+                      <span
+                        aria-hidden
+                        className={cn(
+                          'pointer-events-none absolute inset-x-3 bottom-1.5 h-px origin-left bg-neutral-900',
+                          'transition-transform duration-500 ease-out motion-reduce:transition-none',
+                          active && open ? 'scale-x-100 delay-300' : 'scale-x-0',
+                        )}
+                      />
+                    ) : null}
+                  </a>
+                </li>
+              )
+            })}
+            {ctaLabel ? (
+              <li style={{ transitionDelay: delayFor(ctx.links.length) }} className={itemClass(preset.ctaItem)}>
+                <CtaLink
+                  label={ctaLabel}
+                  href={ctaHref}
+                  tabIndex={open ? undefined : -1}
+                  className={cn('flex w-full justify-center', preset.linkState?.(open), ctaClassName)}
+                />
+              </li>
+            ) : null}
+          </ul>
+        </div>
       </div>
     </div>
   )
@@ -92,19 +107,21 @@ function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName }) {
 
 function CtaLink({ label, href, className, tabIndex }) {
   const Comp = href ? 'a' : 'button'
+  const touchProps = useTouchHover()
   return (
     <Comp
       href={href}
       type={href ? undefined : 'button'}
       tabIndex={tabIndex}
+      {...touchProps}
       className={cn(
-        'group/cta h-9 items-center gap-1.5 rounded-lg bg-neutral-900 px-3.5 text-[13px] font-medium text-white transition-colors hover:bg-neutral-800',
+        'group/cta h-9 items-center gap-1.5 rounded-lg bg-neutral-900 px-3.5 text-[13px] font-medium text-white transition-colors hover:bg-neutral-800 data-[touch]:bg-neutral-800',
         className,
       )}
     >
       {label}
       <ArrowRight
-        className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5"
+        className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-data-[touch]/cta:translate-x-0.5"
         strokeWidth={2}
       />
     </Comp>
@@ -133,9 +150,10 @@ function CtaLink({ label, href, className, tabIndex }) {
  * @param {string} config.displayName
  * @param {(menuOpen: boolean) => string} [config.rootClassName]
  * @param {string} [config.ctaClassName]
+ * @param {keyof typeof MOBILE_MENUS} [config.mobileMenu] how the menu opens below the `@xl` container width
  * @param {(ctx: object) => import('react').ReactNode} config.renderLinks
  */
-export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName, renderLinks }) {
+export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName, mobileMenu = 'dropdown', renderLinks }) {
   const Component = forwardRef(function AnimatedNavbar(props, ref) {
     const {
       brand = 'Fossil UI',
@@ -160,12 +178,17 @@ export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName,
       setCurrent(active)
     }
 
+    const touchFor = useTouchKey()
+    const { onPointerDown, onPointerUp, onPointerCancel, ...headerRest } = rest
+    const headerTouch = useTouchHover({ handlers: { onPointerDown, onPointerUp, onPointerCancel } })
+
     const items = normalizeLinks(links)
     const ctx = {
       links: items,
       current,
       isActive: (link) => link.label === current,
       linkProps: (link) => ({
+        ...touchFor(link.label),
         href: link.href,
         'aria-current': link.label === current ? 'page' : undefined,
         onClick: (event) => {
@@ -182,7 +205,8 @@ export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName,
       <header
         ref={ref}
         className={cn('@container relative w-full', rootClassName ? rootClassName(menuOpen) : DEFAULT_ROOT, className)}
-        {...rest}
+        {...headerRest}
+        {...headerTouch}
       >
         <nav aria-label="Primary" className="flex h-14 items-center justify-between gap-3 px-4">
           <BrandTag
@@ -214,6 +238,7 @@ export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName,
           ctaLabel={ctaLabel}
           ctaHref={ctaHref}
           ctaClassName={ctaClassName}
+          variant={mobileMenu}
         />
       </header>
     )

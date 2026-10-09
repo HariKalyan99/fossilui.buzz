@@ -8,7 +8,7 @@ export const TiltHoverCard = createAnimatedCard({
   animationClassName: ({ interactive = true }) =>
     cn(
       interactive &&
-        'transition-[transform,translate,scale,rotate,box-shadow] duration-300 ease-out hover:-rotate-1 hover:shadow-[0_14px_34px_-16px_rgba(15,23,42,0.2)]',
+        'transition-[transform,translate,scale,rotate,box-shadow] duration-300 ease-out hover:-rotate-1 data-[touch]:-rotate-1 hover:shadow-[0_14px_34px_-16px_rgba(15,23,42,0.2)] data-[touch]:shadow-[0_14px_34px_-16px_rgba(15,23,42,0.2)]',
     ),
   renderContent: (prepared) => renderDefaultCardContent(prepared),
 })

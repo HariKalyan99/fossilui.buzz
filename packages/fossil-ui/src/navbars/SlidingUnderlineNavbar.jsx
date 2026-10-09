@@ -7,6 +7,7 @@ const LINK_PADDING = 12
 /** One underline slides between links, sized to each label. */
 export const SlidingUnderlineNavbar = createAnimatedNavbar({
   displayName: 'SlidingUnderlineNavbar',
+  mobileMenu: 'drawerRight',
   renderLinks: (ctx) => (
     <SlidingLinks
       ctx={ctx}

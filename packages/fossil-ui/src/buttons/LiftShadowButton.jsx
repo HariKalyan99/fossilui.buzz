@@ -8,7 +8,7 @@ export const LiftShadowButton = createAnimatedButton({
   animationClassName: ({ appearance }) =>
     cn(
       'overflow-visible shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition-[transform,translate,scale,rotate,box-shadow,background-color] duration-300 ease-out',
-      'hover:-translate-y-0.5',
+      'hover:-translate-y-0.5 data-[touch]:-translate-y-0.5',
       appearance.accent.liftShadowHover,
       'active:translate-y-0',
       appearance.accent.liftShadowActive,

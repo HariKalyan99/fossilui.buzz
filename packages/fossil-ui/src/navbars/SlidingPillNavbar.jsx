@@ -5,6 +5,7 @@ import { INDICATOR_GLIDE, SlidingLinks } from './shared/SlidingLinks.jsx'
 /** A soft pill glides behind the hovered link and rests on the active one. */
 export const SlidingPillNavbar = createAnimatedNavbar({
   displayName: 'SlidingPillNavbar',
+  mobileMenu: 'pills',
   renderLinks: (ctx) => (
     <SlidingLinks
       ctx={ctx}

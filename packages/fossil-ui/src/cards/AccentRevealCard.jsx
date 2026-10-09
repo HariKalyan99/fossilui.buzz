@@ -15,7 +15,7 @@ export const AccentRevealCard = createAnimatedCard({
           className={cn(
             'pointer-events-none absolute inset-x-0 bottom-0 z-10 h-0.5 origin-center scale-x-0',
             'bg-gradient-to-r from-indigo-500 via-violet-500 to-indigo-500',
-            'transition-transform duration-300 ease-out group-hover:scale-x-100',
+            'transition-transform duration-300 ease-out group-hover:scale-x-100 group-data-[touch]:scale-x-100',
           )}
         />
       ) : null}

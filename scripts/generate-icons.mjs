@@ -1,83 +1,70 @@
 #!/usr/bin/env node
 /**
- * Generate favicon.svg and PNG icons from the artwork embedded in public/Rex.svg.
- * Rex.svg’s viewBox includes empty margin; rasterizing the file as-is crops the logo.
+ * Render public/Rex.svg into the transparent PNG logos and icons the site serves.
+ *
+ * Rex.svg builds the mark from embedded rasters cut out with masks and filters, so it
+ * has to go through a real browser: extracting the embedded PNG loses the masks
+ * (black corners), and iOS WebKit paints the SVG itself late or as a black square.
+ * Requires google-chrome (or set CHROME_BIN) and ImageMagick `convert`.
  */
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = join(root, 'public')
-const rexPath = join(publicDir, 'Rex.svg')
-const faviconSvgPath = join(publicDir, 'favicon.svg')
+const tmpDir = join(root, 'node_modules/.cache/icon-gen')
+const chrome = process.env.CHROME_BIN ?? 'google-chrome'
+const MASTER = 1024
 
-const SIZES = [
-  { name: 'favicon-32.png', size: 32 },
-  { name: 'apple-touch-icon.png', size: 180 },
-  { name: 'icon-192.png', size: 192 },
+const TRANSPARENT = [
+  { name: 'rex-1024.png', size: 1024 },
+  { name: 'rex-256.png', size: 256 },
+  { name: 'rex-128.png', size: 128 },
   { name: 'icon-512.png', size: 512 },
+  { name: 'icon-192.png', size: 192 },
+  { name: 'favicon-32.png', size: 32 },
 ]
 
-function extractEmbeddedPng(svgPath) {
-  const svg = readFileSync(svgPath, 'utf8')
-  const match = svg.match(/xlink:href="(data:image\/png;base64,[^"]+)"/)
-  if (!match) {
-    throw new Error('No embedded PNG found in Rex.svg')
-  }
-  return Buffer.from(match[1].replace('data:image/png;base64,', ''), 'base64')
-}
-
-function rasterizeSquare(sourcePng, size, outPath) {
-  execFileSync(
-    'convert',
-    [
-      sourcePng,
-      '-fuzz',
-      '1%',
-      '-trim',
-      '+repage',
-      '-resize',
-      `${size}x${size}`,
-      '-background',
-      'white',
-      '-gravity',
-      'center',
-      '-extent',
-      `${size}x${size}`,
-      outPath,
-    ],
-    { stdio: 'inherit' },
-  )
-}
-
-function writeFaviconSvg(pngPath, outPath) {
-  const base64 = readFileSync(pngPath).toString('base64')
-  const svg = [
-    '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"',
-    ' viewBox="0 0 512 512" width="512" height="512">',
-    `<image width="512" height="512" xlink:href="data:image/png;base64,${base64}"/>`,
-    '</svg>',
-  ].join('')
-  writeFileSync(outPath, svg)
-}
-
-const tmpDir = join(root, 'node_modules/.cache/icon-gen')
 mkdirSync(tmpDir, { recursive: true })
-const sourcePng = join(tmpDir, 'rex-source.png')
-writeFileSync(sourcePng, extractEmbeddedPng(rexPath))
-console.log('Extracted artwork from Rex.svg')
+copyFileSync(join(publicDir, 'Rex.svg'), join(tmpDir, 'Rex.svg'))
+writeFileSync(
+  join(tmpDir, 'render.html'),
+  `<!doctype html><style>html,body{margin:0;background:transparent}img{display:block;width:${MASTER}px;height:${MASTER}px}</style><img src="Rex.svg">`,
+)
 
-for (const { name, size } of SIZES) {
-  const outPath = join(publicDir, name)
-  rasterizeSquare(sourcePng, size, outPath)
-  console.log(`Wrote public/${name} (${size}×${size})`)
+const master = join(tmpDir, 'rex-master.png')
+execFileSync(chrome, [
+  '--headless=new',
+  '--disable-gpu',
+  '--no-sandbox',
+  '--hide-scrollbars',
+  '--default-background-color=00000000',
+  '--force-device-scale-factor=1',
+  `--window-size=${MASTER},${MASTER}`,
+  '--virtual-time-budget=3000',
+  `--screenshot=${master}`,
+  `file://${join(tmpDir, 'render.html')}`,
+])
+console.log('Rendered Rex.svg with headless Chrome')
+
+for (const { name, size } of TRANSPARENT) {
+  execFileSync('convert', [master, '-filter', 'Lanczos', '-resize', `${size}x${size}`, '-strip', join(publicDir, name)])
+  console.log(`Wrote public/${name}`)
 }
 
-const faviconSvgSource = join(publicDir, 'icon-192.png')
-writeFaviconSvg(faviconSvgSource, faviconSvgPath)
-console.log('Wrote public/favicon.svg')
+// iOS home-screen icons can't be transparent.
+execFileSync('convert', [
+  master, '-filter', 'Lanczos', '-resize', '160x160',
+  '-background', 'white', '-gravity', 'center', '-extent', '180x180', '-strip',
+  join(publicDir, 'apple-touch-icon.png'),
+])
+console.log('Wrote public/apple-touch-icon.png')
 
-rmSync(tmpDir, { recursive: true, force: true })
-console.log('Done.')
+const icon192 = readFileSync(join(publicDir, 'icon-192.png')).toString('base64')
+writeFileSync(
+  join(publicDir, 'favicon.svg'),
+  `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 192 192" width="192" height="192"><image width="192" height="192" xlink:href="data:image/png;base64,${icon192}"/></svg>`,
+)
+console.log('Wrote public/favicon.svg')

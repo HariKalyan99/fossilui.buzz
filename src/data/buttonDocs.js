@@ -488,6 +488,6 @@ export const BUTTON_FAQS = [
   },
   {
     q: 'Do animations work on touch devices?',
-    a: 'Hover effects respond to tap on most touch browsers. For critical actions, do not rely on hover alone — keep labels clear and use loading or disabled states where needed.',
+    a: 'Yes. On phones and tablets a tap plays the same animation as hover, holds it for a moment, then eases back — so every variant gives visible feedback without a mouse. Swiping past a button to scroll does not trigger it.',
   },
 ]

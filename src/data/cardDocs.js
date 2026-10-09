@@ -294,6 +294,10 @@ export const CARD_FAQS = [
     a: 'Yes. Pass href to render the root as an anchor. Pair with accentReveal or liftShadow for clear interactive affordance.',
   },
   {
+    q: 'Do the hover effects work on touch devices?',
+    a: 'Yes. On phones and tablets, tapping a card plays its hover motion and keeps it until the user taps somewhere else. Scrolling past a card does not trigger it.',
+  },
+  {
     q: 'How do I disable hover motion?',
     a: 'Set interactive={false} for static presentation — useful in dashboards or when mirroring a selected state.',
   },

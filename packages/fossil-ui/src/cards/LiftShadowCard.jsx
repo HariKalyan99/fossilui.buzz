@@ -8,7 +8,7 @@ export const LiftShadowCard = createAnimatedCard({
   animationClassName: ({ interactive = true }) =>
     cn(
       interactive &&
-        'transition-[transform,translate,scale,rotate,box-shadow,border-color] duration-300 ease-out hover:-translate-y-0.5 hover:border-neutral-300 hover:shadow-[0_6px_24px_-10px_rgba(15,23,42,0.12),0_1px_2px_rgba(15,23,42,0.04)]',
+        'transition-[transform,translate,scale,rotate,box-shadow,border-color] duration-300 ease-out hover:-translate-y-0.5 data-[touch]:-translate-y-0.5 hover:border-neutral-300 data-[touch]:border-neutral-300 hover:shadow-[0_6px_24px_-10px_rgba(15,23,42,0.12),0_1px_2px_rgba(15,23,42,0.04)] data-[touch]:shadow-[0_6px_24px_-10px_rgba(15,23,42,0.12),0_1px_2px_rgba(15,23,42,0.04)]',
     ),
   renderContent: (prepared) => renderDefaultCardContent(prepared),
 })

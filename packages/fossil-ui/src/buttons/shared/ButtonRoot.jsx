@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import { cn } from '../../lib/cn.js'
+import { useTouchHover } from '../../lib/touch.js'
 import { DefaultLoadingIcon } from './DefaultLoadingIcon.jsx'
 import { useLoadingState } from './normalizeLoading.js'
 
@@ -26,7 +27,9 @@ export const ButtonRoot = forwardRef(function ButtonRoot({ prepared, children },
   const isDisabled = disabled || isBusy
 
   const Comp = isLink ? 'a' : 'button'
-  const { className, style, onClick, ...restNative } = nativeProps
+  const { className, style, onClick, onPointerDown, onPointerUp, onPointerCancel, ...restNative } =
+    nativeProps
+  const touchProps = useTouchHover({ handlers: { onPointerDown, onPointerUp, onPointerCancel } })
 
   const iconWrapClass = cn(
     'inline-flex shrink-0 items-center justify-center leading-none',
@@ -57,6 +60,7 @@ export const ButtonRoot = forwardRef(function ButtonRoot({ prepared, children },
     <Comp
       ref={ref}
       {...restNative}
+      {...touchProps}
       className={cn(className, isBusy && 'pointer-events-none')}
       style={style}
       onClick={isDisabled ? undefined : onClick}

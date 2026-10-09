@@ -239,8 +239,8 @@ export const HERO_MOTION_COMPATIBILITY = [
   {
     motion: 'spotlight',
     bestWith: 'desktop-first landing pages',
-    limited: 'Touch devices (no pointer to follow)',
-    notes: 'The glow only appears on hover; touch users still get the fade-up entrance.',
+    limited: 'Sections with busy imagery behind the copy',
+    notes: 'On touch screens the glow jumps to wherever the user taps or drags and stays until they tap outside.',
   },
   {
     motion: 'typewriter',

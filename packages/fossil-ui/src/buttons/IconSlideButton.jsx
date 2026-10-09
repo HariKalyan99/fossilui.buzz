@@ -11,7 +11,7 @@ export const IconSlideButton = forwardRef(function IconSlideButton(props, ref) {
     animationClassName: cn(
       'overflow-hidden ring-1 ring-neutral-200 shadow-none',
       'transition-[box-shadow,ring-color] duration-300',
-      'hover:ring-neutral-300 hover:shadow-[0_4px_14px_-4px_rgba(15,23,42,0.12)]',
+      'hover:ring-neutral-300 data-[touch]:ring-neutral-300 hover:shadow-[0_4px_14px_-4px_rgba(15,23,42,0.12)] data-[touch]:shadow-[0_4px_14px_-4px_rgba(15,23,42,0.12)]',
     ),
   })
 
@@ -21,12 +21,12 @@ export const IconSlideButton = forwardRef(function IconSlideButton(props, ref) {
   return (
     <ButtonRoot ref={ref} prepared={prepared}>
       <span
-        className="flex w-0 -translate-x-1 items-center overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover:w-4 group-active:w-4 group-hover:translate-x-0 group-active:translate-x-0 group-hover:opacity-100 group-active:opacity-100"
+        className="flex w-0 -translate-x-1 items-center overflow-hidden opacity-0 transition-all duration-300 ease-out group-hover:w-4 group-data-[touch]:w-4 group-hover:translate-x-0 group-data-[touch]:translate-x-0 group-hover:opacity-100 group-data-[touch]:opacity-100"
         aria-hidden="true"
       >
         {slideIcon}
       </span>
-      <span className="transition-transform duration-300 ease-out group-hover:translate-x-0 group-active:translate-x-0.5">
+      <span className="transition-transform duration-300 ease-out group-hover:translate-x-0 group-data-[touch]:translate-x-0.5">
         {formattedChildren}
       </span>
     </ButtonRoot>

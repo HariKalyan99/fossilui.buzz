@@ -1,11 +1,12 @@
 import { cn } from '../lib/cn.js'
 import { NAV_LINK, NAV_LINK_ACTIVE, createAnimatedNavbar } from './shared/createAnimatedNavbar.jsx'
 
-const ROLL = 'block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover/link:-translate-y-full'
+const ROLL = 'block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover/link:-translate-y-full group-data-[touch]/link:-translate-y-full'
 
 /** Link labels roll upward to reveal an accent copy on hover. */
 export const TextRollNavbar = createAnimatedNavbar({
   displayName: 'TextRollNavbar',
+  mobileMenu: 'rollUp',
   renderLinks: (ctx) => (
     <ul className="flex items-center">
       {ctx.links.map((link) => (
