@@ -48,10 +48,7 @@ function getEmailContent({ type, username }) {
 
 function getEmailImageUrl() {
   if (process.env.EMAIL_IMAGE_URL) return process.env.EMAIL_IMAGE_URL;
-  if (process.env.PUBLIC_BASE_URL) {
-    return `${process.env.PUBLIC_BASE_URL.replace(/\/$/, "")}/email.jpg`;
-  }
-  return "https://fossilui.buzz/email.jpg";
+  return "https://nldfscykuoyufonuskik.supabase.co/storage/v1/object/public/media-fossilui/images/email.jpg";
 }
 
 function buildEmailHtml({ heading, body, imageUrl }) {
