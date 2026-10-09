@@ -11,7 +11,7 @@ export const ImageZoomCard = createAnimatedCard({
       mediaClassName: 'overflow-hidden',
       imageClassName: cn(
         prepared.interactive &&
-          'transition-transform duration-500 ease-out group-hover:scale-[1.06]',
+          'transition-transform duration-500 ease-out group-hover:scale-[1.06] group-data-[touch]:scale-[1.06]',
       ),
     }),
 })

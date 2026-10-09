@@ -124,14 +124,17 @@ function Dinosaur({
 function GroundPing({ reducedMotion, yOffset = -0.82 }) {
   const coreRef = useRef(null);
   const stageRef = useRef(null);
-  const logoMap = useTexture("/Rex.svg");
+  const logoMap = useTexture("/rex-1024.png");
+  const maxAnisotropy = useThree((state) => state.gl.capabilities.getMaxAnisotropy());
   const stageYOffset = -0.03;
 
   useEffect(() => {
     if (!logoMap) return;
     logoMap.colorSpace = THREE.SRGBColorSpace;
+    // The disc is viewed at a steep angle; anisotropic filtering keeps the mark sharp.
+    logoMap.anisotropy = maxAnisotropy;
     logoMap.needsUpdate = true;
-  }, [logoMap]);
+  }, [logoMap, maxAnisotropy]);
 
   useFrame((state) => {
     if (!coreRef.current || !stageRef.current) return;
@@ -231,22 +234,21 @@ export function Hero3D({
   useEffect(() => {
     const setViewportConfig = () => {
       const w = window.innerWidth;
+      // Phones and tablets are 2–3x screens; rendering below their pixel ratio blurs the model and logo.
+      setMaxDpr(Math.min(window.devicePixelRatio || 1, 2));
       if (w < 640) {
-        setMaxDpr(1.15);
         setResponsiveScale(scaleTarget * 0.78);
         setGroundOffsetAdjust(-0.035);
         setCameraX(0.32);
         setCameraY(1.0);
         setCameraZ(5.9);
       } else if (w < 1024) {
-        setMaxDpr(1.35);
         setResponsiveScale(scaleTarget * 0.9);
         setGroundOffsetAdjust(-0.028);
         setCameraX(0.46);
         setCameraY(1.15);
         setCameraZ(5.35);
       } else {
-        setMaxDpr(1.75);
         setResponsiveScale(scaleTarget);
         setGroundOffsetAdjust(-0.02);
         setCameraX(0.55);

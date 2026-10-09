@@ -231,7 +231,7 @@ export const NAVBAR_MOTION_COMPATIBILITY = [
 export const NAVBAR_FAQS = [
   {
     q: 'How does it behave on mobile?',
-    a: 'Navbars use container queries, so they adapt to the width of their parent rather than the viewport. Below ~36rem the links collapse into an animated hamburger menu whose items stagger in.',
+    a: 'Navbars use container queries, so they adapt to the width of their parent rather than the viewport. Below ~36rem the links collapse into a hamburger menu, and each variant opens it differently: slidingPill pops in pill chips, slidingUnderline slides a panel in from the right, dotIndicator zooms in a two-column grid, growUnderline cascades links from the left, textRoll rolls links up from the bottom, spotlight reveals the menu in a circle from the button, and glassFloat drops a floating glass card. On tablets, where the full link row shows, tapping a link plays its hover effect (roll, underline, dim) before it becomes active.',
   },
   {
     q: 'How do I use it with React Router or Next.js links?',

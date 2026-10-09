@@ -9,7 +9,7 @@ export const GradientShiftCard = createAnimatedCard({
     cn(
       'overflow-hidden',
       interactive &&
-        'transition-[border-color,box-shadow] duration-500 ease-out group-hover:border-indigo-200/80 group-hover:shadow-[0_8px_28px_-14px_rgba(99,102,241,0.28)]',
+        'transition-[border-color,box-shadow] duration-500 ease-out group-hover:border-indigo-200/80 group-data-[touch]:border-indigo-200/80 group-hover:shadow-[0_8px_28px_-14px_rgba(99,102,241,0.28)] group-data-[touch]:shadow-[0_8px_28px_-14px_rgba(99,102,241,0.28)]',
     ),
   renderContent: (prepared) => (
     <>
@@ -26,7 +26,7 @@ export const GradientShiftCard = createAnimatedCard({
           className={cn(
             'pointer-events-none absolute inset-0 z-[1]',
             'bg-gradient-to-br from-indigo-400/35 via-violet-300/15 to-fuchsia-400/30',
-            'opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100',
+            'opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-data-[touch]:opacity-100',
           )}
         />
       ) : null}

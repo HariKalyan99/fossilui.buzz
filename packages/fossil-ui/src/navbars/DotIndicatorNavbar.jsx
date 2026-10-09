@@ -7,6 +7,7 @@ const DOT_SIZE = 6
 /** A small accent dot travels under the hovered or active link. */
 export const DotIndicatorNavbar = createAnimatedNavbar({
   displayName: 'DotIndicatorNavbar',
+  mobileMenu: 'grid',
   renderLinks: (ctx) => (
     <SlidingLinks
       ctx={ctx}

@@ -15,7 +15,7 @@ export const ShineSweepCard = createAnimatedCard({
           className={cn(
             'pointer-events-none absolute inset-0 z-10 -translate-x-full skew-x-[-18deg]',
             'bg-gradient-to-r from-transparent via-white/55 to-transparent',
-            'transition-transform duration-700 ease-out group-hover:translate-x-full',
+            'transition-transform duration-700 ease-out group-hover:translate-x-full group-data-[touch]:translate-x-full',
           )}
         />
       ) : null}
