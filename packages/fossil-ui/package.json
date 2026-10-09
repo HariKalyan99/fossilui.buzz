@@ -1,0 +1,90 @@
+{
+  "name": "@fossilui/react",
+  "version": "0.2.1",
+  "description": "Animated React components from Fossil UI — buttons, cards, modals, inputs, navbars, and hero blocks.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fossilui/fossil.buzz.git",
+    "directory": "packages/fossil-ui"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "buttons",
+    "cards",
+    "modals",
+    "inputs",
+    "navbar",
+    "hero",
+    "animation",
+    "tailwind",
+    "fossil-ui"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./button": {
+      "import": "./dist/buttons/index.js"
+    },
+    "./button/example": {
+      "import": "./dist/buttons/example.js"
+    },
+    "./buttons": {
+      "import": "./dist/buttons/index.js"
+    },
+    "./cards": {
+      "import": "./dist/cards/index.js"
+    },
+    "./modals": {
+      "import": "./dist/modals/index.js"
+    },
+    "./inputs": {
+      "import": "./dist/inputs/index.js"
+    },
+    "./navbars": {
+      "import": "./dist/navbars/index.js"
+    },
+    "./heroes": {
+      "import": "./dist/heroes/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "lucide-react": ">=0.400.0"
+  },
+  "peerDependenciesMeta": {
+    "lucide-react": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "lucide-react": "^1.14.0",
+    "vite": "^8.0.10"
+  }
+}

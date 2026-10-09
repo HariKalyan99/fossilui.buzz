@@ -14,6 +14,12 @@ const Home = lazy(() => import('./pages/Home'))
 const Templates = lazy(() => import('./pages/Templates'))
 const TemplateDetail = lazy(() => import('./pages/TemplateDetail'))
 const Components = lazy(() => import('./pages/Components'))
+const Buttons = lazy(() => import('./pages/Buttons'))
+const Cards = lazy(() => import('./pages/Cards'))
+const Modals = lazy(() => import('./pages/Modals'))
+const Inputs = lazy(() => import('./pages/Inputs'))
+const Navbars = lazy(() => import('./pages/Navbars'))
+const Heroes = lazy(() => import('./pages/Heroes'))
 const Docs = lazy(() => import('./pages/Docs'))
 const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -56,6 +62,24 @@ function RouteSeo() {
   } else if (path === '/components') {
     title = 'Components - Fossil UI'
     description = 'UI component library updates, previews, and release notifications from Fossil UI.'
+  } else if (path === '/components/buttons') {
+    title = 'Buttons - Fossil UI'
+    description = 'Animated button variants from @fossilui/react — roll text, stagger letters, shine sweep, and more.'
+  } else if (path === '/components/cards') {
+    title = 'Cards - Fossil UI'
+    description = 'Animated card variants from @fossilui/react — lift shadow, image zoom, shine sweep, tilt hover, and more.'
+  } else if (path === '/components/modals') {
+    title = 'Modals - Fossil UI'
+    description = 'Animated modal variants from @fossilui/react — scale fade, zoom bounce, flip, drawer, bottom sheet, and more.'
+  } else if (path === '/components/inputs') {
+    title = 'Inputs - Fossil UI'
+    description = 'Animated input variants from @fossilui/react — focus glow, floating label, gradient border, border draw, and more.'
+  } else if (path === '/components/navbars') {
+    title = 'Navbars - Fossil UI'
+    description = 'Animated navbar variants from @fossilui/react — sliding pill, sliding underline, text roll, glass float, and more.'
+  } else if (path === '/components/heroes') {
+    title = 'Hero blocks - Fossil UI'
+    description = 'Animated hero sections from @fossilui/react — stagger words, letter cascade, gradient text, typewriter, and more.'
   } else if (path === '/docs') {
     title = 'Docs - Fossil UI'
     description = 'Get Fossil UI templates running fast with install, local run, and customization guides.'
@@ -108,6 +132,12 @@ function AnimatedRoutes() {
           <Route path="/templates" element={<Templates />} />
           <Route path="/templates/:slug" element={<TemplateDetail />} />
           <Route path="/components" element={<Components />} />
+          <Route path="/components/buttons" element={<Buttons />} />
+          <Route path="/components/cards" element={<Cards />} />
+          <Route path="/components/modals" element={<Modals />} />
+          <Route path="/components/inputs" element={<Inputs />} />
+          <Route path="/components/navbars" element={<Navbars />} />
+          <Route path="/components/heroes" element={<Heroes />} />
           <Route path="/code" element={<Navigate to="/templates" replace />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/contact" element={<Contact />} />

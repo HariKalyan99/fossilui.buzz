@@ -5,14 +5,14 @@ import { cn } from '../../lib/cn'
 function FileIcon({ name }) {
   const ext = name.split('.').pop()?.toLowerCase()
   const colors = {
-    jsx: 'text-sky-300',
-    js: 'text-yellow-300',
-    ts: 'text-blue-300',
-    tsx: 'text-blue-300',
-    css: 'text-pink-300',
-    json: 'text-amber-300',
-    md: 'text-neutral-300',
-    html: 'text-orange-300',
+    jsx: 'text-sky-600',
+    js: 'text-amber-600',
+    ts: 'text-blue-600',
+    tsx: 'text-blue-600',
+    css: 'text-pink-600',
+    json: 'text-amber-700',
+    md: 'text-neutral-500',
+    html: 'text-orange-600',
   }
   return <File className={cn('h-3.5 w-3.5 shrink-0', colors[ext] || 'text-neutral-400')} />
 }
@@ -28,9 +28,9 @@ function Node({ node, depth, activePath, onSelect }) {
         onClick={() => onSelect(node.file)}
         className={cn(
           'group flex w-full items-center gap-1.5 px-2 py-1 rounded-md text-[12.5px] text-left',
-          'hover:bg-white/[0.05]',
-          isActive && 'bg-white/[0.08] text-white',
-          !isActive && 'text-neutral-400 hover:text-neutral-100',
+          'hover:bg-neutral-200/70',
+          isActive && 'bg-neutral-200 text-neutral-900',
+          !isActive && 'text-neutral-600 hover:text-neutral-900',
         )}
         style={{ paddingLeft: `${depth * 12 + 8}px` }}
       >
@@ -45,19 +45,19 @@ function Node({ node, depth, activePath, onSelect }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-1 px-2 py-1 rounded-md text-[12.5px] text-neutral-300 hover:bg-white/[0.05] hover:text-white"
+        className="flex w-full items-center gap-1 px-2 py-1 rounded-md text-[12.5px] text-neutral-700 hover:bg-neutral-200/70 hover:text-neutral-900"
         style={{ paddingLeft: `${depth * 12 + 4}px` }}
       >
         <ChevronRight
           className={cn(
-            'h-3 w-3 shrink-0 text-neutral-500 transition-transform',
+            'h-3 w-3 shrink-0 text-neutral-400 transition-transform',
             open && 'rotate-90',
           )}
         />
         {open ? (
-          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-amber-300/80" />
+          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-amber-600" />
         ) : (
-          <Folder className="h-3.5 w-3.5 shrink-0 text-amber-300/80" />
+          <Folder className="h-3.5 w-3.5 shrink-0 text-amber-600" />
         )}
         <span className="truncate">{node.name}</span>
       </button>

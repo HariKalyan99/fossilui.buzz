@@ -255,17 +255,17 @@ export default function TemplateDetail() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, delay: 0.04 }}
             className={cn(
-              'card overflow-hidden flex flex-col h-[640px] !bg-[#0a0a0a] border-neutral-900',
+              'card overflow-hidden flex flex-col h-[640px] !bg-[#f5f5f5] border-neutral-200',
               view === 'preview' && 'hidden md:flex',
             )}
           >
             {/* Toolbar (dark) */}
-            <div className="flex items-center justify-between border-b border-white/5 px-2 py-1.5">
+            <div className="flex items-center justify-between border-b border-neutral-200 px-2 py-1.5">
               <div className="flex items-center gap-1 min-w-0">
                 <button
                   type="button"
                   onClick={() => setSidebarOpen((v) => !v)}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-neutral-400 hover:text-white hover:bg-white/[0.05]"
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/70"
                   aria-label="Toggle file tree"
                 >
                   {sidebarOpen ? (
@@ -274,12 +274,12 @@ export default function TemplateDetail() {
                     <PanelLeftOpen className="h-3.5 w-3.5" />
                   )}
                 </button>
-                <span className="text-[12.5px] text-neutral-300 px-2 truncate font-mono">
+                <span className="text-[12.5px] text-neutral-700 px-2 truncate font-mono">
                   {active?.path || '—'}
                 </span>
               </div>
               <div className="flex items-center gap-1 shrink-0">
-                <span className="hidden sm:inline-flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-neutral-500 px-2">
+                <span className="hidden sm:inline-flex items-center gap-1 text-[10.5px] uppercase tracking-[0.16em] text-neutral-400 px-2">
                   {active?.lang || 'text'}
                 </span>
                 <button
@@ -289,8 +289,8 @@ export default function TemplateDetail() {
                   className={cn(
                     'inline-flex items-center gap-1.5 h-7 px-2.5 rounded-md text-[12px] border',
                     copied
-                      ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/5'
-                      : 'border-white/10 text-neutral-300 hover:bg-white/[0.05]',
+                      ? 'border-emerald-500/30 text-emerald-700 bg-emerald-500/10'
+                      : 'border-neutral-200 text-neutral-600 hover:bg-neutral-200/70',
                   )}
                 >
                   {copied ? (
@@ -322,8 +322,8 @@ export default function TemplateDetail() {
                 <div className="hidden sm:flex sm:flex-1 min-h-0">
                   <Allotment separator snapOnCtrl={false}>
                   <Allotment.Pane minSize={180} preferredSize={260} snap>
-                    <aside className="flex h-full border-r border-white/5 flex-col">
-                      <div className="px-3 pt-2.5 pb-1 text-[10.5px] uppercase tracking-[0.16em] text-neutral-500">
+                    <aside className="flex h-full border-r border-neutral-200 flex-col bg-[#f5f5f5]">
+                      <div className="px-3 pt-2.5 pb-1 text-[10.5px] uppercase tracking-[0.16em] text-neutral-400">
                         Files
                       </div>
                       <div className="flex-1 overflow-y-auto py-1.5" data-lenis-prevent>

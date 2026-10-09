@@ -3,7 +3,7 @@ import { javascript } from '@codemirror/lang-javascript'
 import { css as cssLang } from '@codemirror/lang-css'
 import { html as htmlLang } from '@codemirror/lang-html'
 import { json as jsonLang } from '@codemirror/lang-json'
-import { oneDark } from '@codemirror/theme-one-dark'
+import { quietlight, CODE_EDITOR_BG } from './codeMirrorTheme.js'
 import DinoLoader from '../loader/DinoLoader'
 
 const ReactCodeMirror = lazy(() => import('@uiw/react-codemirror'))
@@ -30,7 +30,10 @@ export function CodeViewer({ file }) {
 
   if (!file) {
     return (
-      <div className="flex h-full items-center justify-center text-sm text-neutral-500">
+      <div
+        className="flex h-full items-center justify-center text-sm text-neutral-500"
+        style={{ backgroundColor: CODE_EDITOR_BG }}
+      >
         Select a file to view.
       </div>
     )
@@ -39,7 +42,10 @@ export function CodeViewer({ file }) {
   return (
     <Suspense
       fallback={
-        <div className="flex h-full items-center justify-center p-4">
+        <div
+          className="flex h-full items-center justify-center p-4"
+          style={{ backgroundColor: CODE_EDITOR_BG }}
+        >
           <DinoLoader compact />
         </div>
       }
@@ -47,7 +53,7 @@ export function CodeViewer({ file }) {
       <ReactCodeMirror
         value={file.code}
         height="100%"
-        theme={oneDark}
+        theme={quietlight}
         extensions={extensions}
         readOnly
         basicSetup={{
@@ -58,7 +64,13 @@ export function CodeViewer({ file }) {
           autocompletion: false,
           searchKeymap: true,
         }}
-        className="h-full"
+        className={[
+          'h-full text-[12px] sm:text-[13px]',
+          '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none',
+          '[&_.cm-gutters]:border-0',
+          '[&_.cm-scroller]:h-full [&_.cm-scroller]:overflow-x-auto',
+          '[&_.cm-content]:min-w-0',
+        ].join(' ')}
       />
     </Suspense>
   )
