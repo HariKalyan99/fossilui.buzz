@@ -68,6 +68,9 @@ export function CodeViewer({ file }) {
           'h-full text-[12px] sm:text-[13px]',
           '[&_.cm-editor]:border-0 [&_.cm-editor]:outline-none',
           '[&_.cm-gutters]:border-0',
+          // Fold arrows are ~8px by default — too small to tap on touch screens.
+          '[&_.cm-foldGutter_.cm-gutterElement]:min-w-6 [&_.cm-foldGutter_.cm-gutterElement]:cursor-pointer [&_.cm-foldGutter_.cm-gutterElement]:text-center',
+          '[&_.cm-foldGutter_span]:inline-block [&_.cm-foldGutter_span]:px-1.5 [&_.cm-foldGutter_span]:text-[14px] sm:[&_.cm-foldGutter_span]:text-[12px]',
           '[&_.cm-scroller]:h-full [&_.cm-scroller]:overflow-x-auto',
           '[&_.cm-content]:min-w-0',
         ].join(' ')}

@@ -52,6 +52,7 @@ export default function TemplateDetail() {
   const [loading, setLoading] = useState(true)
   const [view, setView] = useState('split')
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [mobileTreeOpen, setMobileTreeOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const [previewLoaded, setPreviewLoaded] = useState(false)
 
@@ -265,14 +266,34 @@ export default function TemplateDetail() {
                 <button
                   type="button"
                   onClick={() => setSidebarOpen((v) => !v)}
-                  className="inline-flex h-7 w-7 items-center justify-center rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/70"
+                  className="hidden sm:inline-flex h-7 w-7 items-center justify-center rounded-md text-neutral-500 hover:text-neutral-900 hover:bg-neutral-200/70"
                   aria-label="Toggle file tree"
+                  aria-expanded={sidebarOpen}
                 >
                   {sidebarOpen ? (
                     <PanelLeftClose className="h-3.5 w-3.5" />
                   ) : (
                     <PanelLeftOpen className="h-3.5 w-3.5" />
                   )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMobileTreeOpen((v) => !v)}
+                  className={cn(
+                    'sm:hidden inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-[12px] font-medium',
+                    mobileTreeOpen
+                      ? 'bg-neutral-900 text-white'
+                      : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200/70',
+                  )}
+                  aria-label="Toggle file tree"
+                  aria-expanded={mobileTreeOpen}
+                >
+                  {mobileTreeOpen ? (
+                    <PanelLeftClose className="h-3.5 w-3.5" />
+                  ) : (
+                    <PanelLeftOpen className="h-3.5 w-3.5" />
+                  )}
+                  Files
                 </button>
                 <span className="text-[12.5px] text-neutral-700 px-2 truncate font-mono">
                   {active?.path || '—'}
@@ -309,13 +330,32 @@ export default function TemplateDetail() {
             </div>
 
             <div className="flex flex-1 min-h-0">
-              <div className="sm:hidden flex-1 min-w-0 overflow-hidden" data-lenis-prevent>
+              <div className="sm:hidden relative flex-1 min-w-0 overflow-hidden" data-lenis-prevent>
                 {loading ? (
                   <div className="flex h-full items-center justify-center p-4">
                     <DinoLoader compact />
                   </div>
                 ) : (
-                  <CodeViewer file={active} />
+                  <>
+                    <CodeViewer file={active} />
+                    {mobileTreeOpen ? (
+                      <aside className="absolute inset-0 z-10 flex flex-col bg-[#f5f5f5]">
+                        <div className="px-3 pt-2.5 pb-1 text-[10.5px] uppercase tracking-[0.16em] text-neutral-400">
+                          Files
+                        </div>
+                        <div className="flex-1 overflow-y-auto py-1.5" data-lenis-prevent>
+                          <FileTree
+                            tree={tree}
+                            activePath={activePath}
+                            onSelect={(f) => {
+                              setActivePath(f.path)
+                              setMobileTreeOpen(false)
+                            }}
+                          />
+                        </div>
+                      </aside>
+                    ) : null}
+                  </>
                 )}
               </div>
               {sidebarOpen ? (
