@@ -1,6 +1,6 @@
 # @fossilui/react
 
-Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, and hero sections. Each family is also importable on its own path (`@fossilui/react/cards`, `/modals`, `/inputs`, `/navbars`, `/heroes`) or as a standalone package (`@fossilui/buttons`, `@fossilui/cards`, `@fossilui/modals`, `@fossilui/inputs`, `@fossilui/navbars`, `@fossilui/heroes`).
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, and toasts. Each family is also importable on its own path (`@fossilui/react/cards`, `/modals`, `/inputs`, `/navbars`, `/heroes`, `/alerts`, `/toasts`). Buttons, cards, modals, inputs, navbars, and heroes are also published as standalone packages.
 
 ```jsx
 import { Modal, Input, Navbar, Hero } from '@fossilui/react'

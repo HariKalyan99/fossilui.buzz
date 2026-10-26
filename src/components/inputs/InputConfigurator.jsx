@@ -13,6 +13,7 @@ import {
 } from '@fossilui/react'
 import { ComponentConfigurator } from '../docs/ComponentConfigurator'
 import { boolAttr, optionAttr, pickStrings, stringAttr } from '../docs/snippetAttrs'
+import { TIMING_DEFAULTS, timingAttrs, timingFields, timingProps } from '../docs/timingFields'
 import { INPUT_DEMO, inputSnippet } from '../../data/inputDocs'
 import { cn } from '../../lib/cn'
 
@@ -57,6 +58,7 @@ const SCHEMA = {
     type: INPUT_DEMO.type,
     size: 'md',
     disabled: false,
+    ...TIMING_DEFAULTS,
   },
   fields: [
     { key: 'label', label: 'Label', type: 'text' },
@@ -65,6 +67,7 @@ const SCHEMA = {
     { key: 'error', label: 'Error message', type: 'text', wide: true, placeholder: 'Type to show the error state' },
     { key: 'type', label: 'Type', type: 'select', options: INPUT_TYPES },
     { key: 'size', label: 'Size', type: 'select', options: INPUT_SIZES },
+    ...timingFields,
     { key: 'disabled', label: 'Disabled', type: 'checkbox' },
   ],
   buildSnippet: (state) =>
@@ -76,6 +79,7 @@ const SCHEMA = {
       ...stringAttr('helperText', state.helperText),
       ...stringAttr('error', state.error),
       ...optionAttr('size', state.size, 'md'),
+      ...timingAttrs(state),
       ...boolAttr('disabled', state.disabled, false),
     ]),
   propsFromState: (state) => ({
@@ -84,13 +88,14 @@ const SCHEMA = {
     type: state.type,
     size: state.size,
     disabled: state.disabled,
+    ...timingProps(state),
   }),
   renderPreview: ({ Component, props }) => {
     const { className, ...rest } = props
     return <Component autoComplete="off" {...rest} className={cn('w-full max-w-sm', className)} />
   },
   description:
-    'Pick props from the panel or edit the code directly — including className and style. Focus the preview field to see the motion; add an error message to see the shake.',
+    'Pick props from the panel or edit the code directly — including className and style. Duration, easing, and delay override the motion. An easing the browser rejects is ignored. Focus the preview field to see the motion; add an error message to see the shake.',
 }
 
 export function InputConfigurator() {

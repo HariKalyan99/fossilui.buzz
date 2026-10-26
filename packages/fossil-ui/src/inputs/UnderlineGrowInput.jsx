@@ -13,13 +13,13 @@ export const UnderlineGrowInput = createAnimatedInput({
         heightClass,
       )}
     >
-      <FieldIcon icon={icon} className="transition-colors duration-300 group-focus-within/input:text-indigo-500" />
+      <FieldIcon icon={icon} className="transition-colors delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-focus-within/input:text-indigo-500" />
       <input {...inputProps} className={cn(INPUT_BASE, 'px-0.5', inputClassName)} />
       <span
         aria-hidden
         className={cn(
           'pointer-events-none absolute inset-x-0 -bottom-px h-0.5 origin-center scale-x-0 rounded-full',
-          'transition-transform duration-300 ease-out group-focus-within/input:scale-x-100 motion-reduce:transition-none',
+          'transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] group-focus-within/input:scale-x-100 motion-reduce:transition-none',
           invalid ? 'bg-rose-500' : 'bg-indigo-500',
         )}
       />

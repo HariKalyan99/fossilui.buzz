@@ -1,6 +1,7 @@
 import { forwardRef, useCallback, useEffect, useId, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
+import { motionTimingStyle, presenceMs } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { usePresence, useReducedMotion } from '../../lib/motion.js'
 import {
@@ -50,6 +51,14 @@ export const ModalShell = forwardRef(function ModalShell(
     contained = false,
     className,
     overlayClassName,
+    duration,
+    easing,
+    delay,
+    direction: _direction,
+    iterationCount: _iterationCount,
+    fillMode: _fillMode,
+    playState: _playState,
+    style: userStyle,
     ...rest
   },
   ref,
@@ -57,7 +66,9 @@ export const ModalShell = forwardRef(function ModalShell(
   const style = MODAL_MOTION_STYLES[motion] ?? MODAL_MOTION_STYLES.scaleFade
   const layout = MODAL_LAYOUTS[style.layout]
   const reduceMotion = useReducedMotion()
-  const { mounted, visible } = usePresence(open, reduceMotion ? 0 : MODAL_DURATION)
+  const exitMs = presenceMs(duration, delay, motion === 'zoomBounce' ? 420 : MODAL_DURATION)
+  const { mounted, visible } = usePresence(open, reduceMotion ? 0 : exitMs)
+  const motionStyle = motionTimingStyle({ duration, easing, delay })
   const panelRef = useRef(null)
   const titleId = useId()
   const descriptionId = useId()
@@ -105,12 +116,12 @@ export const ModalShell = forwardRef(function ModalShell(
   const safeSize = MODAL_SIZES.includes(size) ? size : 'md'
 
   const content = (
-    <div className={cn(contained ? 'absolute' : 'fixed', 'inset-0 z-50 flex', layout.wrapper)}>
+    <div className={cn(contained ? 'absolute' : 'fixed', 'inset-0 z-50 flex', layout.wrapper)} style={motionStyle}>
       <div
         aria-hidden
         onClick={closeOnOverlay ? close : undefined}
         className={cn(
-          'absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] transition-opacity duration-300 motion-reduce:transition-none',
+          'absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] transition-opacity delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease)] motion-reduce:transition-none',
           visible ? 'opacity-100' : 'opacity-0',
           overlayClassName,
         )}
@@ -131,6 +142,7 @@ export const ModalShell = forwardRef(function ModalShell(
           visible ? style.shown : style.hidden,
           className,
         )}
+        style={userStyle}
         {...rest}
       >
         {showClose ? (

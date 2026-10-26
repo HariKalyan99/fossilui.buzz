@@ -13,7 +13,7 @@ export const SpotlightNavbar = createAnimatedNavbar({
             {...ctx.linkProps(link)}
             className={cn(
               NAV_LINK,
-              'transition-[opacity,color] duration-300 group-hover/links:opacity-35 hover:opacity-100 group-has-[[data-touch]]/links:opacity-35 data-[touch]:opacity-100 motion-reduce:transition-none',
+              'transition-[opacity,color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-hover/links:opacity-35 hover:opacity-100 group-has-[[data-touch]]/links:opacity-35 data-[touch]:opacity-100 motion-reduce:transition-none',
               ctx.isActive(link) && NAV_LINK_ACTIVE,
             )}
           >

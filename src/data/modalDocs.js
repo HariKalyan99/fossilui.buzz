@@ -1,4 +1,4 @@
-import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
+import { importGuideSnippets, importSnippet, MOTION_TIMING_PROPS, sharedFaqs } from './sharedDocs'
 
 export const MODAL_PACKAGE = { label: 'Modals', packageName: '@fossilui/modals' }
 
@@ -138,6 +138,7 @@ export const MODAL_PROPS = [
     type: "'scaleFade' | 'slideUp' | 'slideDown' | 'zoomBounce' | 'flip' | 'blurIn' | 'drawer' | 'bottomSheet'",
     default: "'scaleFade'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'open',
     description: 'Controls visibility. The modal stays mounted until its exit animation finishes.',

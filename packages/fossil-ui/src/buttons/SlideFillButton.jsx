@@ -11,14 +11,14 @@ export const SlideFillButton = createAnimatedButton({
       <span
         className={cn(
           'pointer-events-none absolute inset-x-[-1px] inset-y-0 rounded-[inherit]',
-          'translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:translate-y-0 group-data-[touch]:translate-y-0',
+          'translate-y-full transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ease-[var(--fossil-ease,var(--fossil-ease-in-out))] group-hover:translate-y-0 group-data-[touch]:translate-y-0',
           appearance.accent.fill,
         )}
         aria-hidden="true"
       />
       <span
         className={cn(
-          'relative z-10 text-neutral-900 transition-colors duration-300',
+          'relative z-10 text-neutral-900 transition-colors delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))]',
           appearance.accent.hoverText,
         )}
       >

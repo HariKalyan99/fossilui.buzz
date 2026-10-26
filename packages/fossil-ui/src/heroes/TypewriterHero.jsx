@@ -1,17 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { readMotionDelay, readMotionMs } from '../lib/animationTiming.js'
 import { HERO_ITEM_MOTIONS, createAnimatedHero } from './shared/createAnimatedHero.jsx'
 
 const TYPE_STEP_MS = 45
 
 function TypewriterTitle({ title, shown, reduceMotion }) {
   const [typed, setTyped] = useState(0)
+  const rootRef = useRef(null)
 
   useEffect(() => {
     if (!shown || reduceMotion) return undefined
-    const timer = setInterval(() => {
-      setTyped((count) => Math.min(count + 1, title.length))
-    }, TYPE_STEP_MS)
-    return () => clearInterval(timer)
+    const node = rootRef.current
+    const configured = readMotionMs(node, Number.NaN)
+    const every = Number.isFinite(configured)
+      ? Math.max(16, configured / Math.max(title.length, 1))
+      : TYPE_STEP_MS
+    let timer = 0
+    const start = window.setTimeout(() => {
+      timer = window.setInterval(() => {
+        setTyped((count) => Math.min(count + 1, title.length))
+      }, every)
+    }, Math.max(0, readMotionDelay(node)))
+    return () => {
+      window.clearTimeout(start)
+      window.clearInterval(timer)
+    }
   }, [shown, reduceMotion, title])
 
   const visible = reduceMotion ? title.length : typed
@@ -20,7 +33,7 @@ function TypewriterTitle({ title, shown, reduceMotion }) {
   return (
     <>
       <span className="sr-only">{title}</span>
-      <span aria-hidden>
+      <span ref={rootRef} aria-hidden>
         {title.slice(0, visible)}
         <span className="relative">
           <span className="absolute left-0.5 top-[0.08em] h-[0.95em] w-[3px] animate-pulse rounded-full bg-indigo-500" />

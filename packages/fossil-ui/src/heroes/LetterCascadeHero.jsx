@@ -22,10 +22,10 @@ function LetterCascadeTitle({ title, shown }) {
                   <span
                     key={charIndex}
                     className={cn(
-                      'inline-block transition-[translate,opacity,rotate] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none',
+                      'inline-block transition-[translate,opacity,rotate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))] motion-reduce:transition-none',
                       shown ? 'translate-y-0 rotate-0 opacity-100' : '-translate-y-4 -rotate-12 opacity-0',
                     )}
-                    style={{ transitionDelay: shown ? `${delay}ms` : '0ms' }}
+                    style={{ transitionDelay: shown ? `calc(var(--fossil-delay, 0ms) + ${delay}ms)` : '0ms' }}
                   >
                     {char}
                   </span>

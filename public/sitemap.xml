@@ -55,6 +55,12 @@
     <loc>https://fossilui.buzz/components/heroes</loc>
   </url>
   <url>
+    <loc>https://fossilui.buzz/components/alerts</loc>
+  </url>
+  <url>
+    <loc>https://fossilui.buzz/components/toasts</loc>
+  </url>
+  <url>
     <loc>https://fossilui.buzz/docs</loc>
   </url>
   <url>

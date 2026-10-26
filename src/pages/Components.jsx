@@ -8,6 +8,8 @@ import {
   Check,
   Copy,
   CreditCard,
+  Bell,
+  CircleAlert,
   LayoutTemplate,
   MousePointerClick,
   PanelTop,
@@ -27,6 +29,8 @@ const TEASERS = [
   { name: 'Inputs', count: '8 variants', href: '/components/inputs', icon: TextCursorInput, isNew: true },
   { name: 'Navbars', count: '7 variants', href: '/components/navbars', icon: PanelTop, isNew: true },
   { name: 'Hero blocks', count: '8 variants', href: '/components/heroes', icon: LayoutTemplate, isNew: true },
+  { name: 'Alerts', count: '8 variants', href: '/components/alerts', icon: CircleAlert, isNew: true },
+  { name: 'Toasts', count: '8 variants', href: '/components/toasts', icon: Bell, isNew: true },
 ]
 
 const MotionLink = motion.create(Link)
@@ -160,7 +164,7 @@ export default function Components() {
             A library of polished, animated components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
-            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars and hero blocks.{' '}
+            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars, hero blocks, alerts and toasts.{' '}
             <span className="font-medium text-neutral-900">Lightweight by design</span> — pure CSS and native
             browser animations, so you only ship the components you import.
           </p>

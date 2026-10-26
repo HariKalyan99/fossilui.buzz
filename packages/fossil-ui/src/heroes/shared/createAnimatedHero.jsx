@@ -1,20 +1,21 @@
 import { forwardRef, useCallback, useRef } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { splitMotionProps } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { TRANSITION_MOTION, useInViewOnce, useReducedMotion } from '../../lib/motion.js'
 import { useTouchHover } from '../../lib/touch.js'
 import { HERO_ALIGNS, HERO_BACKGROUNDS } from './constants.js'
 
-const EASE_OUT = 'ease-[cubic-bezier(0.22,1,0.36,1)]'
+const EASE_OUT = 'ease-[var(--fossil-ease,var(--fossil-ease-out))]'
 
 export const HERO_ITEM_MOTIONS = {
   fadeUp: {
-    transition: `${TRANSITION_MOTION} duration-700 ${EASE_OUT}`,
+    transition: `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,700ms)] ${EASE_OUT}`,
     hidden: 'opacity-0 translate-y-5',
     shown: 'opacity-100 translate-y-0',
   },
   blur: {
-    transition: `${TRANSITION_MOTION} duration-[900ms] ${EASE_OUT}`,
+    transition: `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,900ms)] ${EASE_OUT}`,
     hidden: 'opacity-0 blur-md translate-y-2',
     shown: 'opacity-100 blur-none translate-y-0',
   },
@@ -76,8 +77,10 @@ export function createAnimatedHero({ displayName, itemMotion = HERO_ITEM_MOTIONS
       background = 'grid',
       children,
       className,
-      ...rest
+      ...rawRest
     } = props
+
+    const { rest, style } = splitMotionProps(rawRest)
 
     const rootRef = useRef(null)
     const reduceMotion = useReducedMotion()
@@ -97,7 +100,7 @@ export function createAnimatedHero({ displayName, itemMotion = HERO_ITEM_MOTIONS
     /** Staggered entrance props for the nth piece of content. */
     const item = (index, className) => ({
       className: cn(itemMotion.transition, 'motion-reduce:transition-none', shown ? itemMotion.shown : itemMotion.hidden, className),
-      style: { transitionDelay: shown ? `${index * 90}ms` : '0ms' },
+      style: { transitionDelay: shown ? `calc(var(--fossil-delay, 0ms) + ${index * 90}ms)` : '0ms' },
     })
 
     const { onPointerDown, onPointerUp, onPointerCancel, ...sectionRest } = rest
@@ -110,6 +113,7 @@ export function createAnimatedHero({ displayName, itemMotion = HERO_ITEM_MOTIONS
           'group/hero @container relative isolate w-full overflow-hidden bg-white px-6 py-16 @2xl:px-10 @2xl:py-24',
           className,
         )}
+        style={style}
         {...sectionRest}
         {...touchProps}
       >
@@ -157,11 +161,11 @@ export function createAnimatedHero({ displayName, itemMotion = HERO_ITEM_MOTIONS
               {primaryLabel ? (
                 <HeroAction
                   href={primaryHref}
-                  className="group/cta inline-flex h-11 items-center gap-2 rounded-lg bg-neutral-900 px-5 text-[14px] font-medium text-white shadow-[0_8px_20px_-10px_rgba(15,23,42,0.5)] transition-[background-color,translate,box-shadow] duration-300 hover:-translate-y-0.5 data-[touch]:-translate-y-0.5 hover:bg-neutral-800 data-[touch]:bg-neutral-800 hover:shadow-[0_14px_28px_-12px_rgba(15,23,42,0.55)] data-[touch]:shadow-[0_14px_28px_-12px_rgba(15,23,42,0.55)]"
+                  className="group/cta inline-flex h-11 items-center gap-2 rounded-lg bg-neutral-900 px-5 text-[14px] font-medium text-white shadow-[0_8px_20px_-10px_rgba(15,23,42,0.5)] transition-[background-color,translate,box-shadow] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] hover:-translate-y-0.5 data-[touch]:-translate-y-0.5 hover:bg-neutral-800 data-[touch]:bg-neutral-800 hover:shadow-[0_14px_28px_-12px_rgba(15,23,42,0.55)] data-[touch]:shadow-[0_14px_28px_-12px_rgba(15,23,42,0.55)]"
                 >
                   {primaryLabel}
                   <ArrowRight
-                    className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1 group-data-[touch]/cta:translate-x-1"
+                    className="h-4 w-4 transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-hover/cta:translate-x-1 group-data-[touch]/cta:translate-x-1"
                     strokeWidth={2}
                   />
                 </HeroAction>

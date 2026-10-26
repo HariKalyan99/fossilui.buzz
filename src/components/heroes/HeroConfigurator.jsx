@@ -14,6 +14,7 @@ import {
 } from '@fossilui/react'
 import { ComponentConfigurator } from '../docs/ComponentConfigurator'
 import { optionAttr, pickStrings, stringAttr } from '../docs/snippetAttrs'
+import { TIMING_DEFAULTS, timingAttrs, timingFields, timingProps } from '../docs/timingFields'
 import { HERO_DEMO, heroSnippet } from '../../data/heroDocs'
 import { ReplayableHero } from './ReplayableHero'
 
@@ -61,6 +62,7 @@ const SCHEMA = {
     ...HERO_DEMO,
     align: 'center',
     background: 'grid',
+    ...TIMING_DEFAULTS,
   },
   fields: [
     { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
@@ -72,6 +74,7 @@ const SCHEMA = {
     { key: 'secondaryHref', label: 'Secondary href', type: 'text' },
     { key: 'align', label: 'Align', type: 'select', options: HERO_ALIGNS },
     { key: 'background', label: 'Background', type: 'select', options: HERO_BACKGROUNDS },
+    ...timingFields,
   ],
   buildSnippet: (state) =>
     heroSnippet([
@@ -79,12 +82,14 @@ const SCHEMA = {
       ...TEXT_KEYS.flatMap((key) => stringAttr(key, state[key])),
       ...optionAttr('align', state.align, 'center'),
       ...optionAttr('background', state.background, 'grid'),
+      ...timingAttrs(state),
     ]),
   propsFromState: (state) => ({
     motion: state.motion,
     ...pickStrings(state, TEXT_KEYS),
     align: state.align,
     background: state.background,
+    ...timingProps(state),
   }),
   renderPreview: ({ Component, props, previewKey }) => (
     <ReplayableHero key={previewKey} Component={Component} props={props} />
@@ -92,7 +97,7 @@ const SCHEMA = {
   previewPlacement: 'below',
   previewClassName: 'block p-0 sm:p-0',
   description:
-    'Pick props from the panel or edit the code directly. Switching the motion replays the entrance — or use Replay in the preview corner.',
+    'Pick props from the panel or edit the code directly. Duration, easing, and delay override the entrance. An easing the browser rejects is ignored. Changing them replays the entrance, and Replay does the same.',
 }
 
 export function HeroConfigurator() {

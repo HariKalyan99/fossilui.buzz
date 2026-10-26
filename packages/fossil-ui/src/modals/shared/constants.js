@@ -12,7 +12,7 @@ export const MODAL_SIZE_CLASSES = {
 
 export const MODAL_DURATION = 320
 
-const SMOOTH = `${TRANSITION_MOTION} duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`
+const SMOOTH = `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))]`
 
 export const MODAL_LAYOUTS = {
   center: {
@@ -51,7 +51,7 @@ export const MODAL_MOTION_STYLES = {
   },
   zoomBounce: {
     layout: 'center',
-    transition: `${TRANSITION_MOTION} duration-[420ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]`,
+    transition: `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,420ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))]`,
     hidden: 'opacity-0 scale-75',
     shown: 'opacity-100 scale-100',
   },

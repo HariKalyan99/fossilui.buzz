@@ -1,3 +1,5 @@
+import { MOTION_TIMING_PROPS } from './sharedDocs'
+
 export const BUTTON_INSTALL_SNIPPET = `# Full component library
 npm install @fossilui/react lucide-react
 
@@ -75,6 +77,7 @@ export const BUTTON_PROPS = [
     type: "'rollText' | 'staggerText' | 'slideFill' | 'shineSweep' | 'borderReveal' | 'iconSlide' | 'underlineGrow' | 'liftShadow' | 'letterSpacing' | 'skewFill'",
     default: "'liftShadow'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'size',
     description: 'Control height, padding, and type scale.',

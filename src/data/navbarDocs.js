@@ -1,4 +1,4 @@
-import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
+import { importGuideSnippets, importSnippet, MOTION_TIMING_PROPS, sharedFaqs } from './sharedDocs'
 
 export const NAVBAR_PACKAGE = { label: 'Navbars', packageName: '@fossilui/navbars' }
 
@@ -127,6 +127,7 @@ export const NAVBAR_PROPS = [
     type: "'slidingPill' | 'slidingUnderline' | 'dotIndicator' | 'growUnderline' | 'textRoll' | 'spotlight' | 'glassFloat'",
     default: "'slidingPill'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'brand',
     description: 'Brand text shown next to the logo.',

@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useId, useRef } from 'react'
+import { readMotionEase, readMotionMs, splitMotionProps } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { useReducedMotion } from '../../lib/motion.js'
 import { INPUT_SIZE_CLASSES, INPUT_SIZES } from './constants.js'
@@ -19,8 +20,11 @@ function useErrorShake(ref, error, reduceMotion) {
   useEffect(() => {
     const was = previous.current
     previous.current = error
-    if (!error || error === was || reduceMotion) return
-    ref.current?.animate?.(SHAKE_KEYFRAMES, { duration: 380, easing: 'ease-out' })
+    if (!error || error === was || reduceMotion || !ref.current) return
+    ref.current.animate?.(SHAKE_KEYFRAMES, {
+      duration: readMotionMs(ref.current, 380),
+      easing: readMotionEase(ref.current, 'ease-out'),
+    })
   }, [ref, error, reduceMotion])
 }
 
@@ -52,12 +56,13 @@ export function createAnimatedInput({ displayName, outerLabel = true, renderFiel
       size = 'md',
       icon,
       className,
-      style,
       inputClassName,
       id: idProp,
       disabled,
-      ...nativeProps
+      ...rawProps
     } = props
+
+    const { rest: nativeProps, style } = splitMotionProps(rawProps)
 
     const generatedId = useId()
     const id = idProp ?? generatedId

@@ -13,10 +13,10 @@ function StaggerWordsTitle({ title, shown }) {
             <span className="-mb-[0.12em] inline-block overflow-hidden pb-[0.12em] align-bottom">
               <span
                 className={cn(
-                  'inline-block transition-[translate,opacity] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none',
+                  'inline-block transition-[translate,opacity] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,700ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))] motion-reduce:transition-none',
                   shown ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0',
                 )}
-                style={{ transitionDelay: shown ? `${90 + index * 70}ms` : '0ms' }}
+                style={{ transitionDelay: shown ? `calc(var(--fossil-delay, 0ms) + ${90 + index * 70}ms)` : '0ms' }}
               >
                 {word}
               </span>

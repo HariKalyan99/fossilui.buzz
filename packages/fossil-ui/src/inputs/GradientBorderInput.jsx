@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { readMotionEase, readMotionMs } from '../lib/animationTiming.js'
 import { cn } from '../lib/cn.js'
 import { INPUT_BASE } from './shared/constants.js'
 import { FieldIcon, createAnimatedInput } from './shared/createAnimatedInput.jsx'
@@ -28,7 +29,7 @@ function GradientRing({ invalid }) {
     const start = () => {
       flow ??= ring.animate(
         [{ backgroundPosition: '0% 50%' }, { backgroundPosition: '200% 50%' }],
-        { duration: 3200, iterations: Infinity },
+        { duration: readMotionMs(ring, 3200), easing: readMotionEase(ring, 'linear'), iterations: Infinity },
       )
     }
     const stop = () => {
@@ -51,7 +52,7 @@ function GradientRing({ invalid }) {
       aria-hidden
       className={cn(
         'pointer-events-none absolute -inset-px rounded-[inherit] p-[1.5px] opacity-0',
-        'transition-opacity duration-300 ease-out group-focus-within/input:opacity-100 motion-reduce:transition-none',
+        'transition-opacity delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] group-focus-within/input:opacity-100 motion-reduce:transition-none',
       )}
       style={{
         ...RING_MASK,
@@ -69,7 +70,7 @@ export const GradientBorderInput = createAnimatedInput({
     <div
       className={cn(
         'group/input relative flex w-full items-center rounded-lg border bg-white px-3',
-        'transition-[border-color,box-shadow] duration-300 motion-reduce:transition-none',
+        'transition-[border-color,box-shadow] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] motion-reduce:transition-none',
         invalid
           ? 'border-rose-300 focus-within:shadow-[0_0_0_4px_rgba(244,63,94,0.1)]'
           : 'border-neutral-200 hover:border-neutral-300 focus-within:shadow-[0_0_0_4px_rgba(168,85,247,0.1)]',

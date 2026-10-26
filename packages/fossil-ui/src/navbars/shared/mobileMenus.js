@@ -1,5 +1,5 @@
-const EASE = 'ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none'
-const FADE_ITEM = `transition-[opacity,translate,scale] duration-300 ${EASE}`
+const EASE = 'ease-[var(--fossil-ease,var(--fossil-ease-out))] motion-reduce:transition-none'
+const FADE_ITEM = `transition-[opacity,translate,scale] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ${EASE}`
 const LIST_LINK =
   'flex h-10 items-center rounded-md px-3 text-[14px] font-medium text-neutral-600 transition-colors hover:bg-neutral-50 data-[touch]:bg-neutral-50 hover:text-neutral-900 data-[touch]:text-neutral-900'
 
@@ -38,7 +38,7 @@ export const MOBILE_MENUS = {
 
   /** The whole panel slides in from the right edge; a side bar marks the active link. */
   drawerRight: {
-    panel: `border-t border-neutral-200/80 transition-[translate,opacity] duration-[400ms] ${EASE}`,
+    panel: `border-t border-neutral-200/80 transition-[translate,opacity] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,400ms)] ${EASE}`,
     panelState: (open) => (open ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'),
     list: 'flex flex-col gap-0.5 px-3 pb-4 pt-3',
     link: `${LIST_LINK} rounded-none rounded-r-md border-l-2 border-transparent`,
@@ -78,7 +78,7 @@ export const MOBILE_MENUS = {
     panel: 'border-t border-neutral-200/80',
     list: 'flex flex-col gap-0.5 px-3 pb-4 pt-3',
     item: 'overflow-hidden',
-    link: `${LIST_LINK} transition-[translate,color,background-color] duration-[450ms] ${EASE} [transition-delay:inherit]`,
+    link: `${LIST_LINK} transition-[translate,color,background-color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,450ms)] ${EASE} [transition-delay:inherit]`,
     linkState: (open) => (open ? 'translate-y-0' : 'translate-y-full'),
     linkActive: 'bg-neutral-100 text-neutral-900',
     ctaItem: 'pt-2',
@@ -88,11 +88,11 @@ export const MOBILE_MENUS = {
 
   /** A circular reveal grows out of the menu button's corner; hovering dims the other links. */
   circleReveal: {
-    panel: `border-t border-neutral-200/80 transition-[clip-path] duration-500 ${EASE}`,
+    panel: `border-t border-neutral-200/80 transition-[clip-path] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ${EASE}`,
     panelState: (open) =>
       open ? '[clip-path:circle(150%_at_calc(100%_-_2rem)_0%)]' : '[clip-path:circle(0%_at_calc(100%_-_2rem)_0%)]',
     list: 'group/mlinks flex flex-col gap-0.5 px-3 pb-4 pt-3',
-    link: `${LIST_LINK} transition-[opacity,color,background-color] duration-300 group-hover/mlinks:opacity-40 group-has-[[data-touch]]/mlinks:opacity-40 hover:!opacity-100 data-[touch]:!opacity-100`,
+    link: `${LIST_LINK} transition-[opacity,color,background-color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-hover/mlinks:opacity-40 group-has-[[data-touch]]/mlinks:opacity-40 hover:!opacity-100 data-[touch]:!opacity-100`,
     linkActive: 'bg-neutral-100 text-neutral-900',
     ctaItem: 'pt-2',
     stagger: 0,
@@ -100,7 +100,7 @@ export const MOBILE_MENUS = {
 
   /** A detached frosted card scales out from the top-right corner. */
   floatingCard: {
-    panel: `mx-2 mb-2 origin-top-right rounded-2xl border border-neutral-200/80 bg-white/80 shadow-[0_12px_32px_-16px_rgba(15,23,42,0.3)] backdrop-blur-md transition-[opacity,scale,translate] duration-300 ${EASE}`,
+    panel: `mx-2 mb-2 origin-top-right rounded-2xl border border-neutral-200/80 bg-white/80 shadow-[0_12px_32px_-16px_rgba(15,23,42,0.3)] backdrop-blur-md transition-[opacity,scale,translate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ${EASE}`,
     panelState: (open) => (open ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-1 scale-90 opacity-0'),
     list: 'flex flex-col gap-0.5 p-2',
     link: `${LIST_LINK} rounded-full`,

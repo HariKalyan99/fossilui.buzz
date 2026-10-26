@@ -34,7 +34,10 @@ const STRING_PROPS = [
   'imageSrc',
   'imageAlt',
   'className',
+  'easing',
 ]
+
+const NUMBER_PROPS = ['duration', 'delay']
 
 /**
  * @param {string} expr
@@ -123,6 +126,11 @@ function parseAttrs(attrString) {
     if (quoted) {
       props[key] = quoted[1]
     }
+  }
+
+  for (const key of NUMBER_PROPS) {
+    const numeric = attrs.match(new RegExp(`${key}\\s*=\\s*\\{(-?\\d+(?:\\.\\d+)?)\\}`))
+    if (numeric) props[key] = Number(numeric[1])
   }
 
   const style = parseJsxExpressionAttr(attrs, 'style')

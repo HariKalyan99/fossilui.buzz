@@ -18,6 +18,8 @@ export default defineConfig({
         'inputs/index': resolve(root, 'src/inputs/index.js'),
         'navbars/index': resolve(root, 'src/navbars/index.js'),
         'heroes/index': resolve(root, 'src/heroes/index.js'),
+        'alerts/index': resolve(root, 'src/alerts/index.js'),
+        'toasts/index': resolve(root, 'src/toasts/index.js'),
       },
       formats: ['es'],
     },

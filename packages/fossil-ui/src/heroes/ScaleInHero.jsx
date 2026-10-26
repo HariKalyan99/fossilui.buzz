@@ -5,7 +5,7 @@ function ScaleInTitle({ title, shown }) {
   return (
     <span
       className={cn(
-        'block origin-bottom transition-[opacity,scale] duration-[900ms] ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none',
+        'block origin-bottom transition-[opacity,scale] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,900ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))] motion-reduce:transition-none',
         shown ? 'scale-100 opacity-100' : 'scale-[0.86] opacity-0',
       )}
       style={{ transitionDelay: shown ? '90ms' : '0ms' }}

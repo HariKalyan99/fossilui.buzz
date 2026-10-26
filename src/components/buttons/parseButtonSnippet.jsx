@@ -48,7 +48,10 @@ const STRING_PROPS = [
   'shape',
   'htmlType',
   'type',
+  'easing',
 ]
+
+const NUMBER_PROPS = ['duration', 'delay']
 
 const PREVIEW_ICON = <Mail className="h-4 w-4 shrink-0" strokeWidth={2} aria-hidden />
 
@@ -150,6 +153,11 @@ function parseAttrs(attrString) {
   for (const key of STRING_PROPS) {
     const m = attrs.match(new RegExp(`${key}\\s*=\\s*["']([^"']+)["']`))
     if (m) props[key] = m[1]
+  }
+
+  for (const key of NUMBER_PROPS) {
+    const m = attrs.match(new RegExp(`${key}\\s*=\\s*\\{(-?\\d+(?:\\.\\d+)?)\\}`))
+    if (m) props[key] = Number(m[1])
   }
 
   return props

@@ -8,7 +8,7 @@ export const GlassFloatNavbar = createAnimatedNavbar({
   rootClassName: (menuOpen) =>
     cn(
       'mx-auto max-w-3xl border border-neutral-200/80 bg-white/75 backdrop-blur-md',
-      'shadow-[0_8px_30px_-12px_rgba(15,23,42,0.18)] transition-[border-radius,box-shadow,translate] duration-300 ease-out',
+      'shadow-[0_8px_30px_-12px_rgba(15,23,42,0.18)] transition-[border-radius,box-shadow,translate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)]',
       'hover:-translate-y-0.5 data-[touch]:-translate-y-0.5 hover:shadow-[0_16px_40px_-14px_rgba(15,23,42,0.26)] data-[touch]:shadow-[0_16px_40px_-14px_rgba(15,23,42,0.26)] motion-reduce:transition-none',
       menuOpen ? 'rounded-2xl' : 'rounded-[28px]',
     ),
@@ -21,7 +21,7 @@ export const GlassFloatNavbar = createAnimatedNavbar({
             {...ctx.linkProps(link)}
             className={cn(
               NAV_LINK,
-              'rounded-full transition-[color,background-color] duration-200',
+              'rounded-full transition-[color,background-color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,200ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))]',
               ctx.isActive(link)
                 ? 'bg-neutral-900 text-white hover:text-white data-[touch]:text-white'
                 : 'hover:bg-neutral-900/5 data-[touch]:bg-neutral-900/5',
