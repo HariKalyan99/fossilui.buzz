@@ -46,9 +46,27 @@ function getEmailContent({ type, username }) {
   };
 }
 
-function getEmailImageUrl() {
+const SUPABASE_EMAIL_IMAGE_URL =
+  "https://nldfscykuoyufonuskik.supabase.co/storage/v1/object/public/media-fossilui/images/email.jpg";
+
+function emailImageFallbackUrl() {
+  const site = (process.env.PUBLIC_BASE_URL || "https://fossilui.buzz").replace(/\/$/, "");
+  return `${site}/email.jpg`;
+}
+
+async function getEmailImageUrl() {
   if (process.env.EMAIL_IMAGE_URL) return process.env.EMAIL_IMAGE_URL;
-  return "https://nldfscykuoyufonuskik.supabase.co/storage/v1/object/public/media-fossilui/images/email.jpg";
+  const fallback = emailImageFallbackUrl();
+  try {
+    const response = await fetch(SUPABASE_EMAIL_IMAGE_URL, {
+      method: "HEAD",
+      signal: AbortSignal.timeout(2000),
+    });
+    if (response.ok) return SUPABASE_EMAIL_IMAGE_URL;
+  } catch {
+    /* Supabase storage is unreachable. Use the public-folder copy. */
+  }
+  return fallback;
 }
 
 function buildEmailHtml({ heading, body, imageUrl }) {
@@ -141,7 +159,7 @@ export default async function handler(req, res) {
 
     const leadType = classifyLead(remarks, info);
     const emailContent = getEmailContent({ type: leadType, username });
-    const emailImageUrl = getEmailImageUrl();
+    const emailImageUrl = await getEmailImageUrl();
     const mailResult = await resend.emails.send({
       from: process.env.RESEND_FROM || "FossilUI <noreply@tronzlabs.com>",
       to: [email],

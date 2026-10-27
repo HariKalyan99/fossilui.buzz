@@ -23,6 +23,7 @@ import { getTemplate } from '../data/templates'
 import { TemplateStack } from '../components/TemplateStack'
 import { buildFileTree, loadTemplateFiles } from '../data/templateFiles'
 import { cn } from '../lib/cn'
+import { mediaFallbackUrl } from '../lib/media'
 
 function NotFound() {
   return (
@@ -55,6 +56,8 @@ export default function TemplateDetail() {
   const [mobileTreeOpen, setMobileTreeOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const [previewLoaded, setPreviewLoaded] = useState(false)
+  const [previewSrc, setPreviewSrc] = useState(() => template?.previewVideoUrl)
+  const previewStallRef = useRef(0)
 
   useEffect(() => {
     if (!template) return
@@ -62,6 +65,7 @@ export default function TemplateDetail() {
     /* eslint-disable react-hooks/set-state-in-effect */
     setLoading(true)
     setPreviewLoaded(false)
+    setPreviewSrc(template.previewVideoUrl)
     /* eslint-enable react-hooks/set-state-in-effect */
     loadTemplateFiles(template.slug).then((result) => {
       if (cancelled) return
@@ -78,11 +82,25 @@ export default function TemplateDetail() {
     }
   }, [template])
 
+  const previewFallback = mediaFallbackUrl(template?.previewVideoUrl)
+
   useEffect(() => {
-    const video = previewVideoRef.current
-    if (!video) return
-    if (video.readyState >= 2) setPreviewLoaded(true)
-  }, [template?.previewVideoUrl])
+    window.clearTimeout(previewStallRef.current)
+    if (!previewFallback || !previewSrc || previewSrc === previewFallback) return undefined
+    previewStallRef.current = window.setTimeout(() => {
+      setPreviewSrc(previewFallback)
+    }, 2000)
+    return () => window.clearTimeout(previewStallRef.current)
+  }, [previewSrc, previewFallback])
+
+  const markPreviewReady = () => {
+    window.clearTimeout(previewStallRef.current)
+    setPreviewLoaded(true)
+  }
+
+  const onPreviewError = () => {
+    if (previewFallback && previewSrc !== previewFallback) setPreviewSrc(previewFallback)
+  }
 
   const tree = useMemo(() => (files ? buildFileTree(files) : null), [files])
   const active = useMemo(
@@ -232,7 +250,8 @@ export default function TemplateDetail() {
               )}
               <video
                 ref={previewVideoRef}
-                key={template.previewVideoUrl}
+                key={previewSrc}
+                src={previewSrc}
                 className="h-full w-full bg-black object-cover"
                 autoPlay
                 muted
@@ -240,13 +259,12 @@ export default function TemplateDetail() {
                 playsInline
                 controls
                 preload="metadata"
-                onLoadedMetadata={() => setPreviewLoaded(true)}
-                onLoadedData={() => setPreviewLoaded(true)}
-                onCanPlay={() => setPreviewLoaded(true)}
-                onPlaying={() => setPreviewLoaded(true)}
-              >
-                <source src={template.previewVideoUrl} type="video/mp4" />
-              </video>
+                onLoadedMetadata={markPreviewReady}
+                onLoadedData={markPreviewReady}
+                onCanPlay={markPreviewReady}
+                onPlaying={markPreviewReady}
+                onError={onPreviewError}
+              />
             </div>
           </motion.div>
 
