@@ -328,7 +328,7 @@ export function ComponentDocPage({
   const reduceMotion = useReducedMotion()
 
   return (
-    <Section className="overflow-x-clip pt-10 pb-16 sm:pt-12 md:pt-20 md:pb-24">
+    <Section className="pt-10 pb-16 sm:pt-12 md:pt-20 md:pb-24">
       <div className="min-w-0">
         <Link
           to="/components"
@@ -348,7 +348,7 @@ export function ComponentDocPage({
         <MobileToc id={`${slug}-mobile-toc`} />
 
         <div className="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_220px] xl:items-start">
-          <main className="min-w-0">
+          <main className="min-w-0 overflow-x-clip">
             <section className="mb-12 sm:mb-16 md:mb-20">
               <DocHeading id="variants" title="All variants" description={variants.description} />
               <Tag tone="accent" className="mt-4 mb-6 max-w-xl text-balance sm:mb-8">

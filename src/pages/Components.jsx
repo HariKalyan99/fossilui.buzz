@@ -21,6 +21,7 @@ import { Button } from '../components/ui/Button'
 import { Tag } from '../components/ui/Tag'
 import { RexMark } from '../components/RexMark'
 import { cn } from '../lib/cn'
+import { FOSSIL_UI_VERSION } from '../lib/release'
 
 const TEASERS = [
   { name: 'Buttons', count: '11 variants', href: '/components/buttons', icon: MousePointerClick },
@@ -159,7 +160,7 @@ export default function Components() {
     <Section className="pt-12 md:pt-20">
       <div className="grid gap-12 md:grid-cols-2 items-center">
         <div className="min-w-0">
-          <Tag tone="accent">Now on npm · v0.2</Tag>
+          <Tag tone="accent">Now on npm · v{FOSSIL_UI_VERSION}</Tag>
           <h1 className="mt-4 text-3xl min-[380px]:text-4xl md:text-5xl font-semibold tracking-[-0.025em] text-neutral-900 text-balance">
             A library of polished, animated components.
           </h1>

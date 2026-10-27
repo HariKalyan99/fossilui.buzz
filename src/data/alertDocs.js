@@ -1,21 +1,14 @@
-import { sharedFaqs, tailwindSourceSnippet, VITE_SNIPPET } from './sharedDocs'
+import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
 
-const INSTALL = `# Full component library
-npm install @fossilui/react lucide-react
+export const ALERT_PACKAGE = { label: 'Alerts', packageName: '@fossilui/alerts' }
 
-# Required — Tailwind v4 (Vite)
-npm install -D tailwindcss @tailwindcss/vite`
+export const ALERT_IMPORT_SNIPPETS = importGuideSnippets(ALERT_PACKAGE)
 
-export const ALERT_IMPORT_SNIPPETS = [
-  { label: 'Install', code: INSTALL },
-  { label: 'Vite', code: VITE_SNIPPET },
-  { label: 'Tailwind', code: tailwindSourceSnippet('@fossilui/react') },
-]
-
-export const ALERT_IMPORT_SNIPPET = `import { Alert } from '@fossilui/react'
-
-// Path import, same package:
-import { Alert, SlideAlert, RiseAlert, SlideRightAlert, ShakeAlert, FadeAlert, ScaleAlert, PopAlert, BlurAlert } from '@fossilui/react/alerts'`
+export const ALERT_IMPORT_SNIPPET = importSnippet({
+  names: ['Alert'],
+  subpath: 'alerts',
+  packageName: ALERT_PACKAGE.packageName,
+})
 
 export const ALERT_DEMO = {
   title: 'Workspace updated',
@@ -311,5 +304,5 @@ export const ALERT_FAQS = [
     q: 'Can I control visibility from outside?',
     a: 'Yes. Pass open and onClose. The alert stays mounted until the exit transition finishes, the same way modals do.',
   },
-  ...sharedFaqs('alerts', '@fossilui/react'),
+  ...sharedFaqs('alerts', '@fossilui/alerts'),
 ]

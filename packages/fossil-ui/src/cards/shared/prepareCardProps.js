@@ -8,6 +8,7 @@ import { CARD_ACCENTS, CARD_SIZES } from './constants.js'
  *   description?: string
  *   media?: import('react').ReactNode
  *   imageSrc?: string
+ *   imageFallback?: string
  *   imageAlt?: string
  *   accent?: string
  *   size?: string
@@ -23,6 +24,7 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     description,
     media,
     imageSrc,
+    imageFallback,
     imageAlt = '',
     accent = 'default',
     size = 'default',
@@ -44,6 +46,7 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     description,
     media,
     imageSrc,
+    imageFallback,
     imageAlt,
     accent: safeAccent,
     size: safeSize,

@@ -17,6 +17,7 @@ export const GradientShiftCard = createAnimatedCard({
         accent={prepared.accent}
         media={prepared.media}
         imageSrc={prepared.imageSrc}
+        imageFallback={prepared.imageFallback}
         imageAlt={prepared.imageAlt}
         withMedia={prepared.withMedia}
       />

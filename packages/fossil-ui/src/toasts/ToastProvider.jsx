@@ -187,7 +187,7 @@ export function ToastProvider({ motion = 'slide', contained = false, children, c
     <div
       className={cn(
         'pointer-events-none z-[70] flex w-[min(22rem,calc(100%-1.5rem))]',
-        contained ? 'absolute inset-x-3 top-3 z-20 w-auto' : 'fixed top-3 right-3 sm:top-4 sm:right-4',
+        contained ? 'absolute top-3 left-3 z-20' : 'fixed top-3 right-3 sm:top-4 sm:right-4',
         className,
       )}
     >

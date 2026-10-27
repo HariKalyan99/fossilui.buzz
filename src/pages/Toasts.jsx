@@ -39,19 +39,19 @@ export default function Toasts() {
       slug="toasts"
       eyebrow="Toasts"
       title="Animated toast variants"
-      description="Eight ways a toast can arrive: slide, rise, drop, fade, scale, pop, blur, or a stack. One provider, then call toast() from anywhere under it."
+      description="Eight ways a toast can arrive: slide, rise, drop, fade, scale, pop, blur, or a stack. Install from @fossilui/react or @fossilui/toasts, then call toast() from anywhere under the provider."
       variants={{
         description: 'The preview stays inside the card. Click again to add another, and hover a toast to pause its timer.',
-        tag: 'In @fossilui/react · ships in the next npm release',
+        tag: 'Live from @fossilui/react and @fossilui/toasts',
         items: TOAST_VARIANTS,
         layout: 'wide',
-        tileClassName: 'sm:min-h-[280px]',
-        stageClassName: 'min-h-[16rem] items-end px-4 pt-16 pb-8',
+        tileClassName: 'sm:min-h-0',
+        stageClassName: 'min-h-[12.5rem] flex-col! items-center! justify-end! px-4 py-4 sm:min-h-[13rem]',
         renderPreview: (item) => <ToastTile item={item} />,
       }}
       importGuide={{
         description:
-          'Toasts are part of @fossilui/react. Wrap the app in ToastProvider once, then call toast() from any event under it.',
+          'Install the package you need, add the matching Tailwind @source snippet, then wrap the app in ToastProvider and call toast().',
         snippets: TOAST_IMPORT_SNIPPETS,
         importCode: TOAST_IMPORT_SNIPPET,
       }}

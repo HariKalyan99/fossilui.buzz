@@ -6,6 +6,7 @@ import { GithubIcon } from "./icons/Brand";
 import { Logo } from "./Logo";
 import { Button } from "./ui/Button";
 import { cn } from "../lib/cn";
+import { FOSSIL_UI_NPM_URL, FOSSIL_UI_VERSION } from "../lib/release";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -30,6 +31,30 @@ const RESOURCES = [
     desc: "Submit your public repo to be featured on the Templates page.",
   },
 ];
+
+function VersionBadge({ className }) {
+  return (
+    <a
+      href={FOSSIL_UI_NPM_URL}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`@fossilui/react version ${FOSSIL_UI_VERSION} on npm`}
+      className={cn(
+        "inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-indigo-100 bg-indigo-50 px-2",
+        "text-[11px] font-medium tracking-tight text-indigo-700 tabular-nums",
+        "transition-colors hover:border-indigo-200 hover:bg-indigo-100/70",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/45 focus-visible:ring-offset-2",
+        className,
+      )}
+    >
+      <span className="hidden min-[1100px]:inline">Now on npm</span>
+      <span className="hidden text-indigo-300 min-[1100px]:inline" aria-hidden>
+        ·
+      </span>
+      <span>v{FOSSIL_UI_VERSION}</span>
+    </a>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -174,6 +199,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden shrink-0 md:flex items-center justify-end gap-1.5 lg:gap-2 md:justify-self-end">
+          <VersionBadge />
           <Button
             as="a"
             href="https://github.com/HariKalyan99/fossilui.buzz"
@@ -181,32 +207,35 @@ export function Navbar() {
             rel="noreferrer"
             variant="ghost"
             size="sm"
-            className="max-[851px]:px-2"
+            className="max-[1099px]:px-2"
             aria-label="GitHub"
           >
             <GithubIcon className="h-3.5 w-3.5 shrink-0" />
-            <span className="hidden min-[852px]:inline">GitHub</span>
+            <span className="hidden min-[1100px]:inline">GitHub</span>
           </Button>
           <Button
             as={Link}
             to="/templates"
             variant="primary"
             size="sm"
-            className="max-[851px]:px-2.5"
+            className="max-[1099px]:px-2.5"
           >
-            <span className="min-[852px]:hidden">Templates</span>
-            <span className="hidden min-[852px]:inline">Browse templates</span>
+            <span className="min-[1100px]:hidden">Templates</span>
+            <span className="hidden min-[1100px]:inline">Browse templates</span>
           </Button>
         </div>
 
-        <button
-          type="button"
-          className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100"
-          onClick={() => setMobile((v) => !v)}
-          aria-label="Toggle menu"
-        >
-          {mobile ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
+        <div className="flex shrink-0 items-center gap-2 md:hidden">
+          <VersionBadge />
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100"
+            onClick={() => setMobile((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {mobile ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>

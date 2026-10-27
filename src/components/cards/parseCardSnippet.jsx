@@ -213,7 +213,48 @@ function parseOpeningTag(code) {
  * @param {string} str
  */
 function stripJsxComments(str) {
-  return str.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ')
+  let out = ''
+  let quote = null
+
+  for (let i = 0; i < str.length; i += 1) {
+    const ch = str[i]
+    const next = str[i + 1]
+
+    if (quote) {
+      out += ch
+      if (ch === '\\') {
+        out += next ?? ''
+        i += 1
+      } else if (ch === quote) {
+        quote = null
+      }
+      continue
+    }
+
+    if (ch === '"' || ch === "'") {
+      quote = ch
+      out += ch
+      continue
+    }
+
+    if (ch === '/' && next === '*') {
+      const close = str.indexOf('*/', i + 2)
+      i = close === -1 ? str.length : close + 1
+      out += ' '
+      continue
+    }
+
+    if (ch === '/' && next === '/') {
+      const newline = str.indexOf('\n', i)
+      i = newline === -1 ? str.length : newline - 1
+      out += ' '
+      continue
+    }
+
+    out += ch
+  }
+
+  return out
 }
 
 /**

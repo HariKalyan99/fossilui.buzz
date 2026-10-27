@@ -85,6 +85,12 @@ export const CARD_PROPS = [
     default: '—',
   },
   {
+    property: 'imageFallback',
+    description: 'Shown when imageSrc fails to load. The docs card photo falls back to /14.jpg.',
+    type: 'string',
+    default: '—',
+  },
+  {
     property: 'imageAlt',
     description: 'Accessible alt text for imageSrc.',
     type: 'string',

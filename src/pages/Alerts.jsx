@@ -66,10 +66,10 @@ export default function Alerts() {
       slug="alerts"
       eyebrow="Alerts"
       title="Animated alert variants"
-      description="Inline notices that slide, shake, or fade. Install from @fossilui/react, pick a tone, and copy a ready-to-use example."
+      description="Inline notices that slide, shake, or fade. Install from @fossilui/react or @fossilui/alerts, pick a tone, and copy a ready-to-use example."
       variants={{
         description: 'Replay each entrance. Tone sets the color and icon — switch it in the configurator.',
-        tag: 'In @fossilui/react · ships in the next npm release',
+        tag: 'Live from @fossilui/react and @fossilui/alerts',
         items: ALERT_VARIANTS,
         layout: 'compact',
         tileClassName: 'sm:min-h-[220px]',
@@ -77,7 +77,7 @@ export default function Alerts() {
         renderPreview: (item) => <AlertTile item={item} />,
       }}
       importGuide={{
-        description: 'Alerts are part of @fossilui/react. Add the Tailwind @source line, then import Alert or a named variant.',
+        description: 'Install the package you need, add the matching Tailwind @source snippet, then import Alert or a named variant.',
         snippets: ALERT_IMPORT_SNIPPETS,
         importCode: ALERT_IMPORT_SNIPPET,
       }}

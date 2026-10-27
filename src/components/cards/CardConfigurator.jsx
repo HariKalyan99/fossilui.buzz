@@ -3,6 +3,7 @@ import { Card } from '@fossilui/react'
 import { CodeEditor } from '../code/CodeEditor'
 import { cn } from '../../lib/cn'
 import { CARD_DEMO_IMAGE, CARD_DEMO_IMAGE_ALT } from '../../data/cardDemo'
+import { mediaFallbackUrl } from '../../lib/media'
 import { TimingInputs } from '../docs/TimingInputs'
 import { timingAttrs } from '../docs/timingFields'
 import { parseCardSnippet } from './parseCardSnippet'
@@ -364,13 +365,18 @@ export function CardConfigurator() {
           >
             <div className="flex w-full max-w-sm items-center justify-center px-1 py-2">
               {parsedSnippet?.error ? (
-                <Card className="w-full max-w-full" {...previewProps} />
+                <Card
+                  className="w-full max-w-full"
+                  imageFallback={mediaFallbackUrl(previewProps.imageSrc)}
+                  {...previewProps}
+                />
               ) : (
                 (() => {
                   const { className: snippetClassName, ...snippetProps } = parsedSnippet.props ?? {}
                   return (
                     <parsedSnippet.Component
                       key={`${parsedSnippet.name}-${String(snippetProps.motion ?? '')}-${String(snippetProps.title ?? '')}-${String(snippetProps.imageSrc ?? '')}-${JSON.stringify(snippetProps.style ?? {})}`}
+                      imageFallback={mediaFallbackUrl(snippetProps.imageSrc)}
                       {...snippetProps}
                       className={cn('w-full max-w-full', snippetClassName)}
                     />

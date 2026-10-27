@@ -1,21 +1,14 @@
-import { sharedFaqs, tailwindSourceSnippet, VITE_SNIPPET } from './sharedDocs'
+import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
 
-const INSTALL = `# Full component library
-npm install @fossilui/react lucide-react
+export const TOAST_PACKAGE = { label: 'Toasts', packageName: '@fossilui/toasts' }
 
-# Required — Tailwind v4 (Vite)
-npm install -D tailwindcss @tailwindcss/vite`
+export const TOAST_IMPORT_SNIPPETS = importGuideSnippets(TOAST_PACKAGE)
 
-export const TOAST_IMPORT_SNIPPETS = [
-  { label: 'Install', code: INSTALL },
-  { label: 'Vite', code: VITE_SNIPPET },
-  { label: 'Tailwind', code: tailwindSourceSnippet('@fossilui/react') },
-]
-
-export const TOAST_IMPORT_SNIPPET = `import { ToastProvider, toast } from '@fossilui/react'
-
-// Path import, same package:
-import { ToastProvider, toast, useToast } from '@fossilui/react/toasts'`
+export const TOAST_IMPORT_SNIPPET = importSnippet({
+  names: ['ToastProvider', 'toast'],
+  subpath: 'toasts',
+  packageName: TOAST_PACKAGE.packageName,
+})
 
 export const TOAST_DEMO = {
   title: 'Changes saved',
@@ -277,5 +270,5 @@ export const TOAST_FAQS = [
     q: 'How do I close one from code?',
     a: 'toast() returns an id. Pass it to toast.dismiss(id). toast.dismiss() with no id closes every toast on the active provider.',
   },
-  ...sharedFaqs('toasts', '@fossilui/react'),
+  ...sharedFaqs('toasts', '@fossilui/toasts'),
 ]

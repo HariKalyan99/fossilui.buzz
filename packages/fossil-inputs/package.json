@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/inputs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Animated input components from Fossil UI.",
   "type": "module",
   "license": "MIT",
