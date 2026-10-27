@@ -1,7 +1,7 @@
 {
   "name": "@fossilui/react",
-  "version": "0.2.1",
-  "description": "Animated React components from Fossil UI — buttons, cards, modals, inputs, navbars, and hero blocks.",
+  "version": "0.3.0",
+  "description": "Animated React components from Fossil UI — buttons, cards, modals, inputs, navbars, hero blocks, alerts, and toasts.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -23,6 +23,8 @@
     "inputs",
     "navbar",
     "hero",
+    "alerts",
+    "toasts",
     "animation",
     "tailwind",
     "fossil-ui"
@@ -61,6 +63,12 @@
     },
     "./heroes": {
       "import": "./dist/heroes/index.js"
+    },
+    "./alerts": {
+      "import": "./dist/alerts/index.js"
+    },
+    "./toasts": {
+      "import": "./dist/toasts/index.js"
     }
   },
   "scripts": {

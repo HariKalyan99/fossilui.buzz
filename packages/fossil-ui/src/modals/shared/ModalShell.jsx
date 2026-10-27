@@ -1,8 +1,9 @@
-import { forwardRef, useCallback, useEffect, useId, useRef } from 'react'
+import { forwardRef, useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
+import { motionTimingStyle, presenceMs } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
-import { usePresence, useReducedMotion } from '../../lib/motion.js'
+import { useReducedMotion } from '../../lib/motion.js'
 import {
   MODAL_DURATION,
   MODAL_LAYOUTS,
@@ -10,6 +11,35 @@ import {
   MODAL_SIZE_CLASSES,
   MODAL_SIZES,
 } from './constants.js'
+
+/**
+ * Mounts while the exit transition finishes. The open styles are applied in the
+ * same render as the open change, so the dialog is not left invisible waiting
+ * on animation frames. The entrance itself comes from @starting-style.
+ */
+function useModalPresence(open, duration) {
+  const [mounted, setMounted] = useState(open)
+  const [visible, setVisible] = useState(open)
+  const [prevOpen, setPrevOpen] = useState(open)
+
+  if (open !== prevOpen) {
+    setPrevOpen(open)
+    if (open) {
+      setMounted(true)
+      setVisible(true)
+    } else {
+      setVisible(false)
+    }
+  }
+
+  useEffect(() => {
+    if (open || !mounted) return undefined
+    const timer = setTimeout(() => setMounted(false), duration)
+    return () => clearTimeout(timer)
+  }, [open, mounted, duration])
+
+  return { mounted, visible }
+}
 
 const ACTION_BUTTON =
   'inline-flex h-9 items-center justify-center rounded-lg px-4 text-[13px] font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
@@ -50,6 +80,14 @@ export const ModalShell = forwardRef(function ModalShell(
     contained = false,
     className,
     overlayClassName,
+    duration,
+    easing,
+    delay,
+    direction: _direction,
+    iterationCount: _iterationCount,
+    fillMode: _fillMode,
+    playState: _playState,
+    style: userStyle,
     ...rest
   },
   ref,
@@ -57,7 +95,9 @@ export const ModalShell = forwardRef(function ModalShell(
   const style = MODAL_MOTION_STYLES[motion] ?? MODAL_MOTION_STYLES.scaleFade
   const layout = MODAL_LAYOUTS[style.layout]
   const reduceMotion = useReducedMotion()
-  const { mounted, visible } = usePresence(open, reduceMotion ? 0 : MODAL_DURATION)
+  const exitMs = presenceMs(duration, delay, motion === 'zoomBounce' ? 420 : MODAL_DURATION)
+  const { mounted, visible } = useModalPresence(open, reduceMotion ? 0 : exitMs)
+  const motionStyle = motionTimingStyle({ duration, easing, delay })
   const panelRef = useRef(null)
   const titleId = useId()
   const descriptionId = useId()
@@ -105,13 +145,13 @@ export const ModalShell = forwardRef(function ModalShell(
   const safeSize = MODAL_SIZES.includes(size) ? size : 'md'
 
   const content = (
-    <div className={cn(contained ? 'absolute' : 'fixed', 'inset-0 z-50 flex', layout.wrapper)}>
+    <div className={cn(contained ? 'absolute' : 'fixed', 'inset-0 z-50 flex', layout.wrapper)} style={motionStyle}>
       <div
         aria-hidden
         onClick={closeOnOverlay ? close : undefined}
         className={cn(
-          'absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] transition-opacity duration-300 motion-reduce:transition-none',
-          visible ? 'opacity-100' : 'opacity-0',
+          'absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] transition-opacity delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease)] motion-reduce:transition-none',
+          visible ? 'opacity-100 starting:opacity-0' : 'opacity-0',
           overlayClassName,
         )}
       />
@@ -123,7 +163,7 @@ export const ModalShell = forwardRef(function ModalShell(
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={cn(
-          'relative border border-neutral-200 bg-white p-5 text-left shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] outline-none sm:p-6',
+          'relative z-10 border border-neutral-200 bg-white p-5 text-left shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)] outline-none sm:p-6',
           layout.panel,
           style.layout !== 'right' && MODAL_SIZE_CLASSES[safeSize],
           style.transition,
@@ -131,6 +171,7 @@ export const ModalShell = forwardRef(function ModalShell(
           visible ? style.shown : style.hidden,
           className,
         )}
+        style={userStyle}
         {...rest}
       >
         {showClose ? (

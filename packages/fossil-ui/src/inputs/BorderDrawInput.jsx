@@ -2,7 +2,7 @@ import { cn } from '../lib/cn.js'
 import { INPUT_BASE } from './shared/constants.js'
 import { FieldIcon, createAnimatedInput } from './shared/createAnimatedInput.jsx'
 
-const EDGE = 'pointer-events-none absolute duration-150 ease-linear motion-reduce:transition-none'
+const EDGE = 'pointer-events-none absolute delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,150ms)] ease-[var(--fossil-ease,linear)] motion-reduce:transition-none'
 
 /** An accent border draws itself around the field, edge by edge, on focus. */
 export const BorderDrawInput = createAnimatedInput({

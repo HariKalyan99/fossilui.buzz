@@ -3,8 +3,8 @@ import { createAnimatedButton } from './shared/createAnimatedButton.jsx'
 
 const STAGGER_CHAR =
   'inline-block origin-bottom translate-y-0 text-inherit ' +
-  'transition-[transform,translate,scale,rotate,color] duration-300 ease-out delay-0 ' +
-  'group-hover:delay-[var(--stagger)] group-data-[touch]:delay-[var(--stagger)] group-hover:-translate-y-[0.22em] group-data-[touch]:-translate-y-[0.22em]'
+  'transition-[transform,translate,scale,rotate,color] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] delay-0 ' +
+  'group-hover:delay-[calc(var(--fossil-delay,0ms)+var(--stagger))] group-data-[touch]:delay-[calc(var(--fossil-delay,0ms)+var(--stagger))] group-hover:-translate-y-[0.22em] group-data-[touch]:-translate-y-[0.22em]'
 
 /** Each letter lifts with a staggered delay on hover. */
 export const StaggerTextButton = createAnimatedButton({

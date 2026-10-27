@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { readMotionEase, readMotionMs } from '../lib/animationTiming.js'
 import { cn } from '../lib/cn.js'
 import { HERO_ITEM_MOTIONS, createAnimatedHero } from './shared/createAnimatedHero.jsx'
 
@@ -9,10 +10,11 @@ function GradientTitle({ title, reduceMotion, item }) {
 
   useEffect(() => {
     if (reduceMotion) return undefined
-    const animation = textRef.current?.animate?.(FLOW_KEYFRAMES, {
-      duration: 6000,
+    const node = textRef.current
+    const animation = node?.animate?.(FLOW_KEYFRAMES, {
+      duration: readMotionMs(node, 6000),
       iterations: Infinity,
-      easing: 'linear',
+      easing: readMotionEase(node, 'linear'),
     })
     return () => animation?.cancel()
   }, [reduceMotion])

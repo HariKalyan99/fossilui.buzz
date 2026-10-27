@@ -1,4 +1,4 @@
-import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
+import { importGuideSnippets, importSnippet, MOTION_TIMING_PROPS, sharedFaqs } from './sharedDocs'
 
 export const HERO_PACKAGE = { label: 'Heroes', packageName: '@fossilui/heroes' }
 
@@ -131,6 +131,7 @@ export const HERO_PROPS = [
     type: "'fadeUp' | 'staggerWords' | 'blurReveal' | 'scaleIn' | 'letterCascade' | 'gradientText' | 'spotlight' | 'typewriter'",
     default: "'fadeUp'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'eyebrow',
     description: 'Small pill above the headline, e.g. a release note.',

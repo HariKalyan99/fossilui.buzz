@@ -3,6 +3,8 @@ import { Mail } from 'lucide-react'
 import { Button } from '@fossilui/react'
 import { CodeEditor } from '../code/CodeEditor'
 import { cn } from '../../lib/cn'
+import { TimingInputs } from '../docs/TimingInputs'
+import { timingAttrs } from '../docs/timingFields'
 import { parseButtonSnippet } from './parseButtonSnippet'
 
 const MOTIONS = [
@@ -53,6 +55,9 @@ const DEFAULT_STATE = {
   block: false,
   disabled: false,
   withIcon: false,
+  duration: '',
+  easing: '',
+  delay: '',
 }
 
 const MOTION_RULES = {
@@ -96,6 +101,9 @@ export function ButtonConfigurator() {
   const [block, setBlock] = useState(DEFAULT_STATE.block)
   const [disabled, setDisabled] = useState(DEFAULT_STATE.disabled)
   const [withIcon, setWithIcon] = useState(DEFAULT_STATE.withIcon)
+  const [duration, setDuration] = useState(DEFAULT_STATE.duration)
+  const [easing, setEasing] = useState(DEFAULT_STATE.easing)
+  const [delay, setDelay] = useState(DEFAULT_STATE.delay)
   const [editableSnippet, setEditableSnippet] = useState('')
   const [snippetSource, setSnippetSource] = useState('controls')
 
@@ -144,6 +152,7 @@ export function ButtonConfigurator() {
     if (disabled) parts.push('disabled')
     if (effectiveLoading) parts.push('loading')
     if (effectiveWithIcon) parts.push('icon={<Mail className="h-4 w-4" />}')
+    parts.push(...timingAttrs({ duration, easing, delay }))
 
     const attrs = parts.length ? `\n  ${parts.join('\n  ')}` : ''
     const iconImport = effectiveWithIcon ? `import { Mail } from 'lucide-react'\n` : ''
@@ -163,6 +172,9 @@ export function ButtonConfigurator() {
     effectiveLoading,
     effectiveWithIcon,
     buttonLabel,
+    duration,
+    easing,
+    delay,
   ])
 
   useEffect(() => {
@@ -204,6 +216,9 @@ export function ButtonConfigurator() {
     setLoading(Boolean(parsedProps.loading))
     setWithIcon(Boolean(parsedProps.icon))
     setLabel(parsedSnippet.children || DEFAULT_STATE.label)
+    setDuration(parsedProps.duration == null ? '' : String(parsedProps.duration))
+    setEasing(typeof parsedProps.easing === 'string' ? parsedProps.easing : '')
+    setDelay(parsedProps.delay == null ? '' : String(parsedProps.delay))
   }, [parsedSnippet, snippetSource])
 
   const applyDefaults = (nextMotion = DEFAULT_STATE.motion) => {
@@ -221,6 +236,9 @@ export function ButtonConfigurator() {
     setBlock(DEFAULT_STATE.block)
     setDisabled(DEFAULT_STATE.disabled)
     setWithIcon(DEFAULT_STATE.withIcon)
+    setDuration(DEFAULT_STATE.duration)
+    setEasing(DEFAULT_STATE.easing)
+    setDelay(DEFAULT_STATE.delay)
   }
 
   const resetDefaults = () => {
@@ -241,7 +259,7 @@ export function ButtonConfigurator() {
           </button>
         </div>
         <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-500">
-          Pick props from the panel or edit the code directly. Preview updates instantly from either source.
+          Pick props from the panel or edit the code directly. Duration, easing, and delay override the hover motion. An easing the browser rejects is ignored. Preview updates instantly from either source.
         </p>
       </div>
 
@@ -273,6 +291,16 @@ export function ButtonConfigurator() {
                 ))}
               </select>
             </label>
+
+            <TimingInputs
+              values={{ duration, easing, delay }}
+              onChange={(key, value) => {
+                setSnippetSource('controls')
+                if (key === 'duration') setDuration(value)
+                if (key === 'easing') setEasing(value)
+                if (key === 'delay') setDelay(value)
+              }}
+            />
 
             <label className="min-w-0 space-y-1.5">
               <span className="text-[12px] font-medium text-neutral-600">Color</span>

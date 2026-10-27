@@ -27,7 +27,7 @@ function SpotlightOverlay({ reduceMotion }) {
     <div
       ref={overlayRef}
       aria-hidden
-      className="pointer-events-none absolute inset-0 -z-[5] opacity-0 transition-opacity duration-500 group-hover/hero:opacity-100 group-data-[touch]/hero:opacity-100"
+      className="pointer-events-none absolute inset-0 -z-[5] opacity-0 transition-opacity delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-hover/hero:opacity-100 group-data-[touch]/hero:opacity-100"
       style={{
         background:
           'radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 30%), rgba(99, 102, 241, 0.16), transparent 65%)',

@@ -138,7 +138,7 @@ export function ComponentConfigurator({ schema }) {
     ? { Component: schema.componentMap[schema.wrapperName], props: schema.propsFromState(state) }
     : { Component: parsed.Component, props: parsed.props }
   // Only a motion/component switch remounts (and replays) the preview; prop edits update in place.
-  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}`
+  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}-${preview.props.duration ?? ''}-${preview.props.easing ?? ''}-${preview.props.delay ?? ''}`
 
   const selectFields = schema.fields.filter((field) => field.type !== 'checkbox')
   const checkboxFields = schema.fields.filter((field) => field.type === 'checkbox')

@@ -13,6 +13,14 @@ export function optionAttr(key, value, defaultValue) {
   return value === defaultValue ? [] : [`${key}="${value}"`]
 }
 
+/** `key={number}` only when it differs from the default. Empty values are omitted. */
+export function numberAttr(key, value, defaultValue) {
+  if (value == null || value === '') return []
+  const n = Number(value)
+  if (!Number.isFinite(n) || n === defaultValue) return []
+  return [`${key}={${n}}`]
+}
+
 /** Emits `key` / `key={false}` only when the value differs from the default. */
 export function boolAttr(key, value, defaultValue) {
   if (value === defaultValue) return []

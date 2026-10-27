@@ -1,8 +1,31 @@
+import { useEffect, useState } from 'react'
 import { cn } from '../../lib/cn.js'
 import {
   CARD_ACCENT_GRADIENTS,
   CARD_SIZE_PADDING,
 } from './constants.js'
+
+/** Shows imageSrc, then imageFallback when that request fails. */
+function CardImage({ src, fallback, alt, className }) {
+  const [current, setCurrent] = useState(src)
+
+  useEffect(() => {
+    setCurrent(src)
+  }, [src])
+
+  return (
+    <img
+      src={current}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        if (fallback && current !== fallback) setCurrent(fallback)
+      }}
+    />
+  )
+}
 
 /**
  * @param {{
@@ -10,6 +33,7 @@ import {
  *   description?: string
  *   media?: import('react').ReactNode
  *   imageSrc?: string
+ *   imageFallback?: string
  *   imageAlt?: string
  *   accent?: string
  *   size?: string
@@ -23,6 +47,7 @@ export function CardMedia({
   accent = 'default',
   media,
   imageSrc,
+  imageFallback,
   imageAlt = '',
   mediaClassName,
   imageClassName,
@@ -42,12 +67,11 @@ export function CardMedia({
           mediaClassName,
         )}
       >
-        <img
+        <CardImage
           src={imageSrc}
+          fallback={imageFallback}
           alt={imageAlt}
           className={cn('h-full w-full object-cover', imageClassName)}
-          loading="lazy"
-          decoding="async"
         />
       </div>
     )
@@ -91,6 +115,7 @@ export function renderDefaultCardContent(prepared, options = {}) {
       accent={prepared.accent}
       media={prepared.media}
       imageSrc={prepared.imageSrc}
+      imageFallback={prepared.imageFallback}
       imageAlt={prepared.imageAlt}
       withMedia={prepared.withMedia}
       mediaClassName={mediaClassName}

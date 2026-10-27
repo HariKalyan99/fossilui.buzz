@@ -11,6 +11,7 @@ import {
 } from '@fossilui/react'
 import { ComponentConfigurator } from '../docs/ComponentConfigurator'
 import { pickStrings, stringAttr } from '../docs/snippetAttrs'
+import { TIMING_DEFAULTS, timingAttrs, timingFields, timingProps } from '../docs/timingFields'
 import { NAVBAR_DEMO, NAVBAR_DEMO_LINKS, formatLinks, navbarSnippet } from '../../data/navbarDocs'
 
 const COMPONENT_MAP = {
@@ -65,6 +66,7 @@ const SCHEMA = {
     active: NAVBAR_DEMO.active,
     ctaLabel: NAVBAR_DEMO.ctaLabel,
     ctaHref: NAVBAR_DEMO.ctaHref,
+    ...TIMING_DEFAULTS,
   },
   fields: [
     { key: 'brand', label: 'Brand', type: 'text' },
@@ -72,6 +74,7 @@ const SCHEMA = {
     { key: 'links', label: 'Links (comma separated)', type: 'text', wide: true, fromProp: linksToText },
     { key: 'ctaLabel', label: 'CTA label', type: 'text', placeholder: 'Leave empty to hide' },
     { key: 'ctaHref', label: 'CTA href', type: 'text' },
+    ...timingFields,
   ],
   buildSnippet: (state) => {
     const links = linksFromText(state.links)
@@ -82,12 +85,14 @@ const SCHEMA = {
       ...stringAttr('active', state.active),
       ...stringAttr('ctaLabel', state.ctaLabel),
       ...stringAttr('ctaHref', state.ctaHref),
+      ...timingAttrs(state),
     ])
   },
   propsFromState: (state) => ({
     motion: state.motion,
     ...pickStrings(state, TEXT_KEYS),
     links: linksFromText(state.links),
+    ...timingProps(state),
   }),
   renderPreview: ({ Component, props }) => (
     <div className="w-full">
@@ -97,7 +102,7 @@ const SCHEMA = {
   previewPlacement: 'below',
   previewClassName: 'min-h-[10rem] sm:min-h-[10rem]',
   description:
-    'Pick props from the panel or edit the code directly. The preview spans the full width so you can see the desktop layout; narrow your window to see the animated mobile menu.',
+    'Pick props from the panel or edit the code directly. Duration, easing, and delay override the link and menu motion. An easing the browser rejects is ignored. The preview spans the full width; narrow the window to see the mobile menu.',
 }
 
 export function NavbarConfigurator() {

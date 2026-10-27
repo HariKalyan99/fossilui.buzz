@@ -1,3 +1,4 @@
+import { motionTimingStyle } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { BUTTON_BASE } from '../buttonBase.js'
 import { BUTTON_SHAPES, BUTTON_SIZES } from './constants.js'
@@ -25,6 +26,13 @@ export const FOSSIL_BUTTON_PROP_KEYS = new Set([
   'target',
   'type',
   'variant',
+  'duration',
+  'easing',
+  'delay',
+  'direction',
+  'iterationCount',
+  'fillMode',
+  'playState',
 ])
 
 /**
@@ -57,6 +65,14 @@ export function prepareButtonProps(props, options = {}) {
     target,
     type,
     variant,
+    duration,
+    easing,
+    delay,
+    direction: _direction,
+    iterationCount: _iterationCount,
+    fillMode: _fillMode,
+    playState: _playState,
+    style,
     children,
     onClick,
     ...rest
@@ -98,7 +114,9 @@ export function prepareButtonProps(props, options = {}) {
 
   const rootStyle = {
     '--fossil-btn-h': sizeToken.height,
+    ...motionTimingStyle({ duration, easing, delay }),
     ...semantic.styles.root,
+    ...style,
   }
 
   const isLink = Boolean(href)

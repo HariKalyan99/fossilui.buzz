@@ -3,6 +3,9 @@ import { Card } from '@fossilui/react'
 import { CodeEditor } from '../code/CodeEditor'
 import { cn } from '../../lib/cn'
 import { CARD_DEMO_IMAGE, CARD_DEMO_IMAGE_ALT } from '../../data/cardDemo'
+import { mediaFallbackUrl } from '../../lib/media'
+import { TimingInputs } from '../docs/TimingInputs'
+import { timingAttrs } from '../docs/timingFields'
 import { parseCardSnippet } from './parseCardSnippet'
 
 const MOTIONS = [
@@ -30,6 +33,9 @@ const DEFAULT_STATE = {
   href: '',
   imageSrc: CARD_DEMO_IMAGE,
   imageAlt: CARD_DEMO_IMAGE_ALT,
+  duration: '',
+  easing: '',
+  delay: '',
 }
 
 const SELECT_CLASS =
@@ -57,6 +63,9 @@ export function CardConfigurator() {
   const [href, setHref] = useState(DEFAULT_STATE.href)
   const [imageSrc, setImageSrc] = useState(DEFAULT_STATE.imageSrc)
   const [imageAlt, setImageAlt] = useState(DEFAULT_STATE.imageAlt)
+  const [duration, setDuration] = useState(DEFAULT_STATE.duration)
+  const [easing, setEasing] = useState(DEFAULT_STATE.easing)
+  const [delay, setDelay] = useState(DEFAULT_STATE.delay)
   const [editableSnippet, setEditableSnippet] = useState('')
   const [snippetSource, setSnippetSource] = useState('controls')
 
@@ -89,11 +98,12 @@ export function CardConfigurator() {
     if (!withMedia) parts.push('withMedia={false}')
     if (!interactive) parts.push('interactive={false}')
     if (href.trim()) parts.push(`href="${href.trim()}"`)
+    parts.push(...timingAttrs({ duration, easing, delay }))
 
     const attrs = parts.map((part) => `  ${part}`).join('\n')
 
     return `import { Card } from '@fossilui/react'\n\n<Card\n${attrs}\n/>`
-  }, [motion, cardTitle, cardTagline, accent, size, withMedia, interactive, href, imageSrc, imageAlt])
+  }, [motion, cardTitle, cardTagline, accent, size, withMedia, interactive, href, imageSrc, imageAlt, duration, easing, delay])
 
   useEffect(() => {
     if (snippetSource === 'controls') {
@@ -132,6 +142,9 @@ export function CardConfigurator() {
         ? parsedProps.description
         : DEFAULT_STATE.tagline,
     )
+    setDuration(parsedProps.duration == null ? '' : String(parsedProps.duration))
+    setEasing(typeof parsedProps.easing === 'string' ? parsedProps.easing : '')
+    setDelay(parsedProps.delay == null ? '' : String(parsedProps.delay))
   }, [parsedSnippet, snippetSource])
 
   const applyDefaults = (nextMotion = DEFAULT_STATE.motion) => {
@@ -146,6 +159,9 @@ export function CardConfigurator() {
     setHref(DEFAULT_STATE.href)
     setImageSrc(DEFAULT_STATE.imageSrc)
     setImageAlt(DEFAULT_STATE.imageAlt)
+    setDuration(DEFAULT_STATE.duration)
+    setEasing(DEFAULT_STATE.easing)
+    setDelay(DEFAULT_STATE.delay)
   }
 
   const resetDefaults = () => {
@@ -166,7 +182,7 @@ export function CardConfigurator() {
           </button>
         </div>
         <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-500">
-          Pick props from the panel or edit the code directly — including className and style. Preview updates instantly from either source.
+          Pick props from the panel or edit the code directly — including className and style. Duration, easing, and delay override the hover motion. An easing the browser rejects is ignored.
         </p>
       </div>
 
@@ -237,6 +253,16 @@ export function CardConfigurator() {
                 ))}
               </select>
             </label>
+
+            <TimingInputs
+              values={{ duration, easing, delay }}
+              onChange={(key, value) => {
+                setSnippetSource('controls')
+                if (key === 'duration') setDuration(value)
+                if (key === 'easing') setEasing(value)
+                if (key === 'delay') setDelay(value)
+              }}
+            />
 
             <label className="min-w-0 space-y-1.5">
               <span className="text-[12px] font-medium text-neutral-600">Accent</span>
@@ -339,13 +365,18 @@ export function CardConfigurator() {
           >
             <div className="flex w-full max-w-sm items-center justify-center px-1 py-2">
               {parsedSnippet?.error ? (
-                <Card className="w-full max-w-full" {...previewProps} />
+                <Card
+                  className="w-full max-w-full"
+                  imageFallback={mediaFallbackUrl(previewProps.imageSrc)}
+                  {...previewProps}
+                />
               ) : (
                 (() => {
                   const { className: snippetClassName, ...snippetProps } = parsedSnippet.props ?? {}
                   return (
                     <parsedSnippet.Component
                       key={`${parsedSnippet.name}-${String(snippetProps.motion ?? '')}-${String(snippetProps.title ?? '')}-${String(snippetProps.imageSrc ?? '')}-${JSON.stringify(snippetProps.style ?? {})}`}
+                      imageFallback={mediaFallbackUrl(snippetProps.imageSrc)}
                       {...snippetProps}
                       className={cn('w-full max-w-full', snippetClassName)}
                     />

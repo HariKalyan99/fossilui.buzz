@@ -18,7 +18,7 @@ export const FillSweepInput = createAnimatedInput({
         aria-hidden
         className={cn(
           'pointer-events-none absolute inset-0 origin-left scale-x-0',
-          'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-focus-within/input:scale-x-100 motion-reduce:transition-none',
+          'transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))] group-focus-within/input:scale-x-100 motion-reduce:transition-none',
           invalid ? 'bg-rose-50' : 'bg-indigo-50/80',
         )}
       />

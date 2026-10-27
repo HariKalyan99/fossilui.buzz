@@ -8,7 +8,7 @@ import { useTouchHover } from '../../lib/touch.js'
  * @param {import('react').ReactNode} props.children
  */
 export const CardRoot = forwardRef(function CardRoot({ prepared, children }, ref) {
-  const { href, className, interactive, nativeProps } = prepared
+  const { href, className, interactive, nativeProps, style } = prepared
   const { onPointerDown, onPointerUp, onPointerCancel, ...rest } = nativeProps
   const touchProps = useTouchHover({ sticky: true, handlers: { onPointerDown, onPointerUp, onPointerCancel } })
   const Comp = href ? 'a' : 'div'
@@ -18,6 +18,7 @@ export const CardRoot = forwardRef(function CardRoot({ prepared, children }, ref
       ref={ref}
       href={href}
       className={cn(className)}
+      style={style}
       {...rest}
       {...(interactive ? touchProps : { onPointerDown, onPointerUp, onPointerCancel })}
     >

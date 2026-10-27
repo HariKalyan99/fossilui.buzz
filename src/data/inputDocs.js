@@ -1,4 +1,4 @@
-import { importGuideSnippets, importSnippet, sharedFaqs } from './sharedDocs'
+import { importGuideSnippets, importSnippet, MOTION_TIMING_PROPS, sharedFaqs } from './sharedDocs'
 
 export const INPUT_PACKAGE = { label: 'Inputs', packageName: '@fossilui/inputs' }
 
@@ -123,6 +123,7 @@ export const INPUT_PROPS = [
     type: "'focusGlow' | 'floatingLabel' | 'underlineGrow' | 'gradientBorder' | 'iconPop' | 'fillSweep' | 'placeholderSlide' | 'borderDraw'",
     default: "'focusGlow'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'label',
     description: 'Visible label linked to the input via htmlFor/id.',

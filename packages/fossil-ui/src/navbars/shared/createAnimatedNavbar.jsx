@@ -1,18 +1,19 @@
 import { forwardRef, useId, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { splitMotionProps } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { useTouchHover, useTouchKey } from '../../lib/touch.js'
 import { MOBILE_MENUS } from './mobileMenus.js'
 
 export const NAV_LINK =
-  'relative z-[1] inline-flex h-9 items-center whitespace-nowrap rounded-md px-3 text-[13.5px] font-medium text-neutral-600 transition-colors duration-200 hover:text-neutral-900 data-[touch]:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+  'relative z-[1] inline-flex h-9 items-center whitespace-nowrap rounded-md px-3 text-[13.5px] font-medium text-neutral-600 transition-colors delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,200ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] hover:text-neutral-900 data-[touch]:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
 
 export const NAV_LINK_ACTIVE = 'text-neutral-900'
 
 const DEFAULT_ROOT = 'border-b border-neutral-200/80 bg-white/90 backdrop-blur'
 
 const MENU_BAR =
-  'absolute left-1/2 h-[1.5px] w-4 -translate-x-1/2 rounded-full bg-current transition-[top,rotate,opacity,scale,translate] duration-300 ease-out motion-reduce:transition-none'
+  'absolute left-1/2 h-[1.5px] w-4 -translate-x-1/2 rounded-full bg-current transition-[top,rotate,opacity,scale,translate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none'
 
 function normalizeLinks(links) {
   return (links ?? []).map((link) =>
@@ -44,7 +45,7 @@ function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName, variant })
   const delayFor = (index) => {
     if (!open || stagger === 0) return '0ms'
     const order = preset.reverse ? total - 1 - index : index
-    return `${80 + order * stagger}ms`
+    return `calc(var(--fossil-delay, 0ms) + ${80 + order * stagger}ms)`
   }
   const itemClass = (extra) => cn(preset.item, preset.itemState?.(open), extra)
 
@@ -55,9 +56,9 @@ function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName, variant })
       className={cn(
         'grid @xl:hidden',
         preset.animateHeight
-          ? 'transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none'
+          ? 'transition-[grid-template-rows] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none'
           : // Snap open instantly; on close, wait for the exit motion before collapsing.
-            cn('transition-[grid-template-rows] duration-0', !open && 'delay-[420ms] motion-reduce:delay-0'),
+            cn('transition-[grid-template-rows] duration-0', !open && 'delay-[var(--fossil-duration,420ms)] motion-reduce:delay-0'),
         open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
       )}
     >
@@ -79,7 +80,7 @@ function MobileMenu({ id, open, ctx, ctaLabel, ctaHref, ctaClassName, variant })
                         aria-hidden
                         className={cn(
                           'pointer-events-none absolute inset-x-3 bottom-1.5 h-px origin-left bg-neutral-900',
-                          'transition-transform duration-500 ease-out motion-reduce:transition-none',
+                          'transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,500ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none',
                           active && open ? 'scale-x-100 delay-300' : 'scale-x-0',
                         )}
                       />
@@ -121,7 +122,7 @@ function CtaLink({ label, href, className, tabIndex }) {
     >
       {label}
       <ArrowRight
-        className="h-3.5 w-3.5 transition-transform duration-300 group-hover/cta:translate-x-0.5 group-data-[touch]/cta:translate-x-0.5"
+        className="h-3.5 w-3.5 transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] group-hover/cta:translate-x-0.5 group-data-[touch]/cta:translate-x-0.5"
         strokeWidth={2}
       />
     </Comp>
@@ -165,8 +166,10 @@ export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName,
       ctaHref,
       onLinkClick,
       className,
-      ...rest
+      ...rawRest
     } = props
+
+    const { rest, style } = splitMotionProps(rawRest)
 
     const [current, setCurrent] = useState(active)
     const [prevActive, setPrevActive] = useState(active)
@@ -205,6 +208,7 @@ export function createAnimatedNavbar({ displayName, rootClassName, ctaClassName,
       <header
         ref={ref}
         className={cn('@container relative w-full', rootClassName ? rootClassName(menuOpen) : DEFAULT_ROOT, className)}
+        style={style}
         {...headerRest}
         {...headerTouch}
       >

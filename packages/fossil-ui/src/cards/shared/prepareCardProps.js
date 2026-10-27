@@ -1,3 +1,4 @@
+import { splitMotionProps } from '../../lib/animationTiming.js'
 import { cn } from '../../lib/cn.js'
 import { CARD_ACCENTS, CARD_SIZES } from './constants.js'
 
@@ -7,6 +8,7 @@ import { CARD_ACCENTS, CARD_SIZES } from './constants.js'
  *   description?: string
  *   media?: import('react').ReactNode
  *   imageSrc?: string
+ *   imageFallback?: string
  *   imageAlt?: string
  *   accent?: string
  *   size?: string
@@ -22,6 +24,7 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     description,
     media,
     imageSrc,
+    imageFallback,
     imageAlt = '',
     accent = 'default',
     size = 'default',
@@ -30,8 +33,10 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     withMedia = true,
     className,
     children,
-    ...rest
+    ...rawRest
   } = props
+
+  const { rest, style } = splitMotionProps(rawRest)
 
   const safeAccent = CARD_ACCENTS.includes(accent) ? accent : 'default'
   const safeSize = CARD_SIZES.includes(size) ? size : 'default'
@@ -41,6 +46,7 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     description,
     media,
     imageSrc,
+    imageFallback,
     imageAlt,
     accent: safeAccent,
     size: safeSize,
@@ -48,6 +54,7 @@ export function prepareCardProps(props, { animationClassName = '' } = {}) {
     interactive,
     withMedia,
     children,
+    style,
     className: cn(
       'group relative block overflow-hidden rounded-[14px] border border-neutral-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.05)]',
       interactive && 'cursor-default',

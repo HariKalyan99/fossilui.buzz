@@ -15,6 +15,7 @@ import {
 } from '@fossilui/react'
 import { ComponentConfigurator } from '../docs/ComponentConfigurator'
 import { boolAttr, optionAttr, pickStrings, stringAttr } from '../docs/snippetAttrs'
+import { TIMING_DEFAULTS, timingAttrs, timingFields, timingProps } from '../docs/timingFields'
 import { MODAL_DEMO, modalSnippet } from '../../data/modalDocs'
 import { DemoTrigger } from './DemoTrigger'
 
@@ -67,6 +68,7 @@ const SCHEMA = {
     tone: 'default',
     closeOnOverlay: true,
     showClose: true,
+    ...TIMING_DEFAULTS,
   },
   fields: [
     { key: 'title', label: 'Title', type: 'text', wide: true },
@@ -75,6 +77,7 @@ const SCHEMA = {
     { key: 'cancelLabel', label: 'Cancel label', type: 'text', placeholder: 'Leave empty to hide' },
     { key: 'size', label: 'Size', type: 'select', options: MODAL_SIZES },
     { key: 'tone', label: 'Tone', type: 'select', options: MODAL_TONES },
+    ...timingFields,
     { key: 'closeOnOverlay', label: 'Close on overlay click', type: 'checkbox' },
     { key: 'showClose', label: 'Show close button', type: 'checkbox' },
   ],
@@ -84,6 +87,7 @@ const SCHEMA = {
       ...TEXT_KEYS.flatMap((key) => stringAttr(key, state[key])),
       ...optionAttr('size', state.size, 'md'),
       ...optionAttr('tone', state.tone, 'default'),
+      ...timingAttrs(state),
       ...boolAttr('closeOnOverlay', state.closeOnOverlay, true),
       ...boolAttr('showClose', state.showClose, true),
     ]),
@@ -92,6 +96,7 @@ const SCHEMA = {
     ...pickStrings(state, TEXT_KEYS),
     size: state.size,
     tone: state.tone,
+    ...timingProps(state),
     closeOnOverlay: state.closeOnOverlay,
     showClose: state.showClose,
   }),
@@ -101,7 +106,7 @@ const SCHEMA = {
   previewPlacement: 'below',
   previewClassName: 'min-h-[24rem] sm:min-h-[26rem]',
   description:
-    'Pick props from the panel or edit the code directly. The preview modal is rendered contained, so it opens inside the box. Switching the motion replays the entrance; close it and use Open modal to watch the exit.',
+    'Pick props from the panel or edit the code directly. Duration, easing, and delay override the entrance. An easing the browser rejects is ignored. The preview modal stays inside the box. Switching the motion or the timing replays the entrance; close it and use Open modal to watch the exit.',
 }
 
 export function ModalConfigurator() {

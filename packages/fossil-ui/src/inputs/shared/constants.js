@@ -11,7 +11,7 @@ export const INPUT_BASE =
 
 /** Bordered field surface shared by most variants. */
 export const INPUT_BOX =
-  'group/input relative flex w-full items-center overflow-hidden rounded-lg border bg-white px-3 transition-[border-color,box-shadow,background-color] duration-200 motion-reduce:transition-none'
+  'group/input relative flex w-full items-center overflow-hidden rounded-lg border bg-white px-3 transition-[border-color,box-shadow,background-color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,200ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))] motion-reduce:transition-none'
 
 export function boxBorderClass(invalid) {
   return invalid ? 'border-rose-300' : 'border-neutral-200 hover:border-neutral-300'

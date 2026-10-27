@@ -18,7 +18,7 @@ export const IconPopInput = createAnimatedInput({
       <FieldIcon
         icon={icon ?? <Search strokeWidth={2} />}
         className={cn(
-          'transition-[color,scale,rotate] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none',
+          'transition-[color,scale,rotate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))] motion-reduce:transition-none',
           'group-focus-within/input:scale-125 group-focus-within/input:-rotate-12',
           invalid ? 'group-focus-within/input:text-rose-500' : 'group-focus-within/input:text-indigo-500',
         )}

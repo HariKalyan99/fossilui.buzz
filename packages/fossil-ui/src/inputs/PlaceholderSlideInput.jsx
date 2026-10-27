@@ -28,7 +28,7 @@ export const PlaceholderSlideInput = createAnimatedInput({
               aria-hidden
               className={cn(
                 'pointer-events-none absolute inset-y-0 left-0 flex items-center truncate text-neutral-400',
-                'transition-[opacity,translate] duration-300 ease-out motion-reduce:transition-none',
+                'transition-[opacity,translate] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none',
                 'group-focus-within/input:translate-x-6 group-focus-within/input:opacity-0',
                 'peer-[:not(:placeholder-shown)]:opacity-0',
               )}

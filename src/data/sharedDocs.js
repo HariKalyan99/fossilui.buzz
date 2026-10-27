@@ -77,8 +77,37 @@ export function sharedFaqs(familyLabel, packageName) {
       a: 'Yes. className is merged with tailwind-merge so your utilities win over the defaults, and style accepts object syntax (e.g. style={{ maxWidth: 480 }}). The configurator preview parses both from the code editor.',
     },
     {
+      q: 'Can I time the motion myself?',
+      a: 'Yes. duration, easing, and delay override the transition on every motion component. Alerts also take direction, iteration count, fill mode, and play state, because those motions play through as CSS animations. An easing the browser rejects is ignored. prefers-reduced-motion still turns the motion off.',
+    },
+    {
       q: 'Can I use these in Next.js or Remix?',
       a: 'Yes. Install the package, add the Tailwind source path, and import components inside client components ("use client" in the App Router) because they rely on state and browser APIs.',
     },
   ]
 }
+
+/** duration, easing, and delay. Shared by every transition-based component. */
+export const MOTION_TIMING_PROPS = [
+  {
+    property: 'duration',
+    description:
+      'Transition length in milliseconds. Overrides that motion’s default. Values above 30000 are capped, and anything that is not a number is ignored.',
+    type: 'number',
+    default: 'Per motion',
+  },
+  {
+    property: 'easing',
+    description:
+      'CSS timing function: ease-out, linear, steps(), or cubic-bezier(). An easing the browser rejects is ignored and the motion default stays.',
+    type: 'string',
+    default: 'Per motion',
+  },
+  {
+    property: 'delay',
+    description:
+      'Wait before the transition, in milliseconds. A negative delay starts it part-way through. Reduced motion still turns the animation off.',
+    type: 'number',
+    default: '0',
+  },
+]

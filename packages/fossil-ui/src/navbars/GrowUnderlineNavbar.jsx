@@ -17,7 +17,7 @@ export const GrowUnderlineNavbar = createAnimatedNavbar({
                 aria-hidden
                 className={cn(
                   'pointer-events-none absolute inset-x-3 bottom-1.5 h-px origin-left bg-neutral-900',
-                  'transition-transform duration-300 ease-out motion-reduce:transition-none',
+                  'transition-transform delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none',
                   active ? 'scale-x-100' : 'scale-x-0 group-hover/link:scale-x-100 group-data-[touch]/link:scale-x-100',
                 )}
               />

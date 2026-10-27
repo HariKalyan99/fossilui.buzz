@@ -1,5 +1,5 @@
 import { CARD_DEMO_IMAGE, CARD_DEMO_IMAGE_ALT } from './cardDemo'
-import { importGuideSnippets, importSnippet } from './sharedDocs'
+import { importGuideSnippets, importSnippet, MOTION_TIMING_PROPS } from './sharedDocs'
 
 export const CARD_PACKAGE = { label: 'Cards', packageName: '@fossilui/cards' }
 
@@ -41,6 +41,7 @@ export const CARD_PROPS = [
     type: "'liftShadow' | 'borderGlow' | 'imageZoom' | 'shineSweep' | 'gradientShift' | 'scaleUp' | 'accentReveal' | 'tiltHover'",
     default: "'liftShadow'",
   },
+  ...MOTION_TIMING_PROPS,
   {
     property: 'title',
     description: 'Card heading rendered in the body when children are not provided.',
@@ -80,6 +81,12 @@ export const CARD_PROPS = [
   {
     property: 'imageSrc',
     description: 'Image URL for the media area. Place files in your public folder and reference with a leading slash.',
+    type: 'string',
+    default: '—',
+  },
+  {
+    property: 'imageFallback',
+    description: 'Shown when imageSrc fails to load. The docs card photo falls back to /14.jpg.',
     type: 'string',
     default: '—',
   },

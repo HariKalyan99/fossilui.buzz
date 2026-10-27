@@ -8,6 +8,8 @@ import {
   Check,
   Copy,
   CreditCard,
+  Bell,
+  CircleAlert,
   LayoutTemplate,
   MousePointerClick,
   PanelTop,
@@ -19,6 +21,7 @@ import { Button } from '../components/ui/Button'
 import { Tag } from '../components/ui/Tag'
 import { RexMark } from '../components/RexMark'
 import { cn } from '../lib/cn'
+import { FOSSIL_UI_VERSION } from '../lib/release'
 
 const TEASERS = [
   { name: 'Buttons', count: '11 variants', href: '/components/buttons', icon: MousePointerClick },
@@ -27,6 +30,8 @@ const TEASERS = [
   { name: 'Inputs', count: '8 variants', href: '/components/inputs', icon: TextCursorInput, isNew: true },
   { name: 'Navbars', count: '7 variants', href: '/components/navbars', icon: PanelTop, isNew: true },
   { name: 'Hero blocks', count: '8 variants', href: '/components/heroes', icon: LayoutTemplate, isNew: true },
+  { name: 'Alerts', count: '8 variants', href: '/components/alerts', icon: CircleAlert, isNew: true },
+  { name: 'Toasts', count: '8 variants', href: '/components/toasts', icon: Bell, isNew: true },
 ]
 
 const MotionLink = motion.create(Link)
@@ -155,12 +160,12 @@ export default function Components() {
     <Section className="pt-12 md:pt-20">
       <div className="grid gap-12 md:grid-cols-2 items-center">
         <div className="min-w-0">
-          <Tag tone="accent">Now on npm · v0.2</Tag>
+          <Tag tone="accent">Now on npm · v{FOSSIL_UI_VERSION}</Tag>
           <h1 className="mt-4 text-3xl min-[380px]:text-4xl md:text-5xl font-semibold tracking-[-0.025em] text-neutral-900 text-balance">
             A library of polished, animated components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
-            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars and hero blocks.{' '}
+            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars, hero blocks, alerts and toasts.{' '}
             <span className="font-medium text-neutral-900">Lightweight by design</span> — pure CSS and native
             browser animations, so you only ship the components you import.
           </p>

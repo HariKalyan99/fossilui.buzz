@@ -12,7 +12,17 @@ export const MODAL_SIZE_CLASSES = {
 
 export const MODAL_DURATION = 320
 
-const SMOOTH = `${TRANSITION_MOTION} duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`
+const SMOOTH = `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))]`
+
+/** First paint uses @starting-style, so the entrance runs without waiting on animation frames. */
+function enterFrom(hidden, shown) {
+  const starting = hidden
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((token) => `starting:${token}`)
+    .join(' ')
+  return `${shown} ${starting}`
+}
 
 export const MODAL_LAYOUTS = {
   center: {
@@ -35,49 +45,52 @@ export const MODAL_MOTION_STYLES = {
     layout: 'center',
     transition: SMOOTH,
     hidden: 'opacity-0 scale-95',
-    shown: 'opacity-100 scale-100',
+    shown: enterFrom('opacity-0 scale-95', 'opacity-100 scale-100'),
   },
   slideUp: {
     layout: 'center',
     transition: SMOOTH,
     hidden: 'opacity-0 translate-y-10',
-    shown: 'opacity-100 translate-y-0',
+    shown: enterFrom('opacity-0 translate-y-10', 'opacity-100 translate-y-0'),
   },
   slideDown: {
     layout: 'center',
     transition: SMOOTH,
     hidden: 'opacity-0 -translate-y-10',
-    shown: 'opacity-100 translate-y-0',
+    shown: enterFrom('opacity-0 -translate-y-10', 'opacity-100 translate-y-0'),
   },
   zoomBounce: {
     layout: 'center',
-    transition: `${TRANSITION_MOTION} duration-[420ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]`,
+    transition: `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,420ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))]`,
     hidden: 'opacity-0 scale-75',
-    shown: 'opacity-100 scale-100',
+    shown: enterFrom('opacity-0 scale-75', 'opacity-100 scale-100'),
   },
   flip: {
     layout: 'center',
     transition: `origin-top ${SMOOTH}`,
     hidden: 'opacity-0 [transform:perspective(1200px)_rotateX(22deg)_scale(0.96)]',
-    shown: 'opacity-100 [transform:perspective(1200px)_rotateX(0deg)_scale(1)]',
+    shown: enterFrom(
+      'opacity-0 [transform:perspective(1200px)_rotateX(22deg)_scale(0.96)]',
+      'opacity-100 [transform:perspective(1200px)_rotateX(0deg)_scale(1)]',
+    ),
   },
   blurIn: {
     layout: 'center',
     transition: SMOOTH,
     hidden: 'opacity-0 scale-[1.04] blur-md',
-    shown: 'opacity-100 scale-100 blur-none',
+    shown: enterFrom('opacity-0 scale-[1.04] blur-md', 'opacity-100 scale-100 blur-none'),
   },
   drawer: {
     layout: 'right',
     transition: SMOOTH,
     hidden: 'translate-x-full',
-    shown: 'translate-x-0',
+    shown: enterFrom('translate-x-full', 'translate-x-0'),
   },
   bottomSheet: {
     layout: 'bottom',
     transition: SMOOTH,
     hidden: 'translate-y-full',
-    shown: 'translate-y-0',
+    shown: enterFrom('translate-y-full', 'translate-y-0'),
   },
 }
 

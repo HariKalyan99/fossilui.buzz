@@ -32,7 +32,7 @@ export const FloatingLabelInput = createAnimatedInput({
           htmlFor={id}
           className={cn(
             'pointer-events-none absolute top-1/2 z-[2] origin-left -translate-y-1/2 rounded-sm bg-white px-1 text-neutral-500',
-            'transition-[top,scale,color] duration-200 ease-out motion-reduce:transition-none',
+            'transition-[top,scale,color] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,200ms)] ease-[var(--fossil-ease,ease-out)] motion-reduce:transition-none',
             icon ? 'left-8' : 'left-2',
             'group-focus-within/input:top-0 group-focus-within/input:scale-[0.82]',
             'peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-[0.82]',

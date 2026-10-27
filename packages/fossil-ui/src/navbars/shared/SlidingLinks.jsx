@@ -57,4 +57,4 @@ export function SlidingLinks({ ctx, renderIndicator }) {
 }
 
 export const INDICATOR_GLIDE =
-  'pointer-events-none absolute transition-[left,width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none'
+  'pointer-events-none absolute transition-[left,width,opacity] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))] motion-reduce:transition-none'

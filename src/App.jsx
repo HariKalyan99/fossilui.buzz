@@ -20,6 +20,8 @@ const Modals = lazy(() => import('./pages/Modals'))
 const Inputs = lazy(() => import('./pages/Inputs'))
 const Navbars = lazy(() => import('./pages/Navbars'))
 const Heroes = lazy(() => import('./pages/Heroes'))
+const Alerts = lazy(() => import('./pages/Alerts'))
+const Toasts = lazy(() => import('./pages/Toasts'))
 const Docs = lazy(() => import('./pages/Docs'))
 const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -80,6 +82,12 @@ function RouteSeo() {
   } else if (path === '/components/heroes') {
     title = 'Hero blocks - Fossil UI'
     description = 'Animated hero sections from @fossilui/react — stagger words, letter cascade, gradient text, typewriter, and more.'
+  } else if (path === '/components/alerts') {
+    title = 'Alerts - Fossil UI'
+    description = 'Animated alert variants from @fossilui/react — slide, rise, shake, scale, pop, blur, and more.'
+  } else if (path === '/components/toasts') {
+    title = 'Toasts - Fossil UI'
+    description = 'Animated toast notifications from @fossilui/react — slide, rise, drop, pop, blur, stack, and more.'
   } else if (path === '/docs') {
     title = 'Docs - Fossil UI'
     description = 'Get Fossil UI templates running fast with install, local run, and customization guides.'
@@ -138,6 +146,8 @@ function AnimatedRoutes() {
           <Route path="/components/inputs" element={<Inputs />} />
           <Route path="/components/navbars" element={<Navbars />} />
           <Route path="/components/heroes" element={<Heroes />} />
+          <Route path="/components/alerts" element={<Alerts />} />
+          <Route path="/components/toasts" element={<Toasts />} />
           <Route path="/code" element={<Navigate to="/templates" replace />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/contact" element={<Contact />} />
