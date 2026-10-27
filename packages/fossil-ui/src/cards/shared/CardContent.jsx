@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '../../lib/cn.js'
 import {
   CARD_ACCENT_GRADIENTS,
@@ -8,10 +8,18 @@ import {
 /** Shows imageSrc, then imageFallback when that request fails. */
 function CardImage({ src, fallback, alt, className }) {
   const [current, setCurrent] = useState(src)
+  const stallRef = useRef(0)
 
   useEffect(() => {
     setCurrent(src)
   }, [src])
+
+  useEffect(() => {
+    window.clearTimeout(stallRef.current)
+    if (!fallback || current === fallback) return undefined
+    stallRef.current = window.setTimeout(() => setCurrent(fallback), 2000)
+    return () => window.clearTimeout(stallRef.current)
+  }, [current, fallback])
 
   return (
     <img
@@ -20,6 +28,7 @@ function CardImage({ src, fallback, alt, className }) {
       className={className}
       loading="lazy"
       decoding="async"
+      onLoad={() => window.clearTimeout(stallRef.current)}
       onError={() => {
         if (fallback && current !== fallback) setCurrent(fallback)
       }}
