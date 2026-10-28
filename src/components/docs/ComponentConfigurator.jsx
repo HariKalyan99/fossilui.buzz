@@ -102,6 +102,7 @@ function Field({ field, value, disabled, onChange }) {
 export function ComponentConfigurator({ schema }) {
   const [state, setState] = useState(schema.defaults)
   const [code, setCode] = useState(() => schema.buildSnippet(schema.defaults))
+  const [resetId, setResetId] = useState(0)
 
   const parsed = useMemo(
     () =>
@@ -132,13 +133,14 @@ export function ComponentConfigurator({ schema }) {
   const reset = () => {
     setState(schema.defaults)
     setCode(schema.buildSnippet(schema.defaults))
+    setResetId((id) => id + 1)
   }
 
   const preview = parsed.error
     ? { Component: schema.componentMap[schema.wrapperName], props: schema.propsFromState(state) }
     : { Component: parsed.Component, props: parsed.props }
   // Only a motion/component switch remounts (and replays) the preview; prop edits update in place.
-  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}-${preview.props.duration ?? ''}-${preview.props.easing ?? ''}-${preview.props.delay ?? ''}`
+  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}-${preview.props.duration ?? ''}-${preview.props.easing ?? ''}-${preview.props.delay ?? ''}-${resetId}`
 
   const selectFields = schema.fields.filter((field) => field.type !== 'checkbox')
   const checkboxFields = schema.fields.filter((field) => field.type === 'checkbox')

@@ -1,11 +1,11 @@
 # @fossilui/react
 
-Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, and toasts. Motions are CSS and the Web Animations API — no animation library to install.
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, and accordions. Motions are CSS and the Web Animations API — no animation library to install.
 
 Live docs and configurators: https://fossilui.buzz/components
 
 ```jsx
-import { Alert, Hero, Input, Modal, ToastProvider, toast } from '@fossilui/react'
+import { Accordion, Alert, Hero, Input, Modal, Tabs, ToastProvider, toast } from '@fossilui/react'
 
 <Hero motion="staggerWords" title="Ship polished interfaces faster" primaryLabel="Get started" />
 <Input motion="floatingLabel" label="Email" type="email" />
@@ -53,7 +53,7 @@ Monorepo dev, when you import the source directly:
 
 ## Families
 
-Import everything from `@fossilui/react`, or one family from its path. Every family is also published as a standalone package.
+Import everything from `@fossilui/react`, or one family from its path. Every family also has a standalone package.
 
 | Family | Import | Standalone package | Docs |
 | --- | --- | --- | --- |
@@ -65,8 +65,10 @@ Import everything from `@fossilui/react`, or one family from its path. Every fam
 | Heroes | `@fossilui/react/heroes` | `@fossilui/heroes` | [/components/heroes](https://fossilui.buzz/components/heroes) |
 | Alerts | `@fossilui/react/alerts` | `@fossilui/alerts` | [/components/alerts](https://fossilui.buzz/components/alerts) |
 | Toasts | `@fossilui/react/toasts` | `@fossilui/toasts` | [/components/toasts](https://fossilui.buzz/components/toasts) |
+| Tabs | `@fossilui/react/tabs` | `@fossilui/tabs` | [/components/tabs](https://fossilui.buzz/components/tabs) |
+| Accordion | `@fossilui/react/accordion` | `@fossilui/accordion` | [/components/accordion](https://fossilui.buzz/components/accordion) |
 
-Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component.
+Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
 
 | Family | `motion` values | Default |
 | --- | --- | --- |
@@ -78,6 +80,8 @@ Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`,
 | Hero | `fadeUp` `staggerWords` `blurReveal` `scaleIn` `letterCascade` `gradientText` `spotlight` `typewriter` | `fadeUp` |
 | Alert | `slide` `rise` `slideRight` `shake` `fade` `scale` `pop` `blur` | `slide` |
 | Toast | `slide` `rise` `drop` `fade` `scale` `pop` `blur` `stack` | `slide` |
+| Tabs | `pill` `underline` `dot` `grow` `outline` `glow` `lift` `fade` | `pill` |
+| Accordion | `height` `fade` `slide` `rise` `scale` `blur` `pop` `wipe` | `height` |
 
 ## Timing
 
@@ -143,6 +147,8 @@ export function Example() {
 ```
 
 `imageFallback` is shown when `imageSrc` fails to load. Modals are controlled: pass `open` and `onClose`. `toast()` needs a mounted `ToastProvider`. `toast.success`, `toast.info`, `toast.warning`, and `toast.error` set the tone. Tones for alerts and toasts are `info`, `success`, `warning`, and `error`.
+
+Tabs take `items` of `{ value, label, content }`. `pill` slides a filled thumb and `underline` slides a line. Arrow keys move the selection. The accordion takes `items` of `{ value, title, content }`. `type="single"` keeps one panel open, `type="multiple"` allows several, and `height` animates the panel.
 
 `drawer` and `bottomSheet` also change where the modal sits. Navbar `links` are `{ label, href }`. Heroes take `title`, `description`, `eyebrow`, `primaryLabel`, and `align`.
 

@@ -20,6 +20,8 @@ export default defineConfig({
         'heroes/index': resolve(root, 'src/heroes/index.js'),
         'alerts/index': resolve(root, 'src/alerts/index.js'),
         'toasts/index': resolve(root, 'src/toasts/index.js'),
+        'tabs/index': resolve(root, 'src/tabs/index.js'),
+        'accordion/index': resolve(root, 'src/accordion/index.js'),
       },
       formats: ['es'],
     },
