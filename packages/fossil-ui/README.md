@@ -4,6 +4,8 @@ Animated React components from [Fossil UI](https://fossilui.buzz): buttons, card
 
 Live docs and configurators: https://fossilui.buzz/components
 
+**0.4.0** adds **tabs** and **accordion** (eight motions each), fixes modal open/close presence, card `imageFallback` when remote images stall, toast viewport sizing on docs-style layouts, and clearer tab **grow** vs **underline** indicators.
+
 ```jsx
 import { Accordion, Alert, Hero, Input, Modal, Tabs, ToastProvider, toast } from '@fossilui/react'
 
@@ -55,7 +57,7 @@ Monorepo dev, when you import the source directly:
 
 Import everything from `@fossilui/react`, or one family from its path. Every family also has a standalone package.
 
-| Family | Import | Standalone package | Docs |
+| Family | Import | Standalone npm package | Docs |
 | --- | --- | --- | --- |
 | Buttons | `@fossilui/react/buttons` | `@fossilui/buttons` | [/components/buttons](https://fossilui.buzz/components/buttons) |
 | Cards | `@fossilui/react/cards` | `@fossilui/cards` | [/components/cards](https://fossilui.buzz/components/cards) |
@@ -148,7 +150,7 @@ export function Example() {
 
 `imageFallback` is shown when `imageSrc` fails to load. Modals are controlled: pass `open` and `onClose`. `toast()` needs a mounted `ToastProvider`. `toast.success`, `toast.info`, `toast.warning`, and `toast.error` set the tone. Tones for alerts and toasts are `info`, `success`, `warning`, and `error`.
 
-Tabs take `items` of `{ value, label, content }`. `pill` slides a filled thumb and `underline` slides a line. Arrow keys move the selection. The accordion takes `items` of `{ value, title, content }`. `type="single"` keeps one panel open, `type="multiple"` allows several, and `height` animates the panel.
+Tabs take `items` of `{ value, label, content }`. `pill` slides a filled thumb; `underline` slides a full baseline; `grow` steps the active label up with a short mark under the word. Arrow keys move the selection. The accordion takes `items` of `{ value, title, content }` and `type="single" | "multiple"`. Each `motion` changes the row chrome (list, pills, numbered steps, dark stack, and more), not just the open animation.
 
 `drawer` and `bottomSheet` also change where the modal sits. Navbar `links` are `{ label, href }`. Heroes take `title`, `description`, `eyebrow`, `primaryLabel`, and `align`.
 

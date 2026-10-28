@@ -11,7 +11,7 @@ FossilUI is a developer-first platform for discovering, previewing, and learning
 This repository contains:
 
 - **The FossilUI platform** (this folder) — a React + Vite + Tailwind app that powers the catalog, previews, and code viewer.
-- **[@fossilui/react](./packages/fossil-ui)** — animated components (buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, accordions). Each family is also published as a standalone package under `packages/`.
+- **[@fossilui/react](./packages/fossil-ui)** (npm **0.4.0**) — animated components: buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, and accordions. Import the full library or install a standalone family (`@fossilui/buttons`, `@fossilui/tabs`, `@fossilui/accordion`, and the rest under `packages/`).
 - **Standalone templates** — each is a self-contained React + Vite + Tailwind project with its own `package.json` and deployment.
 
 ```
