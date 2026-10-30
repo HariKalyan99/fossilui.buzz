@@ -1,0 +1,8 @@
+---
+description: Component families ship 7 or 8 variants
+alwaysApply: true
+---
+
+# Component variant count
+
+Each Fossil UI component family on the docs site ships 7 or 8 variants. Buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, and accordions follow this. A new family gets 7 or 8 distinct motions, a named component for each, a docs card, and a configurator option. Do not ship a family with 1 or 2 variants.

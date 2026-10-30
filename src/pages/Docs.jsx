@@ -99,7 +99,7 @@ const FAQS = [
   },
   {
     q: "Will there be more templates and components?",
-    a: "Yes. Animated component families (buttons, cards, modals, inputs, navbars, hero blocks, alerts and toasts) are part of @fossilui/react, and new templates are added regularly.",
+    a: "Yes. Animated component families (buttons, cards, modals, inputs, navbars, hero blocks, alerts, toasts, tabs and accordions) are part of @fossilui/react, and new templates are added regularly.",
   },
   {
     q: "How can I contribute?",
