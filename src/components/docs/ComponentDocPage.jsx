@@ -18,7 +18,7 @@ const DOC_NAV = [
 ]
 
 const VARIANT_GRID_CLASSES = {
-  compact: 'grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 lg:grid-cols-3',
+  compact: 'grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4',
   wide: 'grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2',
   full: 'grid grid-cols-1 gap-4 sm:gap-5',
 }

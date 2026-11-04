@@ -38,7 +38,7 @@ export const ACCORDION_VARIANTS = [
   ['slide', 'SlideAccordion', 'Slide', 'Separate bars. The open one grows an indigo rail and the arrow turns down.'],
   ['rise', 'RiseAccordion', 'Rise', 'Each question is its own card. The open card lifts off the page.'],
   ['scale', 'ScaleAccordion', 'Scale', 'The open question stays full size. The others shrink and fade back.'],
-  ['blur', 'BlurAccordion', 'Blur', 'A dark stack. Closed questions stay blurred until one snaps into focus.'],
+  ['blur', 'BlurAccordion', 'Blur', 'A dark stack. Closed rows stay soft and legible; the open panel snaps to a white card.'],
   ['pop', 'PopAccordion', 'Pop', 'Closed questions are pills. The open one pops into a dark card.'],
   ['wipe', 'WipeAccordion', 'Wipe', 'Numbered steps. The active number fills and the answer wipes open beside it.'],
 ].map(([motion, component, name, description]) => ({
@@ -127,7 +127,7 @@ export const ACCORDION_MOTION_COMPATIBILITY = [
   { motion: 'slide', bestWith: 'a section that continues the heading', limited: 'Very tall panels', notes: 'The copy starts slightly above and settles down.' },
   { motion: 'rise', bestWith: 'notes under a form field', limited: 'Panels pinned to the bottom of a card', notes: 'The copy comes up into the opening.' },
   { motion: 'scale', bestWith: 'a single featured answer', limited: 'A long list of equal questions', notes: 'Scale is anchored to the top of the panel.' },
-  { motion: 'blur', bestWith: 'editorial details and product notes', limited: 'Dense data the reader is scanning', notes: 'The copy sharpens as the height opens.' },
+  { motion: 'blur', bestWith: 'editorial details and product notes', limited: 'Dense data the reader is scanning', notes: 'Closed titles stay readable on the dark track; the open row lifts as a white card.' },
   { motion: 'pop', bestWith: 'a confirmation or a short highlight', limited: 'Repeated toggling', notes: 'A tighter scale than the scale motion.' },
   { motion: 'wipe', bestWith: 'step-by-step details', limited: 'Content that should all appear at once', notes: 'The copy is uncovered from the top edge.' },
 ]

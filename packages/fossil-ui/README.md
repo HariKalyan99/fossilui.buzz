@@ -4,6 +4,8 @@ Animated React components from [Fossil UI](https://fossilui.buzz): buttons, card
 
 Live docs and configurators: https://fossilui.buzz/components
 
+**0.4.1** polishes accordion **blur** (readable closed titles, clear open panel) and Pop accordion overflow on narrow viewports.
+
 **0.4.0** adds **tabs** and **accordion** (eight motions each), fixes modal open/close presence, card `imageFallback` when remote images stall, toast viewport sizing on docs-style layouts, and clearer tab **grow** vs **underline** indicators.
 
 ```jsx

@@ -92,7 +92,7 @@ const ROOT = {
   slide: 'flex flex-col gap-2',
   rise: 'flex flex-col gap-2.5',
   scale: 'flex flex-col gap-1',
-  blur: 'flex flex-col gap-2 rounded-2xl bg-neutral-950 p-2',
+  blur: 'flex flex-col gap-2 rounded-2xl bg-neutral-950 p-2.5 sm:p-3',
   pop: 'flex flex-col gap-2 overflow-x-clip px-1 py-0.5',
   wipe: 'flex flex-col',
 }
@@ -124,9 +124,11 @@ function itemClass(motion, open) {
   }
   if (motion === 'blur') {
     return cn(
-      'overflow-hidden rounded-xl transition-[filter,opacity,background-color]',
+      'overflow-hidden rounded-xl border transition-[transform,opacity,background-color,box-shadow,border-color]',
       TIMING,
-      open ? 'bg-white blur-none opacity-100' : 'bg-white/5 opacity-50 blur-[3px]',
+      open
+        ? 'z-[1] scale-100 border-white/20 bg-white shadow-[0_14px_36px_-18px_rgba(0,0,0,0.55)]'
+        : 'scale-[0.98] border-transparent bg-white/[0.04] opacity-80 backdrop-blur-[6px]',
     )
   }
   if (motion === 'pop') {
@@ -176,7 +178,7 @@ function Marker({ motion, open, index }) {
         className={cn(
           'h-2 w-2 shrink-0 rounded-full transition-all',
           TIMING,
-          open ? 'bg-neutral-900' : 'bg-white/15',
+          open ? 'bg-neutral-900' : 'border border-white/20 bg-white/10',
         )}
       />
     )
@@ -277,8 +279,8 @@ export function Accordion(props) {
                     resolvedMotion === 'fade' && 'px-1',
                     resolvedMotion === 'wipe' && 'px-0',
                     inverted ? 'text-white hover:bg-white/5' : 'text-neutral-900 hover:bg-neutral-50',
-                    resolvedMotion === 'blur' && !open && 'text-neutral-200 hover:bg-white/5',
-                    resolvedMotion === 'blur' && open && 'text-neutral-900 hover:bg-neutral-100',
+                    resolvedMotion === 'blur' && !open && 'text-neutral-300 hover:bg-white/[0.06]',
+                    resolvedMotion === 'blur' && open && 'text-neutral-900 hover:bg-neutral-50',
                     item.disabled && 'cursor-not-allowed opacity-40',
                   )}
                 >
@@ -303,6 +305,7 @@ export function Accordion(props) {
                       resolvedMotion === 'fade' && 'px-1',
                       resolvedMotion === 'wipe' && 'px-0',
                       inverted ? 'text-white/75' : 'text-neutral-600',
+                      resolvedMotion === 'blur' && !open && 'text-neutral-400',
                       contentMotion(resolvedMotion, open),
                     )}
                   >
