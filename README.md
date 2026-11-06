@@ -11,7 +11,7 @@ FossilUI is a developer-first platform for discovering, previewing, and learning
 This repository contains:
 
 - **The FossilUI platform** (this folder) — a React + Vite + Tailwind app that powers the catalog, previews, and code viewer.
-- **[@fossilui/react](./packages/fossil-ui)** (npm **0.4.1**) — animated components: buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, and accordions. Import the full library or install a standalone family (`@fossilui/buttons`, `@fossilui/tabs`, `@fossilui/accordion`, and the rest under `packages/`).
+- **[@fossilui/react](./packages/fossil-ui)** (npm **0.5.0**) — animated components: buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, accordions, dropdowns, and tooltips. Import the full library or install a standalone family (`@fossilui/buttons`, `@fossilui/tabs`, `@fossilui/dropdown`, `@fossilui/tooltip`, and the rest under `packages/`).
 - **Standalone templates** — each is a self-contained React + Vite + Tailwind project with its own `package.json` and deployment.
 
 ```
@@ -48,7 +48,7 @@ fossilUI/
 | `/`                    | Home — hero, featured templates, categories, trust    |
 | `/templates`           | Templates grid (search + category filter)             |
 | `/templates/:slug`     | Detail — live preview + CodeMirror file viewer        |
-| `/components`          | Component library — buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, accordion |
+| `/components`          | Component library — buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, accordion, dropdown, tooltip |
 | `/code`                | Alias to `/templates`                                 |
 | `/docs`                | Quick Start + FossilUI Docs (intro, features, FAQ)    |
 | `/contact`             | Contact form                                          |

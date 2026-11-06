@@ -1,7 +1,7 @@
 {
   "name": "@fossilui/react",
-  "version": "0.4.1",
-  "description": "Animated React components from Fossil UI — buttons, cards, modals, inputs, navbars, hero blocks, alerts, toasts, tabs, and accordions.",
+  "version": "0.5.0",
+  "description": "Animated React components from Fossil UI — buttons, cards, modals, inputs, navbars, hero blocks, alerts, toasts, tabs, accordions, dropdowns, and tooltips.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -27,6 +27,8 @@
     "toasts",
     "tabs",
     "accordion",
+    "dropdown",
+    "tooltip",
     "animation",
     "tailwind",
     "fossil-ui"
@@ -77,6 +79,12 @@
     },
     "./accordion": {
       "import": "./dist/accordion/index.js"
+    },
+    "./dropdown": {
+      "import": "./dist/dropdown/index.js"
+    },
+    "./tooltip": {
+      "import": "./dist/tooltip/index.js"
     }
   },
   "scripts": {

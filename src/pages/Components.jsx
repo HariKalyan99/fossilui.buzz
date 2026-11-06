@@ -11,7 +11,9 @@ import {
   Bell,
   CircleAlert,
   GalleryHorizontal,
+  Info,
   LayoutTemplate,
+  Menu,
   MousePointerClick,
   PanelTop,
   Rows3,
@@ -36,6 +38,8 @@ const TEASERS = [
   { name: 'Toasts', count: '8 variants', href: '/components/toasts', icon: Bell, isNew: true },
   { name: 'Tabs', count: '8 variants', href: '/components/tabs', icon: GalleryHorizontal, isNew: true },
   { name: 'Accordion', count: '8 variants', href: '/components/accordion', icon: Rows3, isNew: true },
+  { name: 'Dropdown', count: '8 variants', href: '/components/dropdown', icon: Menu, isNew: true },
+  { name: 'Tooltip', count: '8 variants', href: '/components/tooltip', icon: Info, isNew: true },
 ]
 
 const MotionLink = motion.create(Link)
@@ -169,7 +173,7 @@ export default function Components() {
             A library of polished, animated components.
           </h1>
           <p className="mt-4 text-neutral-600 max-w-md leading-relaxed">
-            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars, hero blocks, alerts, toasts, tabs and accordions.{' '}
+            {TOTAL_VARIANTS}+ variants across buttons, cards, modals, inputs, navbars, hero blocks, alerts, toasts, tabs, accordions, dropdowns, and tooltips.{' '}
             <span className="font-medium text-neutral-900">Lightweight by design</span> — pure CSS and native
             browser animations, so you only ship the components you import.
           </p>

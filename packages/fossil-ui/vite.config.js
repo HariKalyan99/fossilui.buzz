@@ -22,6 +22,8 @@ export default defineConfig({
         'toasts/index': resolve(root, 'src/toasts/index.js'),
         'tabs/index': resolve(root, 'src/tabs/index.js'),
         'accordion/index': resolve(root, 'src/accordion/index.js'),
+        'dropdown/index': resolve(root, 'src/dropdown/index.js'),
+        'tooltip/index': resolve(root, 'src/tooltip/index.js'),
       },
       formats: ['es'],
     },
