@@ -1,8 +1,10 @@
 # @fossilui/react
 
-Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, and accordions. Motions are CSS and the Web Animations API — no animation library to install.
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, accordions, dropdown menus, and tooltips. Motions are CSS and the Web Animations API — no animation library to install.
 
 Live docs and configurators: https://fossilui.buzz/components
+
+**0.5.0** adds **dropdown** and **tooltip** (eight motions each), with standalone `@fossilui/dropdown` and `@fossilui/tooltip`.
 
 **0.4.1** polishes accordion **blur** (readable closed titles, clear open panel) and Pop accordion overflow on narrow viewports.
 
@@ -71,6 +73,8 @@ Import everything from `@fossilui/react`, or one family from its path. Every fam
 | Toasts | `@fossilui/react/toasts` | `@fossilui/toasts` | [/components/toasts](https://fossilui.buzz/components/toasts) |
 | Tabs | `@fossilui/react/tabs` | `@fossilui/tabs` | [/components/tabs](https://fossilui.buzz/components/tabs) |
 | Accordion | `@fossilui/react/accordion` | `@fossilui/accordion` | [/components/accordion](https://fossilui.buzz/components/accordion) |
+| Dropdown | `@fossilui/react/dropdown` | `@fossilui/dropdown` | [/components/dropdown](https://fossilui.buzz/components/dropdown) |
+| Tooltip | `@fossilui/react/tooltip` | `@fossilui/tooltip` | [/components/tooltip](https://fossilui.buzz/components/tooltip) |
 
 Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
 
@@ -86,6 +90,8 @@ Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`,
 | Toast | `slide` `rise` `drop` `fade` `scale` `pop` `blur` `stack` | `slide` |
 | Tabs | `pill` `underline` `dot` `grow` `outline` `glow` `lift` `fade` | `pill` |
 | Accordion | `height` `fade` `slide` `rise` `scale` `blur` `pop` `wipe` | `height` |
+| Dropdown | `fade` `scale` `slideDown` `slideUp` `blur` `pop` `rise` `wipe` | `fade` |
+| Tooltip | `fade` `scale` `slide` `rise` `blur` `pop` `grow` `lift` | `fade` |
 
 ## Timing
 

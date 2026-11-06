@@ -387,14 +387,14 @@ export function ComponentDocPage({
                     >
                       {variants.renderPreview(item)}
                     </div>
-                    <div className="flex min-w-0 flex-1 flex-col gap-3 text-center">
+                    <div className="flex min-w-0 flex-col gap-2.5 text-center sm:gap-3">
                       <div className="space-y-1">
                         <h3 className="text-[15px] font-medium text-neutral-900">{item.name}</h3>
                         <p className="text-[12px] leading-relaxed text-neutral-500 sm:text-[13px]">
                           {item.description}
                         </p>
                       </div>
-                      <div className="mt-auto">
+                      <div>
                         <CopySnippetButton code={item.snippet} />
                       </div>
                     </div>
