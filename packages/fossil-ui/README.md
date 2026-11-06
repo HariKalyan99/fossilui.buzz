@@ -11,11 +11,26 @@ Live docs and configurators: https://fossilui.buzz/components
 **0.4.0** adds **tabs** and **accordion** (eight motions each), fixes modal open/close presence, card `imageFallback` when remote images stall, toast viewport sizing on docs-style layouts, and clearer tab **grow** vs **underline** indicators.
 
 ```jsx
-import { Accordion, Alert, Hero, Input, Modal, Tabs, ToastProvider, toast } from '@fossilui/react'
+import {
+  Accordion,
+  Alert,
+  Dropdown,
+  Hero,
+  Input,
+  Modal,
+  Tabs,
+  ToastProvider,
+  Tooltip,
+  toast,
+} from '@fossilui/react'
 
 <Hero motion="staggerWords" title="Ship polished interfaces faster" primaryLabel="Get started" />
 <Input motion="floatingLabel" label="Email" type="email" />
 <Alert motion="slide" tone="success" title="Published" description="The template is live." dismissible />
+<Dropdown motion="fade" label="Actions" items={[{ value: 'edit', label: 'Edit' }]} />
+<Tooltip motion="fade" content="Copy link">
+  <button type="button">Share</button>
+</Tooltip>
 ```
 
 ## Requirements
@@ -76,7 +91,7 @@ Import everything from `@fossilui/react`, or one family from its path. Every fam
 | Dropdown | `@fossilui/react/dropdown` | `@fossilui/dropdown` | [/components/dropdown](https://fossilui.buzz/components/dropdown) |
 | Tooltip | `@fossilui/react/tooltip` | `@fossilui/tooltip` | [/components/tooltip](https://fossilui.buzz/components/tooltip) |
 
-Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
+Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`, `Dropdown`, `Tooltip`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
 
 | Family | `motion` values | Default |
 | --- | --- | --- |
