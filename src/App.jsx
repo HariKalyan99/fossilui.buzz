@@ -26,6 +26,7 @@ const Tabs = lazy(() => import('./pages/Tabs'))
 const Accordion = lazy(() => import('./pages/Accordion'))
 const Dropdown = lazy(() => import('./pages/Dropdown'))
 const Tooltip = lazy(() => import('./pages/Tooltip'))
+const Toggles = lazy(() => import('./pages/Toggles'))
 const Docs = lazy(() => import('./pages/Docs'))
 const Contact = lazy(() => import('./pages/Contact'))
 const NotFound = lazy(() => import('./pages/NotFound'))
@@ -104,6 +105,9 @@ function RouteSeo() {
   } else if (path === '/components/tooltip') {
     title = 'Tooltip - Fossil UI'
     description = 'Animated tooltips from @fossilui/react — fade, scale, slide, rise, blur, pop, grow, and lift.'
+  } else if (path === '/components/toggles' || path === '/components/switch' || path === '/components/checkbox' || path === '/components/radio') {
+    title = 'Toggles - Fossil UI'
+    description = 'Animated switches, checkboxes, and radios from @fossilui/react — eight curated variants including pulse and glow.'
   } else if (path === '/docs') {
     title = 'Docs - Fossil UI'
     description = 'Get Fossil UI templates running fast with install, local run, and customization guides.'
@@ -168,6 +172,10 @@ function AnimatedRoutes() {
           <Route path="/components/accordion" element={<Accordion />} />
           <Route path="/components/dropdown" element={<Dropdown />} />
           <Route path="/components/tooltip" element={<Tooltip />} />
+          <Route path="/components/toggles" element={<Toggles />} />
+          <Route path="/components/switch" element={<Navigate to="/components/toggles" replace />} />
+          <Route path="/components/checkbox" element={<Navigate to="/components/toggles" replace />} />
+          <Route path="/components/radio" element={<Navigate to="/components/toggles" replace />} />
           <Route path="/code" element={<Navigate to="/templates" replace />} />
           <Route path="/docs" element={<Docs />} />
           <Route path="/contact" element={<Contact />} />

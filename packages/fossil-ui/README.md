@@ -1,8 +1,10 @@
 # @fossilui/react
 
-Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, accordions, dropdown menus, and tooltips. Motions are CSS and the Web Animations API — no animation library to install.
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, accordions, dropdown menus, tooltips, switches, checkboxes, and radios. Motions are CSS and the Web Animations API — no animation library to install.
 
 Live docs and configurators: https://fossilui.buzz/components
+
+**0.6.0** adds **toggles** — switch, checkbox, and radio as one curated family of eight variants (slide/bounce/glow, check/pop, scale/pulse/glow), with standalone `@fossilui/switch`, `@fossilui/checkbox`, and `@fossilui/radio`.
 
 **0.5.0** adds **dropdown** and **tooltip** (eight motions each), with standalone `@fossilui/dropdown` and `@fossilui/tooltip`.
 
@@ -90,8 +92,11 @@ Import everything from `@fossilui/react`, or one family from its path. Every fam
 | Accordion | `@fossilui/react/accordion` | `@fossilui/accordion` | [/components/accordion](https://fossilui.buzz/components/accordion) |
 | Dropdown | `@fossilui/react/dropdown` | `@fossilui/dropdown` | [/components/dropdown](https://fossilui.buzz/components/dropdown) |
 | Tooltip | `@fossilui/react/tooltip` | `@fossilui/tooltip` | [/components/tooltip](https://fossilui.buzz/components/tooltip) |
+| Switch | `@fossilui/react/switch` | `@fossilui/switch` | [/components/toggles](https://fossilui.buzz/components/toggles) |
+| Checkbox | `@fossilui/react/checkbox` | `@fossilui/checkbox` | [/components/toggles](https://fossilui.buzz/components/toggles) |
+| Radio | `@fossilui/react/radio` | `@fossilui/radio` | [/components/toggles](https://fossilui.buzz/components/toggles) |
 
-Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`, `Dropdown`, `Tooltip`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
+Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`, `Dropdown`, `Tooltip`, `Switch`, `Checkbox`, `Radio`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
 
 | Family | `motion` values | Default |
 | --- | --- | --- |
@@ -107,6 +112,9 @@ Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`,
 | Accordion | `height` `fade` `slide` `rise` `scale` `blur` `pop` `wipe` | `height` |
 | Dropdown | `fade` `scale` `slideDown` `slideUp` `blur` `pop` `rise` `wipe` | `fade` |
 | Tooltip | `fade` `scale` `slide` `rise` `blur` `pop` `grow` `lift` | `fade` |
+| Switch | `slide` `bounce` `glow` | `slide` |
+| Checkbox | `check` `pop` | `check` |
+| Radio | `scale` `pulse` `glow` | `scale` |
 
 ## Timing
 
