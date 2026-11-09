@@ -19,8 +19,106 @@ const DOC_NAV = [
 
 const VARIANT_GRID_CLASSES = {
   compact: 'grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4',
+  /** Three-up on large screens so a trio (e.g. Switch) does not leave an empty second-row cell. */
+  compact3: 'grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-3 sm:gap-4',
   wide: 'grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-2',
   full: 'grid grid-cols-1 gap-4 sm:gap-5',
+}
+
+function variantGridClass(layout, itemCount) {
+  if ((layout ?? 'compact') === 'compact' && itemCount === 3) return VARIANT_GRID_CLASSES.compact3
+  return VARIANT_GRID_CLASSES[layout ?? 'compact'] ?? VARIANT_GRID_CLASSES.compact
+}
+
+/** Group consecutive items that share the same `group` label. Ungrouped → one flat list. */
+function groupVariantItems(items) {
+  if (!items?.some((item) => item.group)) {
+    return [{ label: null, items: items ?? [] }]
+  }
+  /** @type {Array<{ label: string | null, items: object[] }>} */
+  const groups = []
+  for (const item of items) {
+    const label = item.group ?? null
+    const last = groups[groups.length - 1]
+    if (last && last.label === label) last.items.push(item)
+    else groups.push({ label, items: [item] })
+  }
+  return groups
+}
+
+function VariantGroups({ variants, reduceMotion }) {
+  const groups = groupVariantItems(variants.items)
+  const starts = []
+  let offset = 0
+  for (const group of groups) {
+    starts.push(offset)
+    offset += group.items.length
+  }
+
+  return (
+    <div className="space-y-10 sm:space-y-12">
+      {groups.map((group, groupIndex) => (
+        <div
+          key={group.label ?? `group-${groupIndex}`}
+          className={cn(groupIndex > 0 && 'border-t border-neutral-200/90 pt-10 sm:pt-12')}
+        >
+          {group.label ? (
+            <div className="mb-4 flex min-w-0 items-center gap-3 sm:mb-5">
+              <h3 className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.14em] text-neutral-500">
+                {group.label}
+              </h3>
+              <span className="h-px min-w-0 flex-1 bg-neutral-200/90" aria-hidden />
+            </div>
+          ) : null}
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className={variantGridClass(variants.layout, group.items.length)}
+          >
+            {group.items.map((item, i) => (
+              <motion.article
+                key={item.id}
+                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { delay: Math.min((starts[groupIndex] + i) * 0.04, 0.4), duration: 0.4 }
+                }
+                className={cn(
+                  'card flex min-w-0 flex-col gap-4 overflow-visible p-4 sm:gap-6 sm:p-5 md:p-6',
+                  variants.tileClassName ?? 'sm:min-h-[200px]',
+                )}
+              >
+                <div
+                  className={cn(
+                    'relative isolate flex w-full min-w-0 shrink-0 items-center justify-center',
+                    'overflow-x-auto overflow-y-visible rounded-lg border border-dashed border-neutral-200/90',
+                    'bg-neutral-50/80 [-webkit-overflow-scrolling:touch]',
+                    variants.stageClassName ??
+                      'min-h-[6.5rem] px-3 py-8 sm:min-h-[7.5rem] sm:px-4 sm:py-10',
+                  )}
+                >
+                  {variants.renderPreview(item)}
+                </div>
+                <div className="flex min-w-0 flex-col gap-2.5 text-center sm:gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-[15px] font-medium text-neutral-900">{item.name}</h3>
+                    <p className="text-[12px] leading-relaxed text-neutral-500 sm:text-[13px]">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div>
+                    <CopySnippetButton code={item.snippet} />
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export function DocHeading({ id, title, description }) {
@@ -299,7 +397,7 @@ function SideToc() {
  * @param {object} props.variants
  * @param {string} props.variants.description
  * @param {import('react').ReactNode} props.variants.tag
- * @param {Array<{ id: string, name: string, description: string, snippet: string }>} props.variants.items
+ * @param {Array<{ id: string, name: string, description: string, snippet: string, group?: string }>} props.variants.items
  * @param {(item: object) => import('react').ReactNode} props.variants.renderPreview
  * @param {'compact' | 'wide' | 'full'} [props.variants.layout]
  * @param {string} [props.variants.tileClassName] Min height for each tile.
@@ -351,56 +449,21 @@ export function ComponentDocPage({
           <main className="min-w-0 overflow-x-clip">
             <section className="mb-12 sm:mb-16 md:mb-20">
               <DocHeading id="variants" title="All variants" description={variants.description} />
-              <Tag tone="accent" className="mt-4 mb-6 max-w-xl text-balance sm:mb-8">
+              <Tag
+                tone="accent"
+                className={cn(
+                  'mt-4 mb-8 block w-fit max-w-full rounded-lg! px-2.5 py-1.5 text-left leading-snug whitespace-normal sm:mb-10',
+                  'font-medium [text-wrap:pretty]',
+                )}
+              >
                 {variants.tag}
-                <span className="hidden font-normal normal-case tracking-normal text-indigo-600/80 sm:inline">
-                  {' '}
-                  · use Copy component on each card
+                <span className="mt-0.5 block font-normal normal-case tracking-normal text-indigo-600/80 sm:mt-0 sm:inline">
+                  <span className="hidden sm:inline"> · </span>
+                  use Copy component on each card
                 </span>
               </Tag>
 
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className={VARIANT_GRID_CLASSES[variants.layout ?? 'compact']}
-              >
-                {variants.items.map((item, i) => (
-                  <motion.article
-                    key={item.id}
-                    initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={
-                      reduceMotion ? { duration: 0 } : { delay: Math.min(i * 0.04, 0.4), duration: 0.4 }
-                    }
-                    className={cn(
-                      'card flex min-w-0 flex-col gap-4 overflow-visible p-4 sm:gap-6 sm:p-5 md:p-6',
-                      variants.tileClassName ?? 'sm:min-h-[200px]',
-                    )}
-                  >
-                    <div
-                      className={cn(
-                        'relative isolate flex w-full min-w-0 shrink-0 items-center justify-center',
-                        'overflow-x-auto overflow-y-visible rounded-lg border border-dashed border-neutral-200/90',
-                        'bg-neutral-50/80 [-webkit-overflow-scrolling:touch]',
-                        variants.stageClassName ?? 'min-h-[6.5rem] px-3 py-8 sm:min-h-[7.5rem] sm:px-4 sm:py-10',
-                      )}
-                    >
-                      {variants.renderPreview(item)}
-                    </div>
-                    <div className="flex min-w-0 flex-col gap-2.5 text-center sm:gap-3">
-                      <div className="space-y-1">
-                        <h3 className="text-[15px] font-medium text-neutral-900">{item.name}</h3>
-                        <p className="text-[12px] leading-relaxed text-neutral-500 sm:text-[13px]">
-                          {item.description}
-                        </p>
-                      </div>
-                      <div>
-                        <CopySnippetButton code={item.snippet} />
-                      </div>
-                    </div>
-                  </motion.article>
-                ))}
-              </motion.div>
+              <VariantGroups variants={variants} reduceMotion={reduceMotion} />
             </section>
 
             <section className="mb-12 sm:mb-16 md:mb-20">

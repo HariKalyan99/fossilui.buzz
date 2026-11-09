@@ -1,0 +1,10 @@
+---
+description: Component families ship 7–8 variants; toggles are one curated group
+alwaysApply: true
+---
+
+# Component variant count
+
+Most Fossil UI component families on the docs site ship **7 or 8** variants. Buttons, cards, modals, inputs, navbars, heroes, alerts, toasts, tabs, accordions, dropdowns, and tooltips follow this. A new **surface / overlay / navigation** family gets 7 or 8 distinct motions, a named component for each, a docs card, and a configurator option. Do not ship those families with 1 or 2 variants.
+
+**Toggles are one family.** Switch, Checkbox, and Radio stay as separate components/packages, but the docs ship them as a single **Toggles** page with **7 or 8 curated variants** across the three control types (e.g. slide/bounce/glow switch, check/pop checkbox, scale/pulse/glow radio). Prefer pulse, glow, and clear motion UIs over filler fades. Do not pad each atomic control with 7–8 motions of its own.
