@@ -2,6 +2,7 @@ import { useId, useState } from 'react'
 import { Check } from 'lucide-react'
 import { cn } from '../lib/cn.js'
 import { splitMotionProps } from '../lib/animationTiming.js'
+import { TOGGLE_COLORS, toggleAccent, toggleColorTokens } from '../toggles/colors.js'
 
 export const CHECKBOX_MOTIONS = ['check', 'pop']
 
@@ -22,6 +23,7 @@ function useControllable(value, defaultValue, onChange) {
 /**
  * @param {object} props
  * @param {typeof CHECKBOX_MOTIONS[number]} [props.motion]
+ * @param {typeof TOGGLE_COLORS[number]} [props.color]
  * @param {boolean} [props.checked]
  * @param {boolean} [props.defaultChecked]
  * @param {(checked: boolean) => void} [props.onCheckedChange]
@@ -32,6 +34,7 @@ export function Checkbox(props) {
   const { rest, style } = splitMotionProps(props)
   const {
     motion = 'check',
+    color,
     checked,
     defaultChecked = false,
     onCheckedChange,
@@ -43,6 +46,7 @@ export function Checkbox(props) {
   } = rest
 
   const resolved = CHECKBOX_MOTIONS.includes(motion) ? motion : 'check'
+  const accent = toggleColorTokens(color, resolved)
   const [on, setOn] = useControllable(checked, defaultChecked, onCheckedChange)
   const reactId = useId()
   const id = idProp ?? reactId
@@ -56,6 +60,7 @@ export function Checkbox(props) {
       )}
       style={style}
       data-motion={resolved}
+      data-color={toggleAccent(color, resolved)}
       {...dom}
     >
       <button
@@ -67,15 +72,16 @@ export function Checkbox(props) {
         onClick={() => setOn(!on)}
         className={cn(
           'relative inline-flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden border',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/45',
+          'focus-visible:outline-none focus-visible:ring-2',
+          accent.focusRing,
           TIMING,
           'transition-[background-color,border-color,transform,box-shadow]',
           resolved === 'pop' ? 'rounded-full' : 'rounded-md',
           on
             ? cn(
-                'border-neutral-900 bg-neutral-900 text-white',
-                resolved === 'pop' &&
-                  'scale-100 border-indigo-600 bg-indigo-600 shadow-[0_0_0_3px_rgba(99,102,241,0.2)]',
+                accent.track,
+                'text-white',
+                resolved === 'pop' && cn('scale-100', accent.softRing),
               )
             : cn(
                 'border-neutral-300 bg-white text-transparent',

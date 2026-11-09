@@ -1,6 +1,7 @@
 import { useId, useState } from 'react'
 import { cn } from '../lib/cn.js'
 import { splitMotionProps } from '../lib/animationTiming.js'
+import { TOGGLE_COLORS, toggleAccent, toggleColorTokens } from '../toggles/colors.js'
 
 export const RADIO_MOTIONS = ['scale', 'pulse', 'glow']
 
@@ -21,6 +22,7 @@ function useControllable(value, defaultValue, onChange) {
 /**
  * @param {object} props
  * @param {typeof RADIO_MOTIONS[number]} [props.motion]
+ * @param {typeof TOGGLE_COLORS[number]} [props.color]
  * @param {Array<{ value: string, label: import('react').ReactNode, disabled?: boolean }>} [props.items]
  * @param {string} [props.value]
  * @param {string} [props.defaultValue]
@@ -32,6 +34,7 @@ export function Radio(props) {
   const { rest, style } = splitMotionProps(props)
   const {
     motion = 'scale',
+    color,
     items = [],
     value,
     defaultValue,
@@ -44,6 +47,7 @@ export function Radio(props) {
   } = rest
 
   const resolved = RADIO_MOTIONS.includes(motion) ? motion : 'scale'
+  const accent = toggleColorTokens(color, resolved)
   const fallback = items.find((item) => !item.disabled)?.value ?? items[0]?.value
   const [current, setCurrent] = useControllable(value, defaultValue ?? fallback, onValueChange)
   const baseId = useId()
@@ -75,6 +79,7 @@ export function Radio(props) {
       role="radiogroup"
       aria-orientation={orientation}
       data-motion={resolved}
+      data-color={toggleAccent(color, resolved)}
       onKeyDown={onKeyDown}
       className={cn(
         'flex max-w-full gap-2.5',
@@ -110,16 +115,12 @@ export function Radio(props) {
               }}
               className={cn(
                 'relative inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/45',
+                'focus-visible:outline-none focus-visible:ring-2',
+                accent.focusRing,
                 TIMING,
                 'transition-[border-color,background-color,box-shadow]',
                 selected
-                  ? cn(
-                      'border-neutral-900 bg-white',
-                      resolved === 'glow' &&
-                        'border-indigo-500 shadow-[0_0_14px_rgba(99,102,241,0.4)]',
-                      resolved === 'pulse' && 'border-indigo-500',
-                    )
+                  ? cn('bg-white', accent.ring, resolved === 'glow' && accent.glowShadow)
                   : 'border-neutral-300 bg-white',
               )}
             >
@@ -127,7 +128,8 @@ export function Radio(props) {
                 <span
                   aria-hidden
                   className={cn(
-                    'pointer-events-none absolute inset-[-3px] rounded-full border border-indigo-400/70',
+                    'pointer-events-none absolute inset-[-3px] rounded-full border',
+                    accent.pulseRing,
                     TIMING,
                     'animate-ping opacity-40 motion-reduce:animate-none',
                   )}
@@ -136,10 +138,10 @@ export function Radio(props) {
               <span
                 aria-hidden
                 className={cn(
-                  'block h-2.5 w-2.5 rounded-full bg-neutral-900',
+                  'block h-2.5 w-2.5 rounded-full',
                   TIMING,
                   'transition-[transform,opacity,filter,clip-path,background-color]',
-                  resolved === 'glow' && selected && 'bg-indigo-500',
+                  selected ? accent.dot : 'bg-neutral-900',
                   dotClass(resolved, selected),
                 )}
               />

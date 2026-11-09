@@ -10,9 +10,11 @@ import {
   ScaleRadio,
   SlideSwitch,
   Switch,
+  TOGGLE_COLORS,
 } from '@fossilui/react'
 import { ComponentConfigurator } from '../docs/ComponentConfigurator'
 import { boolAttr, numberAttr, optionAttr, stringAttr } from '../docs/snippetAttrs'
+import { cn } from '../../lib/cn'
 import {
   RADIO_ITEMS,
   checkboxSnippet,
@@ -35,6 +37,8 @@ const VARIANT_META = {
 
 const DEFAULT_VARIANT = 'Slide switch'
 const MOTIONS = Object.keys(VARIANT_META)
+/** Empty string = motion default (shown as "default" in the select). */
+const COLOR_OPTIONS = ['default', ...TOGGLE_COLORS]
 
 function metaOf(motionKey) {
   return VARIANT_META[motionKey] ?? VARIANT_META[DEFAULT_VARIANT]
@@ -55,17 +59,24 @@ function metaFromComponent(Component, motionProp) {
 }
 
 function namedSnippet(componentName, kind, attrs) {
-  const body =
-    kind === 'radio'
-      ? radioSnippet(attrs).replace('import { Radio }', `import { ${componentName} }`).replace('<Radio', `<${componentName}`)
-      : kind === 'checkbox'
-        ? checkboxSnippet(attrs)
-            .replace('import { Checkbox }', `import { ${componentName} }`)
-            .replace('<Checkbox', `<${componentName}`)
-        : switchSnippet(attrs)
-            .replace('import { Switch }', `import { ${componentName} }`)
-            .replace('<Switch', `<${componentName}`)
-  return body
+  if (kind === 'radio') {
+    return radioSnippet(attrs)
+      .replace('import { Radio }', `import { ${componentName} }`)
+      .replace('<Radio', `<${componentName}`)
+  }
+  if (kind === 'checkbox') {
+    return checkboxSnippet(attrs)
+      .replace('import { Checkbox }', `import { ${componentName} }`)
+      .replace('<Checkbox', `<${componentName}`)
+  }
+  return switchSnippet(attrs)
+    .replace('import { Switch }', `import { ${componentName} }`)
+    .replace('<Switch', `<${componentName}`)
+}
+
+function colorAttr(color) {
+  if (!color || color === 'default') return []
+  return [`color="${color}"`]
 }
 
 /** @type {import('../docs/ComponentConfigurator').ConfiguratorSchema} */
@@ -97,6 +108,7 @@ const SCHEMA = {
   motions: MOTIONS,
   defaults: {
     motion: DEFAULT_VARIANT,
+    color: 'default',
     label: 'Airplane mode',
     defaultChecked: true,
     defaultValue: 'pro',
@@ -107,6 +119,13 @@ const SCHEMA = {
     delay: '',
   },
   fields: [
+    {
+      key: 'color',
+      label: 'Color',
+      type: 'select',
+      options: COLOR_OPTIONS,
+      fromProp: (value) => (TOGGLE_COLORS.includes(value) ? value : 'default'),
+    },
     {
       key: 'label',
       label: 'Label',
@@ -154,11 +173,13 @@ const SCHEMA = {
       ...stringAttr('easing', state.easing),
       ...numberAttr('delay', state.delay, null),
     ]
+    const color = colorAttr(state.color)
     if (meta.kind === 'checkbox') {
       return namedSnippet(meta.name, 'checkbox', [
         ...stringAttr('label', state.label || 'Send me product updates'),
         ...boolAttr('defaultChecked', state.defaultChecked, false),
         ...boolAttr('disabled', state.disabled, false),
+        ...color,
         ...timing,
       ])
     }
@@ -167,6 +188,7 @@ const SCHEMA = {
         ...optionAttr('defaultValue', state.defaultValue, 'pro'),
         ...optionAttr('orientation', state.orientation, 'vertical'),
         ...boolAttr('disabled', state.disabled, false),
+        ...color,
         ...timing,
       ])
     }
@@ -174,6 +196,7 @@ const SCHEMA = {
       ...stringAttr('label', state.label || 'Airplane mode'),
       ...boolAttr('defaultChecked', state.defaultChecked, false),
       ...boolAttr('disabled', state.disabled, false),
+      ...color,
       ...timing,
     ])
   },
@@ -184,9 +207,11 @@ const SCHEMA = {
       easing: state.easing,
       delay: state.delay === '' ? undefined : Number(state.delay),
     }
+    const color = state.color && state.color !== 'default' ? state.color : undefined
     if (meta.kind === 'checkbox') {
       return {
         motion: meta.motion,
+        color,
         label: state.label || 'Send me product updates',
         defaultChecked: state.defaultChecked,
         disabled: state.disabled,
@@ -196,6 +221,7 @@ const SCHEMA = {
     if (meta.kind === 'radio') {
       return {
         motion: meta.motion,
+        color,
         defaultValue: state.defaultValue,
         orientation: state.orientation,
         disabled: state.disabled,
@@ -205,6 +231,7 @@ const SCHEMA = {
     }
     return {
       motion: meta.motion,
+      color,
       label: state.label || 'Airplane mode',
       defaultChecked: state.defaultChecked,
       disabled: state.disabled,
@@ -221,11 +248,13 @@ const SCHEMA = {
           defaultValue={props.defaultValue ?? 'pro'}
           orientation={props.orientation ?? 'vertical'}
           disabled={props.disabled}
+          color={props.color}
           duration={props.duration}
           easing={props.easing}
           delay={props.delay}
           items={props.items ?? RADIO_ITEMS}
-          className="w-full max-w-xs"
+          className={cn('w-full max-w-xs', props.className)}
+          style={props.style}
         />
       )
     }
@@ -235,9 +264,12 @@ const SCHEMA = {
         label={props.label ?? (meta.kind === 'checkbox' ? 'Send me product updates' : 'Airplane mode')}
         defaultChecked={props.defaultChecked ?? true}
         disabled={props.disabled}
+        color={props.color}
         duration={props.duration}
         easing={props.easing}
         delay={props.delay}
+        className={props.className}
+        style={props.style}
       />
     )
   },
@@ -245,7 +277,7 @@ const SCHEMA = {
   previewClassName:
     'min-h-[6.5rem]! items-center! justify-center! overflow-visible! p-3 sm:min-h-[7.5rem]! sm:p-4',
   description:
-    'Pick a curated toggle variant. Label and checked apply to switch/checkbox; default value and orientation apply to radio. Switch orientation to horizontal to preview a compact radio row.',
+    'Pick a curated toggle variant and color. Color tints the on-state track, fill, pulse, and glow. Label/checked apply to switch and checkbox; default value and orientation apply to radio.',
 }
 
 export function TogglesConfigurator() {

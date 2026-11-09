@@ -1,6 +1,7 @@
 import { useId, useState } from 'react'
 import { cn } from '../lib/cn.js'
 import { splitMotionProps } from '../lib/animationTiming.js'
+import { TOGGLE_COLORS, toggleAccent, toggleColorTokens } from '../toggles/colors.js'
 
 export const SWITCH_MOTIONS = ['slide', 'bounce', 'glow']
 
@@ -21,6 +22,7 @@ function useControllable(value, defaultValue, onChange) {
 /**
  * @param {object} props
  * @param {typeof SWITCH_MOTIONS[number]} [props.motion]
+ * @param {typeof TOGGLE_COLORS[number]} [props.color]
  * @param {boolean} [props.checked]
  * @param {boolean} [props.defaultChecked]
  * @param {(checked: boolean) => void} [props.onCheckedChange]
@@ -31,6 +33,7 @@ export function Switch(props) {
   const { rest, style } = splitMotionProps(props)
   const {
     motion = 'slide',
+    color,
     checked,
     defaultChecked = false,
     onCheckedChange,
@@ -42,6 +45,7 @@ export function Switch(props) {
   } = rest
 
   const resolved = SWITCH_MOTIONS.includes(motion) ? motion : 'slide'
+  const accent = toggleColorTokens(color, resolved)
   const [on, setOn] = useControllable(checked, defaultChecked, onCheckedChange)
   const reactId = useId()
   const id = idProp ?? reactId
@@ -55,6 +59,7 @@ export function Switch(props) {
       )}
       style={style}
       data-motion={resolved}
+      data-color={toggleAccent(color, resolved)}
       {...dom}
     >
       <button
@@ -66,15 +71,15 @@ export function Switch(props) {
         onClick={() => setOn(!on)}
         className={cn(
           'relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border p-0.5',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/45',
+          'focus-visible:outline-none focus-visible:ring-2',
+          accent.focusRing,
           TIMING,
-          'transition-[background-color,border-color,box-shadow]',
+          'transition-[background-color,border-color,box-shadow,transform]',
           on
             ? cn(
-                'border-neutral-900 bg-neutral-900',
-                resolved === 'bounce' &&
-                  'translate-y-[-1px] border-neutral-800 bg-neutral-800 shadow-[0_4px_0_0_rgb(23,23,23)]',
-                resolved === 'glow' && 'border-indigo-500 bg-indigo-500 shadow-[0_0_18px_rgba(99,102,241,0.45)]',
+                accent.track,
+                resolved === 'bounce' && cn('translate-y-[-1px]', accent.bounceTrack, accent.bounceShadow),
+                resolved === 'glow' && cn(accent.glowTrack, accent.glowShadow),
               )
             : cn(
                 'border-neutral-300 bg-neutral-200',
