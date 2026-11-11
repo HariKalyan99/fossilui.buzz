@@ -29,6 +29,9 @@ export function useReducedMotion() {
  * Keeps an element mounted while it animates out.
  * `visible` flips one frame after mount so enter transitions run.
  *
+ * Exit `duration` is intentionally not tied to the enter effect — changing
+ * duration/easing in a configurator must not cancel the open animation.
+ *
  * @param {boolean} open
  * @param {number} duration exit duration in ms
  */
@@ -43,23 +46,25 @@ export function usePresence(open, duration) {
   }
 
   useEffect(() => {
-    if (open) {
-      let second = 0
-      const first = requestAnimationFrame(() => {
-        second = requestAnimationFrame(() => setVisible(true))
-      })
-      return () => {
-        cancelAnimationFrame(first)
-        cancelAnimationFrame(second)
-      }
+    if (!open) {
+      const frame = requestAnimationFrame(() => setVisible(false))
+      return () => cancelAnimationFrame(frame)
     }
-    const frame = requestAnimationFrame(() => setVisible(false))
-    const timer = setTimeout(() => setMounted(false), duration)
+    let second = 0
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() => setVisible(true))
+    })
     return () => {
-      cancelAnimationFrame(frame)
-      clearTimeout(timer)
+      cancelAnimationFrame(first)
+      cancelAnimationFrame(second)
     }
-  }, [open, duration])
+  }, [open])
+
+  useEffect(() => {
+    if (open || !mounted) return undefined
+    const timer = setTimeout(() => setMounted(false), duration)
+    return () => clearTimeout(timer)
+  }, [open, mounted, duration])
 
   return { mounted, visible }
 }

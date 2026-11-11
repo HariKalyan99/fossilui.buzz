@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/toasts",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Animated toast notifications from Fossil UI.",
   "type": "module",
   "license": "MIT",

@@ -4,6 +4,8 @@ Animated React components from [Fossil UI](https://fossilui.buzz): buttons, card
 
 Live docs and configurators: https://fossilui.buzz/components
 
+**0.6.3** fixes overlay presence so changing `duration` / timing props does not cancel the first open on dropdown, tooltip, modal, alert, and toast panels.
+
 **0.6.0** adds **toggles** — switch, checkbox, and radio as one curated family of eight variants (slide/bounce/glow, check/pop, scale/pulse/glow), with standalone `@fossilui/switch`, `@fossilui/checkbox`, and `@fossilui/radio`.
 
 **0.5.0** adds **dropdown** and **tooltip** (eight motions each), with standalone `@fossilui/dropdown` and `@fossilui/tooltip`.
