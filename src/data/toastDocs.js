@@ -17,7 +17,17 @@ export const TOAST_DEMO = {
   duration: 4500,
 }
 
-export function toastSnippet({ motion, title, description, tone, duration, enterDuration, easing, delay }) {
+export function toastSnippet({
+  motion,
+  position = 'top-right',
+  title,
+  description,
+  tone,
+  duration,
+  enterDuration,
+  easing,
+  delay,
+}) {
   const fields = [
     `title: '${String(title).replace(/'/g, "\\'")}'`,
     description ? `description: '${String(description).replace(/'/g, "\\'")}'` : null,
@@ -30,11 +40,13 @@ export function toastSnippet({ motion, title, description, tone, duration, enter
     delay != null && delay !== '' && Number(delay) !== 0 && Number.isFinite(Number(delay)) ? `delay: ${Number(delay)}` : null,
   ].filter(Boolean)
 
+  const positionAttr = position && position !== 'top-right' ? ` position="${position}"` : ''
+
   return `import { ToastProvider, toast } from '@fossilui/react'
 
 export function Example() {
   return (
-    <ToastProvider motion="${motion}">
+    <ToastProvider motion="${motion}"${positionAttr}>
       <button
         onClick={() =>
           toast({
@@ -149,6 +161,13 @@ export const TOAST_PROPS = [
     description: 'How the viewport arranges toasts. Set on ToastProvider, not on each toast.',
     type: "'slide' | 'rise' | 'drop' | 'fade' | 'scale' | 'pop' | 'blur' | 'stack'",
     default: "'slide'",
+  },
+  {
+    property: 'position',
+    description:
+      'Where the viewport sits. Corners and centers, same set as Sonner / react-hot-toast. Set on ToastProvider.',
+    type: "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
+    default: "'top-right'",
   },
   {
     property: 'contained',

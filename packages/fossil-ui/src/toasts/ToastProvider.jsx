@@ -9,16 +9,59 @@ import { normalizeToast, registerToastProvider, TOAST_MOTIONS } from './store.js
 
 const MAX_TOASTS = 5
 
+/** Standard viewport anchors — same set as Sonner / react-hot-toast. */
+export const TOAST_POSITIONS = [
+  'top-left',
+  'top-center',
+  'top-right',
+  'bottom-left',
+  'bottom-center',
+  'bottom-right',
+]
+
+/**
+ * Insets respect notch / home-indicator safe areas on phones.
+ * Tailwind v4 keeps commas in these nested arbitrary values (no spaces after commas).
+ */
+const POSITION_CLASSES = {
+  'top-left':
+    'top-[max(0.75rem,env(safe-area-inset-top,0px))] left-[max(0.75rem,env(safe-area-inset-left,0px))] sm:top-[max(1rem,env(safe-area-inset-top,0px))] sm:left-[max(1rem,env(safe-area-inset-left,0px))]',
+  'top-center':
+    'top-[max(0.75rem,env(safe-area-inset-top,0px))] left-1/2 -translate-x-1/2 sm:top-[max(1rem,env(safe-area-inset-top,0px))]',
+  'top-right':
+    'top-[max(0.75rem,env(safe-area-inset-top,0px))] right-[max(0.75rem,env(safe-area-inset-right,0px))] sm:top-[max(1rem,env(safe-area-inset-top,0px))] sm:right-[max(1rem,env(safe-area-inset-right,0px))]',
+  'bottom-left':
+    'bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] left-[max(0.75rem,env(safe-area-inset-left,0px))] sm:bottom-[max(1rem,env(safe-area-inset-bottom,0px))] sm:left-[max(1rem,env(safe-area-inset-left,0px))]',
+  'bottom-center':
+    'bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 sm:bottom-[max(1rem,env(safe-area-inset-bottom,0px))]',
+  'bottom-right':
+    'bottom-[max(0.75rem,env(safe-area-inset-bottom,0px))] right-[max(0.75rem,env(safe-area-inset-right,0px))] sm:bottom-[max(1rem,env(safe-area-inset-bottom,0px))] sm:right-[max(1rem,env(safe-area-inset-right,0px))]',
+}
+
+function isBottomPosition(position) {
+  return position.startsWith('bottom')
+}
+
+function isLeftPosition(position) {
+  return position.endsWith('left')
+}
+
 /** Enter/exit classes for each provider motion. Stack only changes the layout. */
-const TOAST_ENTER = {
-  slide: { hidden: 'opacity-0 translate-x-6', shown: 'opacity-100 translate-x-0' },
-  rise: { hidden: 'opacity-0 translate-y-4', shown: 'opacity-100 translate-y-0' },
-  drop: { hidden: 'opacity-0 -translate-y-4', shown: 'opacity-100 translate-y-0' },
-  fade: { hidden: 'opacity-0', shown: 'opacity-100' },
-  scale: { hidden: 'opacity-0 scale-95', shown: 'opacity-100 scale-100' },
-  pop: { hidden: 'opacity-0 scale-90', shown: 'opacity-100 scale-100' },
-  blur: { hidden: 'opacity-0 blur-sm', shown: 'opacity-100 blur-none' },
-  stack: { hidden: 'opacity-0', shown: 'opacity-100' },
+function toastEnter(motion, position) {
+  const slideHidden = isLeftPosition(position)
+    ? 'opacity-0 -translate-x-6'
+    : 'opacity-0 translate-x-6'
+  const map = {
+    slide: { hidden: slideHidden, shown: 'opacity-100 translate-x-0' },
+    rise: { hidden: 'opacity-0 translate-y-4', shown: 'opacity-100 translate-y-0' },
+    drop: { hidden: 'opacity-0 -translate-y-4', shown: 'opacity-100 translate-y-0' },
+    fade: { hidden: 'opacity-0', shown: 'opacity-100' },
+    scale: { hidden: 'opacity-0 scale-95', shown: 'opacity-100 scale-100' },
+    pop: { hidden: 'opacity-0 scale-90', shown: 'opacity-100 scale-100' },
+    blur: { hidden: 'opacity-0 blur-sm', shown: 'opacity-100 blur-none' },
+    stack: { hidden: 'opacity-0', shown: 'opacity-100' },
+  }
+  return map[motion] ?? map.slide
 }
 
 const ToastContext = createContext(null)
@@ -32,7 +75,7 @@ export function useToast() {
   return context
 }
 
-function ToastCard({ item, motion, depth, onClose }) {
+function ToastCard({ item, motion, position, depth, onClose }) {
   const reduceMotion = useReducedMotion()
   const enterFallback = motion === 'pop' ? 420 : 300
   const exitMs = presenceMs(item.enterDuration, item.delay, enterFallback)
@@ -42,6 +85,7 @@ function ToastCard({ item, motion, depth, onClose }) {
   const barRef = useRef(null)
   const animRef = useRef(null)
   const closeRef = useRef(onClose)
+  const bottom = isBottomPosition(position)
 
   useEffect(() => {
     closeRef.current = onClose
@@ -72,21 +116,26 @@ function ToastCard({ item, motion, depth, onClose }) {
   if (!mounted) return null
 
   const stacked = motion === 'stack'
-  const enter = TOAST_ENTER[motion] ?? TOAST_ENTER.slide
+  const enter = toastEnter(motion, position)
   const enterHidden = reduceMotion ? 'opacity-0' : enter.hidden
   const enterShown = reduceMotion ? 'opacity-100' : enter.shown
+  const stackOffset = bottom ? -depth * 18 : depth * 18
 
   return (
     <li
       className={cn(
-        stacked && 'col-start-1 row-start-1 w-full origin-top transition-[transform,opacity] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))]',
+        stacked &&
+          cn(
+            'col-start-1 row-start-1 w-full transition-[transform,opacity] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--default-transition-timing-function))]',
+            bottom ? 'origin-bottom' : 'origin-top',
+          ),
       )}
       style={{
         ...motionTimingStyle({ duration: item.enterDuration, easing: item.easing, delay: item.delay }),
         ...(stacked
           ? {
               zIndex: 20 - depth,
-              transform: `translateY(${depth * 18}px) scale(${Math.max(0.88, 1 - depth * 0.045)})`,
+              transform: `translateY(${stackOffset}px) scale(${Math.max(0.88, 1 - depth * 0.045)})`,
               opacity: depth > 2 ? 0 : undefined,
             }
           : null),
@@ -136,13 +185,22 @@ function ToastCard({ item, motion, depth, onClose }) {
 /**
  * @param {{
  *   motion?: 'slide' | 'rise' | 'drop' | 'fade' | 'scale' | 'pop' | 'blur' | 'stack'
+ *   position?: typeof TOAST_POSITIONS[number]
  *   contained?: boolean
  *   children?: import('react').ReactNode
  *   className?: string
  * }} props
  */
-export function ToastProvider({ motion = 'slide', contained = false, children, className }) {
+export function ToastProvider({
+  motion = 'slide',
+  position = 'top-right',
+  contained = false,
+  children,
+  className,
+}) {
   const safeMotion = TOAST_MOTIONS.includes(motion) ? motion : 'slide'
+  const safePosition = TOAST_POSITIONS.includes(position) ? position : 'top-right'
+  const bottom = isBottomPosition(safePosition)
   const reduceMotion = useReducedMotion()
   const [items, setItems] = useState([])
   const itemsRef = useRef(items)
@@ -186,16 +244,27 @@ export function ToastProvider({ motion = 'slide', contained = false, children, c
   const viewport = (
     <div
       className={cn(
-        'pointer-events-none z-[70] flex w-[min(22rem,calc(100%-1.5rem))]',
-        contained ? 'absolute top-3 left-3 z-20' : 'fixed top-3 right-3 sm:top-4 sm:right-4',
+        'pointer-events-none z-[70] flex w-full',
+        contained
+          ? 'absolute z-20 max-w-[min(22rem,calc(100%-1.5rem))]'
+          : 'fixed max-w-[min(22rem,calc(100vw-1.5rem-env(safe-area-inset-left,0px)-env(safe-area-inset-right,0px)))]',
+        POSITION_CLASSES[safePosition],
         className,
       )}
     >
       <ol
         aria-label="Notifications"
         className={cn(
-          'w-full',
-          safeMotion === 'stack' ? 'grid' : 'flex max-h-[70vh] flex-col gap-2 overflow-y-auto',
+          'w-full overscroll-contain',
+          safeMotion === 'stack'
+            ? 'grid'
+            : cn(
+                'flex gap-2 overflow-y-auto',
+                bottom ? 'flex-col-reverse' : 'flex-col',
+                contained
+                  ? 'max-h-[min(12rem,calc(100%-5rem))]'
+                  : 'max-h-[min(70vh,calc(100dvh-2rem-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px)))]',
+              ),
         )}
       >
         {items.map((item, index) => (
@@ -203,6 +272,7 @@ export function ToastProvider({ motion = 'slide', contained = false, children, c
             key={item.id}
             item={item}
             motion={safeMotion}
+            position={safePosition}
             depth={safeMotion === 'stack' ? index : 0}
             onClose={close}
           />

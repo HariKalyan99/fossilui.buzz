@@ -47,7 +47,7 @@ import { ToastProvider, toast } from '@fossilui/toasts'
 
 export default function App() {
   return (
-    <ToastProvider motion="slide">
+    <ToastProvider motion="slide" position="top-right">
       <button type="button" onClick={() => toast.success('Changes saved')}>
         Save
       </button>
@@ -62,7 +62,11 @@ export default function App() {
 
 `slide, rise, drop, fade, scale, pop, blur, stack`
 
-Pass `motion` to `ToastProvider`. Tones are `info`, `success`, `warning`, and `error` — `toast.success('Saved')` sets the tone for you.
+## Positions
+
+`top-left`, `top-center`, `top-right` (default), `bottom-left`, `bottom-center`, `bottom-right`
+
+Pass `motion` and `position` to `ToastProvider`. Tones are `info`, `success`, `warning`, and `error` — `toast.success('Saved')` sets the tone for you.
 
 ## Notes
 
