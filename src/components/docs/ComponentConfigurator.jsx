@@ -139,8 +139,9 @@ export function ComponentConfigurator({ schema }) {
   const preview = parsed.error
     ? { Component: schema.componentMap[schema.wrapperName], props: schema.propsFromState(state) }
     : { Component: parsed.Component, props: parsed.props }
-  // Only a motion/component switch remounts (and replays) the preview; prop edits update in place.
-  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}-${preview.props.duration ?? ''}-${preview.props.easing ?? ''}-${preview.props.delay ?? ''}-${resetId}`
+  // Only a motion/component switch (or Reset) remounts the preview. Timing props
+  // update in place — remounting on duration/delay made the first open click a no-op.
+  const previewKey = `${parsed.name ?? schema.wrapperName}-${preview.props.motion ?? ''}-${resetId}`
 
   const selectFields = schema.fields.filter((field) => field.type !== 'checkbox')
   const checkboxFields = schema.fields.filter((field) => field.type === 'checkbox')
