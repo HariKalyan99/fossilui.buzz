@@ -54,7 +54,7 @@ const SCHEMA = {
     { key: 'align', label: 'Align', type: 'select', options: ['start', 'center', 'end'] },
     { key: 'side', label: 'Side', type: 'select', options: ['bottom', 'top'] },
     { key: 'duration', label: 'Duration (ms)', type: 'text', placeholder: '240', fromProp: asText('') },
-    { key: 'delay', label: 'Delay (ms)', type: 'text', fromProp: asText('') },
+    { key: 'delay', label: 'Delay (ms)', type: 'text', placeholder: '0', fromProp: asText('') },
     { key: 'easing', label: 'Easing', type: 'text', wide: true, placeholder: 'ease-out or cubic-bezier(...)', fromProp: asText('') },
   ],
   buildSnippet: (state) =>
@@ -82,11 +82,13 @@ const SCHEMA = {
       key={previewKey}
       {...props}
       items={props.items ?? DROPDOWN_ITEMS}
-      className="max-w-full"
+      contained
+      className="relative flex min-h-[12.5rem] w-full max-w-sm flex-col items-center pt-1"
     />
   ),
   previewPlacement: 'below',
-  previewClassName: 'min-h-[5rem]! overflow-visible! items-center! justify-center! p-3 sm:min-h-[5.5rem]! sm:p-4',
+  previewClassName:
+    'min-h-[14rem]! overflow-visible! items-center! justify-center! p-3 sm:min-h-[15rem]! sm:p-4',
   description:
     'Motion picks how the menu appears. Align and side position it against the trigger. Duration, easing, and delay time the entrance. Arrow keys move the highlight while open.',
 }

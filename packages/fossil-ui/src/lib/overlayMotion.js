@@ -4,13 +4,9 @@ export const OVERLAY_DURATION = 240
 
 const SMOOTH = `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,${OVERLAY_DURATION}ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))] motion-reduce:transition-none`
 
-function enterFrom(hidden, shown) {
-  const starting = hidden
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((token) => `starting:${token}`)
-    .join(' ')
-  return `${shown} ${starting}`
+/** Open classes only — Dropdown/Tooltip use usePresence for the closed→open frame. */
+function enterFrom(_hidden, shown) {
+  return shown
 }
 
 /** @param {string} motion @param {'dropdown' | 'tooltip'} kind */
@@ -61,7 +57,8 @@ export const DROPDOWN_MOTION_STYLES = {
     shown: enterFrom('opacity-0 translate-y-3', 'opacity-100 translate-y-0'),
   },
   wipe: {
-    transition: SMOOTH,
+    // clip-path is the wipe; keep it on the transition list or the reveal snaps.
+    transition: `transition-[opacity,transform,translate,scale,rotate,filter,clip-path] delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,${OVERLAY_DURATION}ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))] motion-reduce:transition-none`,
     hidden: 'pointer-events-none origin-top opacity-0 [clip-path:inset(0_0_100%_0)]',
     shown: enterFrom('[clip-path:inset(0_0_100%_0)] opacity-0', 'opacity-100 [clip-path:inset(0_0_0_0)]'),
   },

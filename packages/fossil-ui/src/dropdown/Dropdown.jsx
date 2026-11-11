@@ -5,37 +5,13 @@ import { splitMotionProps, motionTimingStyle, presenceMs } from '../lib/animatio
 import { computeFloatingPosition } from '../lib/floatingPosition.js'
 import { cn } from '../lib/cn.js'
 import { overlayMotionClasses, OVERLAY_DURATION } from '../lib/overlayMotion.js'
-import { useReducedMotion } from '../lib/motion.js'
+import { usePresence, useReducedMotion } from '../lib/motion.js'
 
 const useIsoLayout = typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 export const DROPDOWN_MOTIONS = ['fade', 'scale', 'slideDown', 'slideUp', 'blur', 'pop', 'rise', 'wipe']
 export const DROPDOWN_ALIGNMENTS = ['start', 'center', 'end']
 export const DROPDOWN_SIDES = ['bottom', 'top']
-
-function useOverlayPresence(open, duration) {
-  const [mounted, setMounted] = useState(open)
-  const [visible, setVisible] = useState(open)
-  const [prevOpen, setPrevOpen] = useState(open)
-
-  if (open !== prevOpen) {
-    setPrevOpen(open)
-    if (open) {
-      setMounted(true)
-      setVisible(true)
-    } else {
-      setVisible(false)
-    }
-  }
-
-  useEffect(() => {
-    if (open || !mounted) return undefined
-    const timer = setTimeout(() => setMounted(false), duration)
-    return () => clearTimeout(timer)
-  }, [open, mounted, duration])
-
-  return { mounted, visible }
-}
 
 function useControllable(value, defaultValue, onChange) {
   const [internal, setInternal] = useState(defaultValue)
@@ -58,10 +34,13 @@ function useControllable(value, defaultValue, onChange) {
  * @param {(open: boolean) => void} [props.onOpenChange]
  * @param {'start' | 'center' | 'end'} [props.align]
  * @param {'bottom' | 'top'} [props.side]
+ * @param {number} [props.duration] Entrance/exit duration in ms.
+ * @param {string} [props.easing] CSS easing for the panel transition.
+ * @param {number} [props.delay] Delay before the entrance transition starts, in ms.
  * @param {boolean} [props.contained] Keep the menu inside the root for previews.
  */
 export function Dropdown(props) {
-  const { rest, style: motionStyle } = splitMotionProps(props)
+  const { rest, timing, style: motionStyle } = splitMotionProps(props)
   const {
     motion = 'fade',
     items = [],
@@ -79,11 +58,12 @@ export function Dropdown(props) {
 
   const resolved = DROPDOWN_MOTIONS.includes(motion) ? motion : 'fade'
   const reduceMotion = useReducedMotion()
-  const exitMs = reduceMotion ? 0 : presenceMs(rest.duration, rest.delay, OVERLAY_DURATION)
+  const exitMs = reduceMotion ? 0 : presenceMs(timing.duration, timing.delay, OVERLAY_DURATION)
   const [isOpen, setIsOpen] = useControllable(open, defaultOpen, onOpenChange)
-  const { mounted, visible } = useOverlayPresence(isOpen, exitMs)
+  const { mounted, visible } = usePresence(isOpen, exitMs)
   const motionClasses = overlayMotionClasses(resolved, 'dropdown')
-  const timingStyle = motionTimingStyle({ duration: rest.duration, easing: rest.easing, delay: rest.delay })
+  // Timing vars must live on the menu: portaled menus do not inherit from the trigger root.
+  const timingStyle = motionTimingStyle(timing)
 
   const rootRef = useRef(null)
   const triggerRef = useRef(null)

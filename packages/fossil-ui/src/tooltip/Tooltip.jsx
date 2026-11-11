@@ -13,36 +13,12 @@ import { splitMotionProps, motionTimingStyle, presenceMs } from '../lib/animatio
 import { computeFloatingPosition } from '../lib/floatingPosition.js'
 import { cn } from '../lib/cn.js'
 import { overlayMotionClasses, OVERLAY_DURATION } from '../lib/overlayMotion.js'
-import { useReducedMotion } from '../lib/motion.js'
+import { usePresence, useReducedMotion } from '../lib/motion.js'
 
 const useIsoLayout = typeof window === 'undefined' ? useEffect : useLayoutEffect
 
 export const TOOLTIP_MOTIONS = ['fade', 'scale', 'slide', 'rise', 'blur', 'pop', 'grow', 'lift']
 export const TOOLTIP_SIDES = ['top', 'bottom', 'left', 'right']
-
-function useOverlayPresence(open, duration) {
-  const [mounted, setMounted] = useState(open)
-  const [visible, setVisible] = useState(open)
-  const [prevOpen, setPrevOpen] = useState(open)
-
-  if (open !== prevOpen) {
-    setPrevOpen(open)
-    if (open) {
-      setMounted(true)
-      setVisible(true)
-    } else {
-      setVisible(false)
-    }
-  }
-
-  useEffect(() => {
-    if (open || !mounted) return undefined
-    const timer = setTimeout(() => setMounted(false), duration)
-    return () => clearTimeout(timer)
-  }, [open, mounted, duration])
-
-  return { mounted, visible }
-}
 
 /**
  * @param {object} props
@@ -51,10 +27,13 @@ function useOverlayPresence(open, duration) {
  * @param {import('react').ReactElement} props.children
  * @param {'top' | 'bottom' | 'left' | 'right'} [props.side]
  * @param {number} [props.delayDuration]
+ * @param {number} [props.duration] Entrance/exit duration in ms.
+ * @param {string} [props.easing] CSS easing for the tip transition.
+ * @param {number} [props.delay] Delay before the entrance transition starts, in ms.
  * @param {boolean} [props.contained]
  */
 export function Tooltip(props) {
-  const { rest, style: motionStyle } = splitMotionProps(props)
+  const { rest, timing, style: motionStyle } = splitMotionProps(props)
   const {
     motion = 'fade',
     content,
@@ -68,9 +47,10 @@ export function Tooltip(props) {
 
   const resolved = TOOLTIP_MOTIONS.includes(motion) ? motion : 'fade'
   const reduceMotion = useReducedMotion()
-  const exitMs = reduceMotion ? 0 : presenceMs(rest.duration, rest.delay, OVERLAY_DURATION)
+  const exitMs = reduceMotion ? 0 : presenceMs(timing.duration, timing.delay, OVERLAY_DURATION)
   const motionClasses = overlayMotionClasses(resolved, 'tooltip')
-  const timingStyle = motionTimingStyle({ duration: rest.duration, easing: rest.easing, delay: rest.delay })
+  // Timing vars must live on the tip: portaled tips do not inherit from the trigger root.
+  const timingStyle = motionTimingStyle(timing)
 
   const rootRef = useRef(null)
   const triggerRef = useRef(null)
@@ -78,7 +58,7 @@ export function Tooltip(props) {
   const tipId = useId()
   const showTimer = useRef(0)
   const [open, setOpen] = useState(false)
-  const { mounted, visible } = useOverlayPresence(open, exitMs)
+  const { mounted, visible } = usePresence(open, exitMs)
   const [coords, setCoords] = useState({ top: 0, left: 0, strategy: 'fixed' })
 
   const measure = useCallback(() => {
