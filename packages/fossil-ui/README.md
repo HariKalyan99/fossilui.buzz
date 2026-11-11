@@ -116,6 +116,8 @@ Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`,
 | Checkbox | `check` `pop` | `check` |
 | Radio | `scale` `pulse` `glow` | `scale` |
 
+Switch, Checkbox, and Radio also take `color`: `neutral` `indigo` `blue` `pink` `red` `green` `amber`. It tints the on-state track, fill, pulse, and glow. Omit it for the motion defaults (neutral black, or indigo for glow / pulse / pop).
+
 ## Timing
 
 Hover, focus, and enter/exit motions are CSS transitions. `duration` and `delay` are milliseconds. `easing` is any CSS timing function the browser accepts (`ease-out`, `linear`, `cubic-bezier(...)`). Leave a prop unset to keep that motion's own default. An easing the browser rejects is ignored.

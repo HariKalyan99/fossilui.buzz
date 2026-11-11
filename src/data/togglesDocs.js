@@ -199,6 +199,13 @@ export const TOGGLES_PROPS = [
     default: "'scale'",
   },
   {
+    property: 'color',
+    description:
+      'Accent for the on state — track, fill, pulse ring, and glow. Omit for defaults (neutral black, or indigo for glow/pulse/pop).',
+    type: "'neutral' | 'indigo' | 'blue' | 'pink' | 'red' | 'green' | 'amber'",
+    default: 'Motion default',
+  },
+  {
     property: 'checked / defaultChecked',
     description: 'Switch and Checkbox on/off state. Use onCheckedChange when controlled.',
     type: 'boolean',
