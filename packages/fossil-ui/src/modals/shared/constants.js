@@ -14,14 +14,9 @@ export const MODAL_DURATION = 320
 
 const SMOOTH = `${TRANSITION_MOTION} delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,300ms)] ease-[var(--fossil-ease,var(--fossil-ease-out))]`
 
-/** First paint uses @starting-style, so the entrance runs without waiting on animation frames. */
-function enterFrom(hidden, shown) {
-  const starting = hidden
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((token) => `starting:${token}`)
-    .join(' ')
-  return `${shown} ${starting}`
+/** Open classes only — ModalShell uses usePresence for the closed→open frame. */
+function enterFrom(_hidden, shown) {
+  return shown
 }
 
 export const MODAL_LAYOUTS = {

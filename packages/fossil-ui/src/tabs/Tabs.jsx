@@ -17,7 +17,7 @@ const INDICATOR_CLASS = {
   pill: 'rounded-lg bg-neutral-900',
   underline: 'rounded-full bg-neutral-900',
   dot: 'rounded-full bg-neutral-900',
-  grow: 'origin-center scale-100 rounded-full bg-indigo-500 starting:scale-0',
+  grow: 'origin-center scale-100 rounded-full bg-indigo-500',
   outline: 'rounded-lg bg-white ring-1 ring-inset ring-neutral-900',
   glow: 'rounded-lg bg-indigo-500/15 shadow-[0_0_22px_rgba(99,102,241,0.45)]',
   lift: 'rounded-lg bg-white shadow-[0_8px_18px_-10px_rgba(15,23,42,0.55)]',

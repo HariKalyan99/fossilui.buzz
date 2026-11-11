@@ -80,14 +80,19 @@ const SCHEMA = {
     delay: state.delay === '' ? undefined : Number(state.delay),
   }),
   renderPreview: ({ Component, props, previewKey }) => (
-    <Component key={previewKey} {...props} className="max-w-full">
+    <Component
+      key={previewKey}
+      {...props}
+      contained
+      className="relative flex min-h-[7.5rem] w-full max-w-sm flex-col items-center justify-center"
+    >
       <button type="button" className={TRIGGER_CLASS}>
         {TOOLTIP_DEMO_LABEL}
       </button>
     </Component>
   ),
   previewPlacement: 'below',
-  previewClassName: 'min-h-[5rem]! overflow-visible! items-center! justify-center! p-3 sm:min-h-[5.5rem]! sm:p-4',
+  previewClassName: 'min-h-[9rem]! overflow-visible! items-center! justify-center! p-3 sm:min-h-[10rem]! sm:p-4',
   description:
     'Motion shapes the bubble entrance. Side picks placement. Show delay waits before hover or focus reveals the tip. On touch, tap the trigger to toggle.',
 }
