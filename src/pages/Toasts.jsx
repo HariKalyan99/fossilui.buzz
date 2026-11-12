@@ -27,7 +27,7 @@ function ToastTile({ item }) {
   }
 
   return (
-    <ToastProvider motion={item.motion} contained>
+    <ToastProvider motion={item.motion} position="top-right" contained>
       <ShowToastButton label={item.motion === 'stack' ? 'Add to stack' : 'Show toast'} payload={payload} />
     </ToastProvider>
   )
@@ -46,7 +46,8 @@ export default function Toasts() {
         items: TOAST_VARIANTS,
         layout: 'wide',
         tileClassName: 'sm:min-h-0',
-        stageClassName: 'min-h-[12.5rem] flex-col! items-center! justify-end! px-4 py-4 sm:min-h-[13rem]',
+        stageClassName:
+          'min-h-[15rem] flex-col! items-center! justify-center! px-3 py-3 sm:min-h-[16rem] sm:px-4 sm:py-4',
         renderPreview: (item) => <ToastTile item={item} />,
       }}
       importGuide={{
@@ -62,7 +63,7 @@ export default function Toasts() {
       configurator={<ToastConfigurator />}
       api={{
         description:
-          'Motion and contained belong to ToastProvider. title, description, tone, and duration belong to the toast() argument.',
+          'Motion, position, and contained belong to ToastProvider. title, description, tone, and duration belong to the toast() argument.',
         props: TOAST_PROPS,
         compatibility: TOAST_MOTION_COMPATIBILITY,
         compatibilityDescription: 'Use one motion per provider. Mixing slide and stack in the same viewport is not supported.',

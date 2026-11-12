@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ToastProvider, TOAST_MOTIONS, useToast } from '@fossilui/react'
+import { ToastProvider, TOAST_MOTIONS, TOAST_POSITIONS, useToast } from '@fossilui/react'
 import { CodeEditor } from '../code/CodeEditor'
 import { DemoTrigger } from '../modals/DemoTrigger'
 import { SELECT_CLASS } from '../docs/ComponentConfigurator'
@@ -8,10 +8,12 @@ import { TOAST_DEMO, toastSnippet } from '../../data/toastDocs'
 import { cn } from '../../lib/cn'
 
 const MOTIONS = [...TOAST_MOTIONS]
+const POSITIONS = [...TOAST_POSITIONS]
 const TONES = ['info', 'success', 'warning', 'error']
 
 const DEFAULTS = {
   motion: 'slide',
+  position: 'top-right',
   tone: TOAST_DEMO.tone,
   title: TOAST_DEMO.title,
   description: TOAST_DEMO.description,
@@ -27,6 +29,8 @@ function readSnippet(code) {
   }
   const motionMatch = /motion="([A-Za-z]+)"/.exec(code)?.[1]
   const motion = MOTIONS.includes(motionMatch) ? motionMatch : DEFAULTS.motion
+  const positionMatch = /position="([a-z-]+)"/.exec(code)?.[1]
+  const position = POSITIONS.includes(positionMatch) ? positionMatch : DEFAULTS.position
   const tone = /tone:\s*['"](info|success|warning|error)['"]/.exec(code)?.[1] ?? DEFAULTS.tone
   const title = /title:\s*['"]([^'"]*)['"]/.exec(code)?.[1] ?? DEFAULTS.title
   const description = /description:\s*['"]([^'"]*)['"]/.exec(code)?.[1] ?? ''
@@ -37,6 +41,7 @@ function readSnippet(code) {
   return {
     error: null,
     motion: MOTIONS.includes(motion) ? motion : DEFAULTS.motion,
+    position,
     tone: TONES.includes(tone) ? tone : DEFAULTS.tone,
     title,
     description,
@@ -87,6 +92,7 @@ export function ToastConfigurator() {
     if (!result.error) {
       setState({
         motion: result.motion,
+        position: result.position,
         tone: result.tone,
         title: result.title,
         description: result.description,
@@ -117,7 +123,8 @@ export function ToastConfigurator() {
           </button>
         </div>
         <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-500">
-          The snippet is the real call: one provider, then toast(). Visible time is how long it stays. Enter duration, easing, and delay change the entrance. An easing the browser rejects is ignored.
+          The snippet is the real call: one provider, then toast(). Position anchors the viewport. Visible time is how long
+          it stays. Enter duration, easing, and delay change the entrance. An easing the browser rejects is ignored.
         </p>
       </div>
 
@@ -128,6 +135,20 @@ export function ToastConfigurator() {
               <span className="text-[12px] font-medium text-neutral-600">Motion</span>
               <select value={state.motion} onChange={(event) => update('motion', event.target.value)} className={SELECT_CLASS}>
                 {MOTIONS.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="min-w-0 space-y-1.5">
+              <span className="text-[12px] font-medium text-neutral-600">Position</span>
+              <select
+                value={state.position}
+                onChange={(event) => update('position', event.target.value)}
+                className={SELECT_CLASS}
+              >
+                {POSITIONS.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
@@ -182,8 +203,8 @@ export function ToastConfigurator() {
 
       <div className="border-t border-neutral-200/80 p-4 sm:p-5">
         <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">Preview</p>
-        <div className="relative flex min-h-[16rem] items-end justify-center overflow-hidden rounded-lg border border-dashed border-neutral-200 bg-neutral-50/90 p-4 pb-6">
-          <ToastProvider key={payload.motion} motion={payload.motion} contained>
+        <div className="relative flex min-h-[18rem] items-center justify-center overflow-hidden rounded-lg border border-dashed border-neutral-200 bg-neutral-50/90 p-3 sm:min-h-[20rem] sm:p-4">
+          <ToastProvider key={`${payload.motion}-${payload.position}`} motion={payload.motion} position={payload.position} contained>
             <ShowToastButton payload={payload} label={payload.motion === 'stack' ? 'Add to stack' : 'Show toast'} />
           </ToastProvider>
         </div>
