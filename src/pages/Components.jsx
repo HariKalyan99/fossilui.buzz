@@ -19,6 +19,7 @@ import {
   Rows3,
   Terminal,
   TextCursorInput,
+  ListFilter,
   ToggleLeft,
 } from 'lucide-react'
 import { Section } from '../components/ui/Section'
@@ -40,6 +41,7 @@ const TEASERS = [
   { name: 'Tabs', count: '8 variants', href: '/components/tabs', icon: GalleryHorizontal, isNew: true },
   { name: 'Accordion', count: '8 variants', href: '/components/accordion', icon: Rows3, isNew: true },
   { name: 'Dropdown', count: '8 variants', href: '/components/dropdown', icon: Menu, isNew: true },
+  { name: 'Select', count: '8 variants', href: '/components/select', icon: ListFilter, isNew: true },
   { name: 'Tooltip', count: '8 variants', href: '/components/tooltip', icon: Info, isNew: true },
   { name: 'Toggles', count: '8 variants', href: '/components/toggles', icon: ToggleLeft, isNew: true },
 ]

@@ -142,12 +142,8 @@ function ToastCard({ item, motion, position, depth, onClose }) {
       }}
     >
       <div
-        role={tone.role}
-        onPointerEnter={() => animRef.current?.pause()}
-        onPointerLeave={() => animRef.current?.play()}
         className={cn(
-          'pointer-events-auto relative flex w-full gap-3 overflow-hidden rounded-xl border px-3.5 py-3 text-left shadow-[0_12px_32px_-16px_rgba(15,23,42,0.45)]',
-          tone.root,
+          'pointer-events-auto w-full rounded-xl shadow-[0_4px_14px_-4px_rgba(15,23,42,0.14)]',
           TRANSITION_MOTION,
           motion === 'pop'
             ? 'delay-[var(--fossil-delay,0ms)] duration-[var(--fossil-duration,420ms)] ease-[var(--fossil-ease,var(--fossil-ease-spring))]'
@@ -157,26 +153,36 @@ function ToastCard({ item, motion, position, depth, onClose }) {
           depth > 0 && 'pointer-events-none',
         )}
       >
-        <span className={cn('mt-0.5 inline-flex shrink-0', tone.icon)} aria-hidden>
-          <ToneIcon className="h-4 w-4" strokeWidth={2} />
-        </span>
-        <div className="min-w-0 flex-1 pr-6">
-          {item.title ? <p className="text-[13.5px] font-semibold leading-snug">{item.title}</p> : null}
-          {item.description ? (
-            <p className={cn('text-[13px] leading-relaxed opacity-80', item.title && 'mt-0.5')}>{item.description}</p>
+        <div
+          role={tone.role}
+          onPointerEnter={() => animRef.current?.pause()}
+          onPointerLeave={() => animRef.current?.play()}
+          className={cn(
+            'relative flex w-full gap-3 overflow-hidden rounded-xl border px-3.5 py-3 text-left',
+            tone.root,
+          )}
+        >
+          <span className={cn('mt-0.5 inline-flex shrink-0', tone.icon)} aria-hidden>
+            <ToneIcon className="h-4 w-4" strokeWidth={2} />
+          </span>
+          <div className="min-w-0 flex-1 pr-6">
+            {item.title ? <p className="text-[13.5px] font-semibold leading-snug">{item.title}</p> : null}
+            {item.description ? (
+              <p className={cn('text-[13px] leading-relaxed opacity-80', item.title && 'mt-0.5')}>{item.description}</p>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            aria-label="Dismiss notification"
+            onClick={() => onClose(item.id)}
+            className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-md text-current opacity-60 transition-[opacity,background-color,rotate] duration-200 hover:rotate-90 hover:bg-black/5 hover:opacity-100"
+          >
+            <X className="h-3.5 w-3.5" strokeWidth={2} />
+          </button>
+          {item.duration > 0 && !reduceMotion && depth === 0 ? (
+            <span ref={barRef} aria-hidden className={cn('absolute inset-x-0 bottom-0 h-0.5 origin-left bg-current', tone.icon)} />
           ) : null}
         </div>
-        <button
-          type="button"
-          aria-label="Dismiss notification"
-          onClick={() => onClose(item.id)}
-          className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-md text-current opacity-60 transition-[opacity,background-color,rotate] duration-200 hover:rotate-90 hover:bg-black/5 hover:opacity-100"
-        >
-          <X className="h-3.5 w-3.5" strokeWidth={2} />
-        </button>
-        {item.duration > 0 && !reduceMotion && depth === 0 ? (
-          <span ref={barRef} aria-hidden className={cn('absolute inset-x-0 bottom-0 h-0.5 origin-left bg-current', tone.icon)} />
-        ) : null}
       </div>
     </li>
   )
