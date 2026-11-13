@@ -1,6 +1,6 @@
 {
   "name": "@fossilui/dropdown",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Animated dropdown menus from Fossil UI.",
   "type": "module",
   "license": "MIT",
