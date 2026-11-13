@@ -1,8 +1,10 @@
 # @fossilui/react
 
-Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, accordions, dropdown menus, tooltips, switches, checkboxes, and radios. Motions are CSS and the Web Animations API — no animation library to install.
+Animated React components from [Fossil UI](https://fossilui.buzz): buttons, cards, modals, inputs, navbars, hero sections, alerts, toasts, tabs, accordions, dropdown menus, selects, tooltips, switches, checkboxes, and radios. Motions are CSS and the Web Animations API — no animation library to install.
 
 Live docs and configurators: https://fossilui.buzz/components
+
+**0.7.0** adds **select** (eight listbox motions), with standalone `@fossilui/select`.
 
 **0.6.3** fixes overlay presence so changing `duration` / timing props does not cancel the first open on dropdown, tooltip, modal, alert, and toast panels.
 
@@ -22,6 +24,7 @@ import {
   Hero,
   Input,
   Modal,
+  Select,
   Tabs,
   ToastProvider,
   Tooltip,
@@ -32,6 +35,7 @@ import {
 <Input motion="floatingLabel" label="Email" type="email" />
 <Alert motion="slide" tone="success" title="Published" description="The template is live." dismissible />
 <Dropdown motion="fade" label="Actions" items={[{ value: 'edit', label: 'Edit' }]} />
+<Select motion="fade" placeholder="Framework" defaultValue="react" items={[{ value: 'react', label: 'React' }]} />
 <Tooltip motion="fade" content="Copy link">
   <button type="button">Share</button>
 </Tooltip>
@@ -93,12 +97,13 @@ Import everything from `@fossilui/react`, or one family from its path. Every fam
 | Tabs | `@fossilui/react/tabs` | `@fossilui/tabs` | [/components/tabs](https://fossilui.buzz/components/tabs) |
 | Accordion | `@fossilui/react/accordion` | `@fossilui/accordion` | [/components/accordion](https://fossilui.buzz/components/accordion) |
 | Dropdown | `@fossilui/react/dropdown` | `@fossilui/dropdown` | [/components/dropdown](https://fossilui.buzz/components/dropdown) |
+| Select | `@fossilui/react/select` | `@fossilui/select` | [/components/select](https://fossilui.buzz/components/select) |
 | Tooltip | `@fossilui/react/tooltip` | `@fossilui/tooltip` | [/components/tooltip](https://fossilui.buzz/components/tooltip) |
 | Switch | `@fossilui/react/switch` | `@fossilui/switch` | [/components/toggles](https://fossilui.buzz/components/toggles) |
 | Checkbox | `@fossilui/react/checkbox` | `@fossilui/checkbox` | [/components/toggles](https://fossilui.buzz/components/toggles) |
 | Radio | `@fossilui/react/radio` | `@fossilui/radio` | [/components/toggles](https://fossilui.buzz/components/toggles) |
 
-Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`, `Dropdown`, `Tooltip`, `Switch`, `Checkbox`, `Radio`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
+Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`, `Alert`, `Tabs`, `Accordion`, `Dropdown`, `Select`, `Tooltip`, `Switch`, `Checkbox`, `Radio`) plus a named component for every motion. Pass `motion` on the wrapper, or import the named component. Toasts are the exception: mount `ToastProvider` and call `toast()`.
 
 | Family | `motion` values | Default |
 | --- | --- | --- |
@@ -113,6 +118,7 @@ Each family has a wrapper (`Button`, `Card`, `Modal`, `Input`, `Navbar`, `Hero`,
 | Tabs | `pill` `underline` `dot` `grow` `outline` `glow` `lift` `fade` | `pill` |
 | Accordion | `height` `fade` `slide` `rise` `scale` `blur` `pop` `wipe` | `height` |
 | Dropdown | `fade` `scale` `slideDown` `slideUp` `blur` `pop` `rise` `wipe` | `fade` |
+| Select | `fade` `scale` `slideDown` `slideUp` `blur` `pop` `rise` `wipe` | `fade` |
 | Tooltip | `fade` `scale` `slide` `rise` `blur` `pop` `grow` `lift` | `fade` |
 | Switch | `slide` `bounce` `glow` | `slide` |
 | Checkbox | `check` `pop` | `check` |

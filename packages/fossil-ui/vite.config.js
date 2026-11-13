@@ -23,6 +23,7 @@ export default defineConfig({
         'tabs/index': resolve(root, 'src/tabs/index.js'),
         'accordion/index': resolve(root, 'src/accordion/index.js'),
         'dropdown/index': resolve(root, 'src/dropdown/index.js'),
+        'select/index': resolve(root, 'src/select/index.js'),
         'tooltip/index': resolve(root, 'src/tooltip/index.js'),
         'switch/index': resolve(root, 'src/switch/index.js'),
         'checkbox/index': resolve(root, 'src/checkbox/index.js'),

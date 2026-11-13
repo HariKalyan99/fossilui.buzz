@@ -25,6 +25,7 @@ const Toasts = lazy(() => import('./pages/Toasts'))
 const Tabs = lazy(() => import('./pages/Tabs'))
 const Accordion = lazy(() => import('./pages/Accordion'))
 const Dropdown = lazy(() => import('./pages/Dropdown'))
+const Select = lazy(() => import('./pages/Select'))
 const Tooltip = lazy(() => import('./pages/Tooltip'))
 const Toggles = lazy(() => import('./pages/Toggles'))
 const Docs = lazy(() => import('./pages/Docs'))
@@ -102,6 +103,9 @@ function RouteSeo() {
   } else if (path === '/components/dropdown') {
     title = 'Dropdown - Fossil UI'
     description = 'Animated dropdown menus from @fossilui/react — fade, scale, slide, blur, pop, rise, and wipe.'
+  } else if (path === '/components/select') {
+    title = 'Select - Fossil UI'
+    description = 'Animated select listboxes from @fossilui/react — fade, scale, slide, blur, pop, rise, and wipe.'
   } else if (path === '/components/tooltip') {
     title = 'Tooltip - Fossil UI'
     description = 'Animated tooltips from @fossilui/react — fade, scale, slide, rise, blur, pop, grow, and lift.'
@@ -171,6 +175,7 @@ function AnimatedRoutes() {
           <Route path="/components/tabs" element={<Tabs />} />
           <Route path="/components/accordion" element={<Accordion />} />
           <Route path="/components/dropdown" element={<Dropdown />} />
+          <Route path="/components/select" element={<Select />} />
           <Route path="/components/tooltip" element={<Tooltip />} />
           <Route path="/components/toggles" element={<Toggles />} />
           <Route path="/components/switch" element={<Navigate to="/components/toggles" replace />} />
