@@ -4,7 +4,7 @@ Animated React components from [Fossil UI](https://fossilui.buzz): buttons, card
 
 Live docs and configurators: https://fossilui.buzz/components
 
-**0.7.0** adds **select** (eight listbox motions), with standalone `@fossilui/select`.
+**0.7.0** adds **select** (eight listbox motions), with standalone `@fossilui/select`, and softens toast / select panel shadows.
 
 **0.6.3** fixes overlay presence so changing `duration` / timing props does not cancel the first open on dropdown, tooltip, modal, alert, and toast panels.
 
